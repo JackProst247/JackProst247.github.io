@@ -170,6 +170,18 @@ button.work{font:inherit;color:inherit;text-align:left;padding:0;cursor:pointer;
 .mthumbs img{width:100%;height:100%;object-fit:cover;display:block}
 .mfoot{padding:.8rem 1.2rem;display:flex;gap:.8rem;flex-wrap:wrap;align-items:center;justify-content:space-between;border-top:1px solid var(--line)}
 
+.mcats{display:flex;gap:.5rem;flex-wrap:wrap;padding:.7rem 1.2rem;border-bottom:1px solid var(--line)}
+.mcats[hidden]{display:none}
+.mcats .chip{display:inline-flex;align-items:center;gap:.35rem;text-transform:none;letter-spacing:.02em;font-size:.8rem;padding:.45rem .85rem}
+.mcats .chip svg{width:.95em;height:.95em;flex:none}
+.mcats .chip[aria-pressed="true"]{background:var(--blue);color:var(--surface);border-color:var(--blue)}
+.mstage video{max-width:100%;max-height:62vh;display:block;background:#000}
+.mlock{position:relative;width:100%;min-height:300px;background:#0b1020;color:#9fb0ff;font:400 .8rem/1.7 var(--mono);padding:1.2rem 1.4rem;overflow:hidden;text-align:left}
+.mlock pre{margin:0;font:inherit;filter:blur(3.5px);opacity:.8;white-space:pre-wrap;word-break:break-all;user-select:none;pointer-events:none}
+.mlock .lk{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.7rem;text-align:center;background:rgba(5,9,28,.6);padding:1rem}
+.mlock .lk svg{width:46px;height:46px;color:var(--gold)}
+.mlock .lk b{font-family:var(--display);color:#fff;font-size:1.15rem}
+.mlock .lk span{color:#d4daf5;font-family:var(--body);font-size:.92rem;max-width:38ch}
 /* process */
 ol.steps{margin:0;padding:1.4rem 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:1.6rem;counter-reset:s;border-top:2px solid var(--fg)}
 .steps li{list-style:none;counter-increment:s;display:flex;flex-direction:column;gap:.5rem;min-width:0}
@@ -372,8 +384,11 @@ footer .script2{font-family:var(--script);writing-mode:vertical-lr;color:var(--g
       <div><h3 id="mtitle"></h3><div class="mono" id="mtag"></div></div>
       <button class="chip mclose" id="mclose" type="button" aria-label="Close">✕</button>
     </div>
+    <div class="mcats" id="mcats" hidden></div>
     <div class="mstage" id="mstage">
       <img id="mimg" alt="" hidden>
+      <video id="mvid" controls playsinline preload="metadata" hidden></video>
+      <div class="mlock" id="mlock" hidden></div>
       <div class="msoon" id="msoon" hidden></div>
       <button class="mnav prev" id="mprev" type="button" aria-label="Previous" hidden>‹</button>
       <button class="mnav next" id="mnext" type="button" aria-label="Next" hidden>›</button>
@@ -416,13 +431,13 @@ r_ok:"Брийф бэлэн боллоо.",r_tg:"Telegram-аар илгээх �
 r_p_tg:"Telegram товчийг дарахад чат нээгдэж, брийф бөглөгдсөн байна. Хэрэв бөглөгдөөгүй бол хуулаад наана уу.",
 r_p_no:"Доорх текстийг хуулаад зүүн талын сувгийн аль нэгээр илгээнэ үү.",
 copied:"Хуулагдлаа",copyfail:"Текстийг сонгож хуулна уу",
-m_close:"Хаах",m_soon:"Зургууд удахгүй нэмэгдэнэ",m_items:"зураг",m_behance:"Behance дээр үзэх ↗",
+m_close:"Хаах",m_lock_t:"Нууцлагдсан",m_lock_d:"Компанийн дотоод нууц тул код болон дэлгэрэнгүйг нээлттэй харуулах боломжгүй.",m_soon:"Удахгүй нэмэгдэнэ",m_items:"зураг",m_behance:"Behance дээр үзэх ↗",
 st_ing:"Илгээж байна...",st_ok:"Захиалга илгээгдлээ. Нэг ажлын өдрийн дотор холбогдоно.",st_fail:"Автоматаар илгээж чадсангүй. Брийфээ хуулж явуулна уу.",r_resend:"Дахин илгээх",
 e_svc:"Дор хаяж нэг үйлчилгээ сонгоно уу.",e_name:"Нэрээ бичнэ үү.",e_con:"Холбоо барих хаягаа бичнэ үү.",
 brief:"ЗАХИАЛГЫН БРИЙФ",l_svc:"Үйлчилгээ",l_bud:"Төсөв",l_when:"Хугацаа",l_det:"Төслийн тухай",l_name:"Нэр",l_con:"Холбоо барих",
 ch_phone:"Утас",ch_email:"И-мэйл",ch_tg:"Telegram",ch_fb:"Facebook",ch_ig:"Instagram",ch_be:"Behance",
 tick:["Лого","Брэндбүүк","Веб дизайн","Чатбот","Сошиал контент","Брошур","Меню","Баннер"],
-tags:{web:"Веб дизайн",brand:"Брэнд · хэвлэл · сошиал",brandsoc:"Брэнд · сошиал",print:"Брошур · хэвлэл",guide:"Сошиал гайдлайн",design:"Дизайн"}},
+tags:{multi:"Олон чиглэл",web:"Веб дизайн",brand:"Брэнд · хэвлэл · сошиал",brandsoc:"Брэнд · сошиал",print:"Брошур · хэвлэл",guide:"Сошиал гайдлайн",design:"Дизайн"}},
 en:{nav1:"Services",nav2:"Work",nav3:"Process",navcta:"Order",eyebrow:"Designer · Web · Chatbots",
 h1:"Brand, site, <em>chatbot.</em> One pair of hands.",
 lead:"I build how your business looks and talks: logo, brand book, website and social content, all the way to a chatbot that answers your customers.",
@@ -447,17 +462,17 @@ r_ok:"Your brief is ready.",r_tg:"Send on Telegram ↗",r_copy:"Copy",r_edit:"Ed
 r_p_tg:"The Telegram button opens a chat with your brief filled in. If the text does not appear, copy it and paste it in.",
 r_p_no:"Copy the text below and send it through any channel on the left.",
 copied:"Copied",copyfail:"Select the text and copy it",
-m_close:"Close",m_soon:"Images coming soon",m_items:"images",m_behance:"View on Behance ↗",
+m_close:"Close",m_lock_t:"Confidential",m_lock_d:"This is internal company work, so the code and details cannot be shown publicly.",m_soon:"Coming soon",m_items:"images",m_behance:"View on Behance ↗",
 st_ing:"Sending...",st_ok:"Your order was sent. I will reply within one working day.",st_fail:"Automatic sending failed. Please copy your brief and send it manually.",r_resend:"Send again",
 e_svc:"Choose at least one service.",e_name:"Enter your name.",e_con:"Enter a way to reach you.",
 brief:"ORDER BRIEF",l_svc:"Services",l_bud:"Budget",l_when:"Timeline",l_det:"About the project",l_name:"Name",l_con:"Contact",
 ch_phone:"Phone",ch_email:"Email",ch_tg:"Telegram",ch_fb:"Facebook",ch_ig:"Instagram",ch_be:"Behance",
 tick:["Logo","Brand book","Web design","Chatbot","Social content","Brochure","Menu","Banner"],
-tags:{web:"Web design",brand:"Brand · print · social",brandsoc:"Brand · social",print:"Brochure · print",guide:"Social guideline",design:"Design"}}
+tags:{multi:"Multi-discipline",web:"Web design",brand:"Brand · print · social",brandsoc:"Brand · social",print:"Brochure · print",guide:"Social guideline",design:"Design"}}
 };
 
 var WORKS=[
- {n:"Luxwood Group",slug:"luxwood",t:"web",c1:"#1d1712",c2:"#b8935a",ink:"#f1e3c6"},
+ {n:"Luxwood Group",slug:"luxwood",t:"multi",cats:[{k:"poster",mn:"Постер дизайн",en:"Poster design"},{k:"video",mn:"Видео дизайн",en:"Video design",video:true},{k:"guideline",mn:"Guideline",en:"Guideline"},{k:"web",mn:"Веб дизайн",en:"Web design"},{k:"chatbot",mn:"Чат бот",en:"Chatbot"},{k:"finance",mn:"Санхүү бүртгэлийн автоматжуулалт",en:"Finance bookkeeping automation",locked:true}],c1:"#1d1712",c2:"#b8935a",ink:"#f1e3c6"},
  {n:"Bugat Lodge",slug:"bugat-lodge",t:"brand",c1:"#0e1d3a",c2:"#c4a25a",ink:"#f3ead4"},
  {n:"Derma Solution",slug:"derma-solution",t:"brandsoc",c1:"#0f766e",c2:"#f5a623",ink:"#ffffff"},
  {n:"Miners Villa",slug:"miners-villa",t:"print",c1:"#7a1f1a",c2:"#e9a800",ink:"#fff3d6"},
@@ -494,7 +509,7 @@ function renderWorks(){
     el.addEventListener("click",function(){openWork(idx,el);});
     var cv=coverOK[w.slug];
     if(cv)setCover(th,cv);
-    else if(cv===undefined)tryImg("works/"+w.slug+"/1.jpg",function(src){coverOK[w.slug]=src;setCover(th,src);},function(){coverOK[w.slug]=false;});
+    else if(cv===undefined)tryImg("works/"+w.slug+(w.cats?"/"+w.cats[0].k:"")+"/1.jpg",function(src){coverOK[w.slug]=src;setCover(th,src);},function(){coverOK[w.slug]=false;});
   });
 }
 function renderTicker(){
@@ -596,33 +611,50 @@ $("#copy").addEventListener("click",function(){
   }catch(e){fallback();}
 });
 /* gallery */
-var G={w:null,list:[],i:0,opener:null,cache:{}};
-function probeAll(slug){
-  if(G.cache[slug])return Promise.resolve(G.cache[slug]);
+var G={w:null,cat:null,list:[],i:0,opener:null,cache:{},loading:false,locked:false};
+var LOCK_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>';
+var LOCK_CODE=["async function syncLedger(period) {","  const rows = await source.fetch({ period, status: \"pending\" });","  for (const row of rows) {","    const entry = classify(row, RULES);","    await books.post(entry.account, entry.amount);","  }","  return reconcile(books, source);","}"].join("\n");
+function curCat(){var w=G.w;if(!w||!w.cats)return null;for(var k=0;k<w.cats.length;k++)if(w.cats[k].k===G.cat)return w.cats[k];return null;}
+function headOK(src,ok,fail){fetch(src,{method:"HEAD"}).then(function(r){if(r.ok)ok(src);else if(fail)fail();}).catch(function(){if(fail)fail();});}
+function probeAll(base,video){
+  var key=base+(video?"#v":"");
+  if(G.cache[key])return Promise.resolve(G.cache[key]);
   return new Promise(function(res){
     var list=[],n=1;
-    function done(){G.cache[slug]=list;res(list);}
+    function done(){G.cache[key]=list;res(list);}
     (function next(){
       if(n>40)return done();
-      tryImg("works/"+slug+"/"+n+".jpg",function(src){list.push(src);n++;next();},done);
+      if(video)headOK(base+"/"+n+".mp4",function(src){list.push(src);n++;next();},done);
+      else tryImg(base+"/"+n+".jpg",function(src){list.push(src);n++;next();},done);
     })();
   });
 }
+function renderLock(){
+  var l=$("#mlock"),t=T[lang];l.innerHTML="";
+  var pre=document.createElement("pre");pre.setAttribute("aria-hidden","true");pre.textContent=LOCK_CODE+"\n\n"+LOCK_CODE+"\n\n"+LOCK_CODE;l.appendChild(pre);
+  var c=document.createElement("div");c.className="lk";c.innerHTML=LOCK_SVG;
+  var b=document.createElement("b");b.textContent=t.m_lock_t;
+  var s=document.createElement("span");s.textContent=t.m_lock_d;
+  c.appendChild(b);c.appendChild(s);l.appendChild(c);
+}
 function showImg(){
-  var t=T[lang],L=G.list,img=$("#mimg"),soon=$("#msoon"),multi=L.length>1;
+  var t=T[lang],L=G.list,img=$("#mimg"),vid=$("#mvid"),soon=$("#msoon"),lock=$("#mlock"),cat=curCat(),multi=L.length>1;
+  img.hidden=true;vid.hidden=true;soon.hidden=true;lock.hidden=true;
+  if(!vid.paused)vid.pause();
+  $("#mcount").hidden=true;$("#mprev").hidden=true;$("#mnext").hidden=true;
+  if(G.locked){renderLock();lock.hidden=false;$("#mthumbs").innerHTML="";return;}
   if(!L.length){
-    img.hidden=true;soon.hidden=false;
-    soon.style.background=G.w.c1;soon.style.color=G.w.ink;
-    soon.innerHTML="";
-    var s1=document.createElement("span");s1.textContent=G.loading?"…":t.m_soon;
-    soon.appendChild(s1);
-    $("#mcount").hidden=true;$("#mprev").hidden=true;$("#mnext").hidden=true;$("#mthumbs").innerHTML="";
-    return;
+    soon.hidden=false;soon.style.background=G.w.c1;soon.style.color=G.w.ink;soon.innerHTML="";
+    var s1=document.createElement("span");s1.textContent=G.loading?"…":((cat?cat[lang]+" · ":"")+t.m_soon);
+    soon.appendChild(s1);$("#mthumbs").innerHTML="";return;
   }
-  soon.hidden=true;img.hidden=false;img.src=L[G.i];img.alt=G.w.n+" "+(G.i+1);
+  var isVid=!!(cat&&cat.video);
+  if(isVid){vid.hidden=false;if(vid.getAttribute("src")!==L[G.i])vid.src=L[G.i];}
+  else{img.hidden=false;img.src=L[G.i];img.alt=G.w.n+" "+(G.i+1);}
   $("#mcount").hidden=!multi;$("#mcount").textContent=(G.i+1)+" / "+L.length;
   $("#mprev").hidden=!multi;$("#mnext").hidden=!multi;
   var th=$("#mthumbs");
+  if(isVid){th.innerHTML="";return;}
   if(th.children.length!==L.length){
     th.innerHTML="";
     L.forEach(function(src,k){
@@ -634,20 +666,41 @@ function showImg(){
   Array.prototype.forEach.call(th.children,function(b,k){b.setAttribute("aria-current",k===G.i?"true":"false");});
   if(multi&&th.children[G.i]&&th.children[G.i].scrollIntoView)th.children[G.i].scrollIntoView({block:"nearest",inline:"center"});
 }
-function step(d){var n=G.list.length;if(n<2)return;G.i=(G.i+d+n)%n;showImg();}
-function openWork(idx,opener){
-  var w=WORKS[idx];G.w=w;G.list=[];G.i=0;G.opener=opener||null;G.loading=true;
-  $("#mtitle").textContent=w.n;$("#mtag").textContent=T[lang].tags[w.t];$("#mthumbs").innerHTML="";
-  $("#mnote").textContent="";
-  $("#modal").hidden=false;document.documentElement.style.overflow="hidden";
-  showImg();$("#mclose").focus();
-  probeAll(w.slug).then(function(list){
-    if(G.w!==w)return;
+function step(d){var n=G.list.length;if(n<2||G.locked)return;G.i=(G.i+d+n)%n;showImg();}
+function renderCats(){
+  var box=$("#mcats"),w=G.w;box.innerHTML="";
+  if(!w.cats){box.hidden=true;return;}
+  box.hidden=false;
+  w.cats.forEach(function(c){
+    var b=document.createElement("button");b.type="button";b.className="chip";
+    b.setAttribute("aria-pressed",c.k===G.cat?"true":"false");
+    if(c.locked)b.insertAdjacentHTML("afterbegin",LOCK_SVG);
+    b.appendChild(document.createTextNode(c[lang]));
+    b.addEventListener("click",function(){if(G.cat===c.k)return;G.cat=c.k;renderCats();loadCat();});
+    box.appendChild(b);
+  });
+}
+function loadCat(){
+  var w=G.w,cat=curCat(),mine=G.cat;
+  G.list=[];G.i=0;$("#mthumbs").innerHTML="";$("#mnote").textContent="";
+  var v=$("#mvid");if(!v.paused)v.pause();v.removeAttribute("src");
+  if(cat&&cat.locked){G.locked=true;G.loading=false;showImg();return;}
+  G.locked=false;G.loading=true;showImg();
+  var base="works/"+w.slug+(mine?"/"+mine:"");
+  probeAll(base,!!(cat&&cat.video)).then(function(list){
+    if(G.w!==w||G.cat!==mine)return;
     G.list=list;G.loading=false;G.i=0;showImg();
     if(list.length)$("#mnote").textContent=list.length+" "+T[lang].m_items;
   });
 }
+function openWork(idx,opener){
+  var w=WORKS[idx];G.w=w;G.opener=opener||null;G.cat=w.cats?w.cats[0].k:null;
+  $("#mtitle").textContent=w.n;$("#mtag").textContent=T[lang].tags[w.t];
+  $("#modal").hidden=false;document.documentElement.style.overflow="hidden";
+  renderCats();loadCat();$("#mclose").focus();
+}
 function closeWork(){
+  var v=$("#mvid");if(!v.paused)v.pause();
   $("#modal").hidden=true;document.documentElement.style.overflow="";G.w=null;
   if(G.opener&&G.opener.focus)G.opener.focus();
 }
