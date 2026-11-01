@@ -291,7 +291,7 @@ footer .script2{font-family:var(--script);writing-mode:vertical-lr;color:var(--g
     <div class="svc">
       <article><div class="orn" aria-hidden="true"></div><h3 data-i18n="s1t">Лого ба брэндинг</h3><p data-i18n="s1d">Лого, өнгө, фонт, брэндбүүк, нэрийн хуудас, бичгийн хэрэглэгдэхүүн.</p></article>
       <article><div class="orn" aria-hidden="true"></div><h3 data-i18n="s2t">Веб сайт</h3><p data-i18n="s2d">Танилцуулга, лэндинг, компанийн сайтыг Figma-аас бодит сайт хүртэл. Утсанд тохирсон.</p></article>
-      <article><div class="orn" aria-hidden="true"></div><h3 data-i18n="s3t">Чатбот</h3><p data-i18n="s3d">Асуултад хариулж, захиалга авч, лид цуглуулдаг автомат туслах.</p><button class="chip" type="button" data-demochat data-i18n="cb_try">Туршиж үзэх →</button></article>
+      <article id="chatcard"><div class="orn" aria-hidden="true"></div><h3 data-i18n="s3t">Чатбот</h3><p data-i18n="s3d">Асуултад хариулж, захиалга авч, лид цуглуулдаг автомат туслах.</p><button class="chip" type="button" data-demochat data-i18n="cb_try">Туршиж үзэх →</button></article>
       <article><div class="orn" aria-hidden="true"></div><h3 data-i18n="s4t">Маркетингийн дизайн</h3><p data-i18n="s4d">Сошиал пост, сурталчилгааны баннер, кампанит ажлын визуал, сошиал гайдлайн.</p></article>
       <article><div class="orn" aria-hidden="true"></div><h3 data-i18n="s5t">Хэвлэл</h3><p data-i18n="s5d">Брошур, меню, постер, каталог. Хэвлэхэд бэлэн файлаар.</p></article>
     </div>
@@ -392,7 +392,7 @@ footer .script2{font-family:var(--script);writing-mode:vertical-lr;color:var(--g
   </footer>
 </main>
 
-<button class="cbfab" id="cbfab" type="button" aria-controls="cbwin" data-i18n="cb_open">Чатбот туршиж үзэх</button>
+<button class="cbfab" id="cbfab" hidden type="button" aria-controls="cbwin" data-i18n="cb_open">Чатбот туршиж үзэх</button>
 <div class="cbwin" id="cbwin" hidden role="dialog" aria-label="Demo chatbot">
   <div class="cbhead"><div><b>Demo бот</b><small data-i18n="cb_sub">ТУРШИЛТЫН ХУВИЛБАР</small></div><button type="button" id="cbx" aria-label="Close">✕</button></div>
   <div class="cbnote" data-i18n="cb_note">Жишээ бизнес, зохиомол мэдээлэл</div>
@@ -777,21 +777,32 @@ en:{hi:"Hi! I'm the demo bot of “Demo Cafe”. How can I help?",
   function D(){return DEMO[lang]||DEMO.mn;}
   function say(txt,who){var d=document.createElement("div");d.className="cbm "+who;d.textContent=txt;log.appendChild(d);log.scrollTop=log.scrollHeight;return d;}
   function chips(arr){qs.innerHTML="";arr.forEach(function(x){var b=document.createElement("button");b.type="button";b.textContent=x;b.onclick=function(){ask(x);};qs.appendChild(b);});}
-  function find(txt){var d=D(),l=txt.toLowerCase();if(d.map[txt])return d.nodes[d.map[txt]];
+  var hist=[];
+  function norm(x){return x.toLowerCase().replace(/ө/g,"о").replace(/ү/g,"у").replace(/[^a-z0-9а-яё\s]/g," ");}
+  function find(txt){var d=D(),l=norm(txt);if(d.map[txt])return d.nodes[d.map[txt]];
     var extra={"Захиалах":"order","Ажлын цаг":"hours","Хаяг":"addr","Цэс":"menu","Order":"order","Hours":"hours","Address":"addr","Menu":"menu"};if(extra[txt]&&d.nodes[extra[txt]])return d.nodes[extra[txt]];
-    for(var n in d.nodes){var ks=d.nodes[n].k;for(var i=0;i<ks.length;i++)if(l.indexOf(ks[i])>-1)return d.nodes[n];}return null;}
+    for(var n in d.nodes){var ks=d.nodes[n].k;for(var i=0;i<ks.length;i++)if(l.indexOf(norm(ks[i]).trim())>-1)return d.nodes[n];}return null;}
+  function ai(){if(!CONFIG.endpoint)return Promise.reject();
+    var ctl=new AbortController(),tm=setTimeout(function(){ctl.abort();},15000);
+    return fetch(CONFIG.endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({chat:hist}),signal:ctl.signal})
+      .then(function(r){clearTimeout(tm);return r.json();}).then(function(j){if(!j.ok||!j.text)throw 0;return j.text;});}
   function ask(txt){if(busy||!txt.trim())return;busy=true;say(txt,"me");qs.innerHTML="";
+    hist.push({role:"user",content:txt});
     var t=say("•••","bot typing");
-    setTimeout(function(){var n=find(txt.trim()),d=D();t.remove();
-      if(n){say(n.a,"bot");chips(n.q.length?n.q:d.start);}else{say(d.fallback,"bot");chips(d.start);}busy=false;},550);}
-  function open(){win.hidden=false;fab.hidden=true;if(!started){started=true;say(D().hi,"bot");chips(D().start);}setTimeout(function(){inp.focus();},50);}
-  function close(){win.hidden=true;fab.hidden=false;}
+    function done(a,q){t.remove();say(a,"bot");hist.push({role:"assistant",content:a});chips(q);busy=false;}
+    ai().then(function(a){done(a,[]);}).catch(function(){
+      setTimeout(function(){var n=find(txt.trim()),d=D();
+        if(n)done(n.a,n.q.length?n.q:d.start);else done(d.fallback,d.start);},450);});}
+  function open(){win.hidden=false;fab.hidden=true;if(!started){started=true;hist=[];say(D().hi,"bot");chips(D().start);}setTimeout(function(){inp.focus();},50);}
+  function close(){win.hidden=true;if(inView)fab.hidden=false;}
+  var inView=false,card=$("#chatcard");
+  if("IntersectionObserver" in window&&card){new IntersectionObserver(function(es){inView=es[0].isIntersecting;if(win.hidden)fab.hidden=!inView;},{threshold:.15}).observe(card);}
   fab.onclick=open;$("#cbx").onclick=close;
   $("#cbform").onsubmit=function(e){e.preventDefault();var v=inp.value;inp.value="";ask(v);};
   document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!win.hidden)close();});
   window.openDemoChat=open;
   document.querySelectorAll("[data-demochat]").forEach(function(b){b.onclick=open;});
-  $("#lang").addEventListener("click",function(){if(started){log.innerHTML="";say(D().hi,"bot");chips(D().start);}});
+  $("#lang").addEventListener("click",function(){if(started){log.innerHTML="";hist=[];say(D().hi,"bot");chips(D().start);}});
 })();
 applyLang();
 </script>
