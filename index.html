@@ -139,6 +139,37 @@ section{padding-block:clamp(3rem,7vw,5.5rem)}
 .work .meta span:first-child{font-weight:700;font-size:.92rem}
 .more{margin-top:1.6rem;display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
 
+/* work cards are buttons; clicking opens the gallery */
+button.work{font:inherit;color:inherit;text-align:left;padding:0;cursor:pointer;width:100%}
+.thumb img.cover{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.thumb.has-img::before{display:none}
+.thumb.has-img::after{height:62%;background:linear-gradient(to top,rgba(5,9,28,.78),transparent)}
+.thumb.has-img b{color:#fff}
+.work .go{font:500 .72rem var(--mono);letter-spacing:.1em;color:var(--accent);white-space:nowrap}
+
+/* gallery modal */
+.modal{position:fixed;inset:0;z-index:100;background:rgba(5,9,28,.88);display:flex;align-items:center;justify-content:center;
+  padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.mpanel{background:var(--surface);color:var(--fg);border:1px solid var(--line);border-radius:22px;width:min(1040px,100%);max-height:100%;display:flex;flex-direction:column;overflow:hidden}
+.mhead{display:flex;justify-content:space-between;gap:1rem;align-items:flex-start;padding:1rem 1.2rem;border-bottom:1px solid var(--line)}
+.mhead > div{min-width:0}
+.mhead h3{font-size:clamp(1.1rem,2.6vw,1.6rem);overflow-wrap:anywhere}
+.mclose{flex:none;width:2.4rem;height:2.4rem;padding:0;font-size:1rem;line-height:1}
+.mstage{position:relative;flex:1 1 auto;min-height:260px;background:var(--bg);display:flex;align-items:center;justify-content:center;overflow:hidden;touch-action:pan-y}
+.mstage img{max-width:100%;max-height:62vh;object-fit:contain;display:block}
+.msoon{width:100%;min-height:260px;padding:2rem 1.4rem;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;text-align:center;font-weight:700}
+.msoon small{font-weight:400;opacity:.85;max-width:38ch}
+.mnav{position:absolute;top:50%;transform:translateY(-50%);width:2.8rem;height:2.8rem;border-radius:50%;border:0;background:rgba(5,9,28,.65);color:#fff;font-size:1.6rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.mnav:hover{background:var(--accent);color:var(--accent-fg)}
+.mnav.prev{left:.7rem}.mnav.next{right:.7rem}
+.mcount{position:absolute;right:.8rem;bottom:.6rem;background:rgba(5,9,28,.65);color:#fff;border-radius:99px;padding:.15rem .6rem}
+.mthumbs{display:flex;gap:.5rem;padding:.7rem 1.2rem;overflow-x:auto;border-top:1px solid var(--line)}
+.mthumbs:empty{display:none}
+.mthumbs button{flex:none;width:72px;height:54px;padding:0;border:2px solid transparent;border-radius:8px;overflow:hidden;background:var(--bg);cursor:pointer}
+.mthumbs button[aria-current="true"]{border-color:var(--accent)}
+.mthumbs img{width:100%;height:100%;object-fit:cover;display:block}
+.mfoot{padding:.8rem 1.2rem;display:flex;gap:.8rem;flex-wrap:wrap;align-items:center;justify-content:space-between;border-top:1px solid var(--line)}
+
 /* process */
 ol.steps{margin:0;padding:1.4rem 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:1.6rem;counter-reset:s;border-top:2px solid var(--fg)}
 .steps li{list-style:none;counter-increment:s;display:flex;flex-direction:column;gap:.5rem;min-width:0}
@@ -335,6 +366,27 @@ footer .script2{font-family:var(--script);writing-mode:vertical-lr;color:var(--g
   </footer>
 </main>
 
+<div class="modal" id="modal" hidden role="dialog" aria-modal="true" aria-labelledby="mtitle">
+  <div class="mpanel">
+    <div class="mhead">
+      <div><h3 id="mtitle"></h3><div class="mono" id="mtag"></div></div>
+      <button class="chip mclose" id="mclose" type="button" aria-label="Close">✕</button>
+    </div>
+    <div class="mstage" id="mstage">
+      <img id="mimg" alt="" hidden>
+      <div class="msoon" id="msoon" hidden></div>
+      <button class="mnav prev" id="mprev" type="button" aria-label="Previous" hidden>‹</button>
+      <button class="mnav next" id="mnext" type="button" aria-label="Next" hidden>›</button>
+      <span class="mcount mono" id="mcount" hidden></span>
+    </div>
+    <div class="mthumbs" id="mthumbs"></div>
+    <div class="mfoot">
+      <span class="mono" id="mnote"></span>
+      <a class="btn ghost small" href="https://www.behance.net/jakjjak" target="_blank" rel="noopener" data-i18n="m_behance">Behance дээр үзэх ↗</a>
+    </div>
+  </div>
+</div>
+
 <script>
 /* Холбоо барих сувгууд. Хоосон бол харагдахгүй. telegram: @-гүй username (жишээ: "jakjjak"). */
 var CONFIG={phone:"",email:"",telegram:"",facebook:"",instagram:"",endpoint:"https://jaybee.jakj8334.workers.dev"}; /* endpoint: Cloudflare Worker-ийн URL. Хоосон бол автомат илгээлт идэвхгүй. */
@@ -364,6 +416,7 @@ r_ok:"Брийф бэлэн боллоо.",r_tg:"Telegram-аар илгээх �
 r_p_tg:"Telegram товчийг дарахад чат нээгдэж, брийф бөглөгдсөн байна. Хэрэв бөглөгдөөгүй бол хуулаад наана уу.",
 r_p_no:"Доорх текстийг хуулаад зүүн талын сувгийн аль нэгээр илгээнэ үү.",
 copied:"Хуулагдлаа",copyfail:"Текстийг сонгож хуулна уу",
+m_close:"Хаах",m_soon:"Зургууд удахгүй нэмэгдэнэ",m_items:"зураг",m_behance:"Behance дээр үзэх ↗",
 st_ing:"Илгээж байна...",st_ok:"Захиалга илгээгдлээ. Нэг ажлын өдрийн дотор холбогдоно.",st_fail:"Автоматаар илгээж чадсангүй. Брийфээ хуулж явуулна уу.",r_resend:"Дахин илгээх",
 e_svc:"Дор хаяж нэг үйлчилгээ сонгоно уу.",e_name:"Нэрээ бичнэ үү.",e_con:"Холбоо барих хаягаа бичнэ үү.",
 brief:"ЗАХИАЛГЫН БРИЙФ",l_svc:"Үйлчилгээ",l_bud:"Төсөв",l_when:"Хугацаа",l_det:"Төслийн тухай",l_name:"Нэр",l_con:"Холбоо барих",
@@ -394,6 +447,7 @@ r_ok:"Your brief is ready.",r_tg:"Send on Telegram ↗",r_copy:"Copy",r_edit:"Ed
 r_p_tg:"The Telegram button opens a chat with your brief filled in. If the text does not appear, copy it and paste it in.",
 r_p_no:"Copy the text below and send it through any channel on the left.",
 copied:"Copied",copyfail:"Select the text and copy it",
+m_close:"Close",m_soon:"Images coming soon",m_items:"images",m_behance:"View on Behance ↗",
 st_ing:"Sending...",st_ok:"Your order was sent. I will reply within one working day.",st_fail:"Automatic sending failed. Please copy your brief and send it manually.",r_resend:"Send again",
 e_svc:"Choose at least one service.",e_name:"Enter your name.",e_con:"Enter a way to reach you.",
 brief:"ORDER BRIEF",l_svc:"Services",l_bud:"Budget",l_when:"Timeline",l_det:"About the project",l_name:"Name",l_con:"Contact",
@@ -403,34 +457,44 @@ tags:{web:"Web design",brand:"Brand · print · social",brandsoc:"Brand · socia
 };
 
 var WORKS=[
- {n:"Luxwood Group",t:"web",c1:"#1d1712",c2:"#b8935a",ink:"#f1e3c6"},
- {n:"Bugat Lodge",t:"brand",c1:"#0e1d3a",c2:"#c4a25a",ink:"#f3ead4"},
- {n:"Derma Solution",t:"brandsoc",c1:"#0f766e",c2:"#f5a623",ink:"#ffffff"},
- {n:"Miners Villa",t:"print",c1:"#7a1f1a",c2:"#e9a800",ink:"#fff3d6"},
- {n:"Social guideline",t:"guide",c1:"#173f9c",c2:"#e9a800",ink:"#ffffff"},
- {n:"Цэлмэг интернэйшнл",t:"design",c1:"#c8202d",c2:"#0b1d52",ink:"#ffffff"},
- {n:"Tselmeg Tech School",t:"design",c1:"#0b1d52",c2:"#c8202d",ink:"#ffffff"},
- {n:"Хөгжил трейд ХХК",t:"design",c1:"#e9a800",c2:"#173f9c",ink:"#0b1d52"},
- {n:"Практикал",t:"design",c1:"#2a3b6e",c2:"#e9a800",ink:"#ffffff"},
- {n:"Мультипак ХХК",t:"design",c1:"#3d2a1f",c2:"#d9a45b",ink:"#ffffff"}
+ {n:"Luxwood Group",slug:"luxwood",t:"web",c1:"#1d1712",c2:"#b8935a",ink:"#f1e3c6"},
+ {n:"Bugat Lodge",slug:"bugat-lodge",t:"brand",c1:"#0e1d3a",c2:"#c4a25a",ink:"#f3ead4"},
+ {n:"Derma Solution",slug:"derma-solution",t:"brandsoc",c1:"#0f766e",c2:"#f5a623",ink:"#ffffff"},
+ {n:"Miners Villa",slug:"miners-villa",t:"print",c1:"#7a1f1a",c2:"#e9a800",ink:"#fff3d6"},
+ {n:"Social guideline",slug:"social-guideline",t:"guide",c1:"#173f9c",c2:"#e9a800",ink:"#ffffff"},
+ {n:"Цэлмэг интернэйшнл",slug:"tselmeg-international",t:"design",c1:"#c8202d",c2:"#0b1d52",ink:"#ffffff"},
+ {n:"Tselmeg Tech School",slug:"tselmeg-tech-school",t:"design",c1:"#0b1d52",c2:"#c8202d",ink:"#ffffff"},
+ {n:"Хөгжил трейд ХХК",slug:"khugjil-trade",t:"design",c1:"#e9a800",c2:"#173f9c",ink:"#0b1d52"},
+ {n:"Практикал",slug:"practical",t:"design",c1:"#2a3b6e",c2:"#e9a800",ink:"#ffffff"},
+ {n:"Мультипак ХХК",slug:"multipack",t:"design",c1:"#3d2a1f",c2:"#d9a45b",ink:"#ffffff"}
 ];
 
 var lang="mn";
 try{var sl=localStorage.getItem("jj-lang");if(sl==="en"||sl==="mn")lang=sl;}catch(e){}
 var $=function(s){return document.querySelector(s)};
 
+var coverOK={};
+function tryImg(src,ok,fail){var im=new Image();im.onload=function(){ok(im.src)};im.onerror=function(){if(fail)fail()};im.src=src;}
+function setCover(th,src){
+  var im=document.createElement("img");im.className="cover";im.alt="";im.loading="lazy";im.src=src;
+  th.insertBefore(im,th.firstChild);th.classList.add("has-img");
+}
 function renderWorks(){
   var g=$("#works-grid");g.innerHTML="";
-  WORKS.forEach(function(w){
-    var el=document.createElement("article");el.className="work";
+  WORKS.forEach(function(w,idx){
+    var el=document.createElement("button");el.type="button";el.className="work";el.setAttribute("aria-label",w.n);
     var th=document.createElement("div");th.className="thumb";
     th.style.setProperty("--c1",w.c1);th.style.setProperty("--c2",w.c2);th.style.setProperty("--ink",w.ink);
     var o=document.createElement("span");o.className="o";th.appendChild(o);
     var b=document.createElement("b");b.textContent=w.n;th.appendChild(b);
     var m=document.createElement("div");m.className="meta";
     var a=document.createElement("span");a.textContent=w.n;
-    var tg=document.createElement("span");tg.className="mono";tg.textContent=T[lang].tags[w.t];
+    var tg=document.createElement("span");tg.className="go";tg.textContent=T[lang].tags[w.t]+" ↗";
     m.appendChild(a);m.appendChild(tg);el.appendChild(th);el.appendChild(m);g.appendChild(el);
+    el.addEventListener("click",function(){openWork(idx,el);});
+    var cv=coverOK[w.slug];
+    if(cv)setCover(th,cv);
+    else if(cv===undefined)tryImg("works/"+w.slug+"/1.jpg",function(src){coverOK[w.slug]=src;setCover(th,src);},function(){coverOK[w.slug]=false;});
   });
 }
 function renderTicker(){
@@ -531,6 +595,80 @@ $("#copy").addEventListener("click",function(){
     navigator.clipboard.writeText(ta.value).then(function(){out.textContent=t.copied;},fallback);
   }catch(e){fallback();}
 });
+/* gallery */
+var G={w:null,list:[],i:0,opener:null,cache:{}};
+function probeAll(slug){
+  if(G.cache[slug])return Promise.resolve(G.cache[slug]);
+  return new Promise(function(res){
+    var list=[],n=1;
+    function done(){G.cache[slug]=list;res(list);}
+    (function next(){
+      if(n>40)return done();
+      tryImg("works/"+slug+"/"+n+".jpg",function(src){list.push(src);n++;next();},done);
+    })();
+  });
+}
+function showImg(){
+  var t=T[lang],L=G.list,img=$("#mimg"),soon=$("#msoon"),multi=L.length>1;
+  if(!L.length){
+    img.hidden=true;soon.hidden=false;
+    soon.style.background=G.w.c1;soon.style.color=G.w.ink;
+    soon.innerHTML="";
+    var s1=document.createElement("span");s1.textContent=G.loading?"…":t.m_soon;
+    soon.appendChild(s1);
+    $("#mcount").hidden=true;$("#mprev").hidden=true;$("#mnext").hidden=true;$("#mthumbs").innerHTML="";
+    return;
+  }
+  soon.hidden=true;img.hidden=false;img.src=L[G.i];img.alt=G.w.n+" "+(G.i+1);
+  $("#mcount").hidden=!multi;$("#mcount").textContent=(G.i+1)+" / "+L.length;
+  $("#mprev").hidden=!multi;$("#mnext").hidden=!multi;
+  var th=$("#mthumbs");
+  if(th.children.length!==L.length){
+    th.innerHTML="";
+    L.forEach(function(src,k){
+      var b=document.createElement("button");b.type="button";b.setAttribute("aria-label",(k+1)+"");
+      var im=document.createElement("img");im.src=src;im.alt="";im.loading="lazy";b.appendChild(im);
+      b.addEventListener("click",function(){G.i=k;showImg();});th.appendChild(b);
+    });
+  }
+  Array.prototype.forEach.call(th.children,function(b,k){b.setAttribute("aria-current",k===G.i?"true":"false");});
+  if(multi&&th.children[G.i]&&th.children[G.i].scrollIntoView)th.children[G.i].scrollIntoView({block:"nearest",inline:"center"});
+}
+function step(d){var n=G.list.length;if(n<2)return;G.i=(G.i+d+n)%n;showImg();}
+function openWork(idx,opener){
+  var w=WORKS[idx];G.w=w;G.list=[];G.i=0;G.opener=opener||null;G.loading=true;
+  $("#mtitle").textContent=w.n;$("#mtag").textContent=T[lang].tags[w.t];$("#mthumbs").innerHTML="";
+  $("#mnote").textContent="";
+  $("#modal").hidden=false;document.documentElement.style.overflow="hidden";
+  showImg();$("#mclose").focus();
+  probeAll(w.slug).then(function(list){
+    if(G.w!==w)return;
+    G.list=list;G.loading=false;G.i=0;showImg();
+    if(list.length)$("#mnote").textContent=list.length+" "+T[lang].m_items;
+  });
+}
+function closeWork(){
+  $("#modal").hidden=true;document.documentElement.style.overflow="";G.w=null;
+  if(G.opener&&G.opener.focus)G.opener.focus();
+}
+$("#mclose").addEventListener("click",closeWork);
+$("#modal").addEventListener("click",function(e){if(e.target===this)closeWork();});
+$("#mprev").addEventListener("click",function(){step(-1);});
+$("#mnext").addEventListener("click",function(){step(1);});
+document.addEventListener("keydown",function(e){
+  if($("#modal").hidden)return;
+  if(e.key==="Escape")closeWork();
+  else if(e.key==="ArrowLeft")step(-1);
+  else if(e.key==="ArrowRight")step(1);
+});
+(function(){
+  var x0=null,st=$("#mstage");
+  st.addEventListener("touchstart",function(e){x0=e.touches[0].clientX;},{passive:true});
+  st.addEventListener("touchend",function(e){
+    if(x0===null)return;var dx=e.changedTouches[0].clientX-x0;x0=null;
+    if(Math.abs(dx)>50)step(dx<0?1:-1);
+  },{passive:true});
+})();
 applyLang();
 </script>
 
