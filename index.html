@@ -751,12 +751,12 @@ document.addEventListener("keydown",function(e){
 var DEMO={
 mn:{hi:"Сайн байна уу! Би «Demo Кафе»-ийн туршилтын бот. Юугаар туслах вэ?",
  nodes:{
- menu:{k:["цэс","меню","унд","хоол","кофе","menu"],a:"Манай цэс (жишээ):\n☕ Латте — 8,000₮\n☕ Американо — 6,000₮\n🥐 Круассан — 5,500₮\n🍰 Бялуу — 9,000₮",q:["Захиалах","Ажлын цаг"]},
- hours:{k:["цаг","хэдээс","нээлттэй","hours"],a:"Өдөр бүр 09:00 – 21:00 цагт нээлттэй (жишээ).",q:["Хаяг","Цэс"]},
- addr:{k:["хаяг","хаана","байршил","address"],a:"Улаанбаатар, Сүхбаатар дүүрэг, жишээ хаяг 12-р байр (зохиомол).",q:["Ажлын цаг","Цэс"]},
- order:{k:["захиал","авъя","order"],a:"Сайхан байна! Юу захиалах вэ? Нэр, тоо ширхгээ бичээрэй. (Туршилт тул бодит захиалга үүсэхгүй.)",q:["Цэс"]},
- human:{k:["хүн","оператор","менежер","холбогд"],a:"Оператортой холбох үед энд таны утас авч, ажилтанд дамжуулна. (Жишээ)",q:["Цэс","Ажлын цаг"]},
- thanks:{k:["баярлалаа","thanks","thank"],a:"Баяртай! Дахин асуух зүйл гарвал бичээрэй 🙂",q:[]}},
+ menu:{k:["цэс","меню","унд","хоол","кофе","menu","ces","tses","tsees","coffe","kofe","kophe","latte","unden","hool","hoolo","hund","yu bn","yu baina","uu baina"],a:"Манай цэс (жишээ):\n☕ Латте — 8,000₮\n☕ Американо — 6,000₮\n🥐 Круассан — 5,500₮\n🍰 Бялуу — 9,000₮",q:["Захиалах","Ажлын цаг"]},
+ hours:{k:["цаг","хэдээс","нээлттэй","hours","tsag","hedees","hedeese","neelttei","neeh","hagas","hed ve","hed bn"],a:"Өдөр бүр 09:00 – 21:00 цагт нээлттэй (жишээ).",q:["Хаяг","Цэс"]},
+ addr:{k:["хаяг","хаана","байршил","address","hayag","haya","haana","bairshil","bairlal","bairlal","hed d"],a:"Улаанбаатар, Сүхбаатар дүүрэг, жишээ хаяг 12-р байр (зохиомол).",q:["Ажлын цаг","Цэс"]},
+ order:{k:["захиал","авъя","авмаар","авна","order","zahial","zahialga","awmaar","avmaar","awya","avya","awna","avna","awah","avah","awii","zahialy","zahialmaar"],a:"Сайхан байна! Юу захиалах вэ? Нэр, тоо ширхгээ бичээрэй. (Туршилт тул бодит захиалга үүсэхгүй.)",q:["Цэс"]},
+ human:{k:["хүн","оператор","менежер","холбогд","hun","operator","menejer","holbogd","holboo","holbo","dugaar","utas"],a:"Оператортой холбох үед энд таны утас авч, ажилтанд дамжуулна. (Жишээ)",q:["Цэс","Ажлын цаг"]},
+ thanks:{k:["баярлалаа","thanks","thank","bayarlalaa","bayrlalaa","bayrllaa","bayrlalaa","bayrtai","баяртай"],a:"Баяртай! Дахин асуух зүйл гарвал бичээрэй 🙂",q:[]}},
  fallback:"Уучлаарай, үүнийг одоогоор ойлгосонгүй. Доорх сонголтоос аль нэгийг дарна уу.",
  start:["Цэс","Ажлын цаг","Хаяг","Захиалах","Оператор"],
  map:{"Цэс":"menu","Ажлын цаг":"hours","Хаяг":"addr","Захиалах":"order","Оператор":"human"}},
@@ -781,7 +781,7 @@ en:{hi:"Hi! I'm the demo bot of “Demo Cafe”. How can I help?",
   function norm(x){return x.toLowerCase().replace(/ө/g,"о").replace(/ү/g,"у").replace(/[^a-z0-9а-яё\s]/g," ");}
   function find(txt){var d=D(),l=norm(txt);if(d.map[txt])return d.nodes[d.map[txt]];
     var extra={"Захиалах":"order","Ажлын цаг":"hours","Хаяг":"addr","Цэс":"menu","Order":"order","Hours":"hours","Address":"addr","Menu":"menu"};if(extra[txt]&&d.nodes[extra[txt]])return d.nodes[extra[txt]];
-    for(var n in d.nodes){var ks=d.nodes[n].k;for(var i=0;i<ks.length;i++)if(l.indexOf(norm(ks[i]).trim())>-1)return d.nodes[n];}return null;}
+    var ord=["order","thanks","human","hours","addr","menu"];for(var oi=0;oi<ord.length;oi++){var n=ord[oi];if(!d.nodes[n])continue;var ks=d.nodes[n].k;for(var i=0;i<ks.length;i++)if(l.indexOf(norm(ks[i]).trim())>-1)return d.nodes[n];}return null;}
   function ai(){if(!CONFIG.endpoint)return Promise.reject();
     var ctl=new AbortController(),tm=setTimeout(function(){ctl.abort();},15000);
     return fetch(CONFIG.endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({chat:hist}),signal:ctl.signal})
