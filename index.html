@@ -307,15 +307,18 @@ footer .script2{font-family:var(--script);writing-mode:vertical-lr;color:var(--g
             <div><label class="lbl" for="name" data-i18n="f_name">Нэр</label><input type="text" id="name" autocomplete="name"></div>
             <div><label class="lbl" for="contact" data-i18n="f_con">Утас эсвэл холбоо барих хаяг</label><input type="text" id="contact" autocomplete="off"></div>
           </div>
+          <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
           <p class="err" id="err" role="alert"></p>
           <button class="btn" type="submit" data-i18n="f_go">Брийф үүсгэх →</button>
         </form>
         <div class="result" id="result" hidden>
           <div class="ok" data-i18n="r_ok">Брийф бэлэн боллоо.</div>
           <p style="margin:0;color:var(--muted)" id="r_p"></p>
+          <p class="ok" id="sendstat" aria-live="polite" hidden></p>
           <textarea id="brief" readonly></textarea>
           <div class="acts">
             <a class="btn tg" id="tg" target="_blank" rel="noopener" hidden data-i18n="r_tg">Telegram-аар илгээх ↗</a>
+            <button class="btn" type="button" id="resend" hidden data-i18n="r_resend">Дахин илгээх</button>
             <button class="btn ghost" type="button" id="copy" data-i18n="r_copy">Хуулах</button>
             <button class="btn ghost" type="button" id="edit" data-i18n="r_edit">Засах</button>
             <span class="ok" id="copied" aria-live="polite"></span>
@@ -334,7 +337,7 @@ footer .script2{font-family:var(--script);writing-mode:vertical-lr;color:var(--g
 
 <script>
 /* Холбоо барих сувгууд. Хоосон бол харагдахгүй. telegram: @-гүй username (жишээ: "jakjjak"). */
-var CONFIG={phone:"",email:"",telegram:"",facebook:"",instagram:""};
+var CONFIG={phone:"",email:"",telegram:"",facebook:"",instagram:"",endpoint:""}; /* endpoint: Cloudflare Worker-ийн URL. Хоосон бол автомат илгээлт идэвхгүй. */
 
 var T={
 mn:{nav1:"Үйлчилгээ",nav2:"Ажлууд",nav3:"Явц",navcta:"Захиалах",eyebrow:"Дизайнер · Веб · Чатбот",
@@ -361,6 +364,7 @@ r_ok:"Брийф бэлэн боллоо.",r_tg:"Telegram-аар илгээх �
 r_p_tg:"Telegram товчийг дарахад чат нээгдэж, брийф бөглөгдсөн байна. Хэрэв бөглөгдөөгүй бол хуулаад наана уу.",
 r_p_no:"Доорх текстийг хуулаад зүүн талын сувгийн аль нэгээр илгээнэ үү.",
 copied:"Хуулагдлаа",copyfail:"Текстийг сонгож хуулна уу",
+st_ing:"Илгээж байна...",st_ok:"Захиалга илгээгдлээ. Нэг ажлын өдрийн дотор холбогдоно.",st_fail:"Автоматаар илгээж чадсангүй. Брийфээ хуулж явуулна уу.",r_resend:"Дахин илгээх",
 e_svc:"Дор хаяж нэг үйлчилгээ сонгоно уу.",e_name:"Нэрээ бичнэ үү.",e_con:"Холбоо барих хаягаа бичнэ үү.",
 brief:"ЗАХИАЛГЫН БРИЙФ",l_svc:"Үйлчилгээ",l_bud:"Төсөв",l_when:"Хугацаа",l_det:"Төслийн тухай",l_name:"Нэр",l_con:"Холбоо барих",
 ch_phone:"Утас",ch_email:"И-мэйл",ch_tg:"Telegram",ch_fb:"Facebook",ch_ig:"Instagram",ch_be:"Behance",
@@ -390,6 +394,7 @@ r_ok:"Your brief is ready.",r_tg:"Send on Telegram ↗",r_copy:"Copy",r_edit:"Ed
 r_p_tg:"The Telegram button opens a chat with your brief filled in. If the text does not appear, copy it and paste it in.",
 r_p_no:"Copy the text below and send it through any channel on the left.",
 copied:"Copied",copyfail:"Select the text and copy it",
+st_ing:"Sending...",st_ok:"Your order was sent. I will reply within one working day.",st_fail:"Automatic sending failed. Please copy your brief and send it manually.",r_resend:"Send again",
 e_svc:"Choose at least one service.",e_name:"Enter your name.",e_con:"Enter a way to reach you.",
 brief:"ORDER BRIEF",l_svc:"Services",l_bud:"Budget",l_when:"Timeline",l_det:"About the project",l_name:"Name",l_con:"Contact",
 ch_phone:"Phone",ch_email:"Email",ch_tg:"Telegram",ch_fb:"Facebook",ch_ig:"Instagram",ch_be:"Behance",
@@ -504,10 +509,20 @@ $("#form").addEventListener("submit",function(ev){
   if(!document.querySelector('input[name=svc]:checked')){err.textContent=t.e_svc;return;}
   if(!val("#name")){err.textContent=t.e_name;$("#name").focus();return;}
   if(!val("#contact")){err.textContent=t.e_con;$("#contact").focus();return;}
-  err.textContent="";buildBrief();
+  err.textContent="";buildBrief();sendBrief();
   $("#form").hidden=true;$("#result").hidden=false;$("#copied").textContent="";
   $("#result").scrollIntoView({behavior:"smooth",block:"nearest"});
 });
+function sendBrief(){
+  var st=$("#sendstat"),rs=$("#resend");
+  if(!CONFIG.endpoint){st.hidden=true;rs.hidden=true;return;}
+  st.hidden=false;st.className="";st.style.color="var(--muted)";st.textContent=T[lang].st_ing;rs.hidden=true;
+  fetch(CONFIG.endpoint,{method:"POST",headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({text:$("#brief").value,website:$("#website").value})})
+  .then(function(r){if(!r.ok)throw new Error(r.status);st.className="ok";st.style.color="";st.textContent=T[lang].st_ok;})
+  .catch(function(){st.className="err";st.style.color="";st.textContent=T[lang].st_fail;rs.hidden=false;});
+}
+$("#resend").addEventListener("click",sendBrief);
 $("#edit").addEventListener("click",function(){$("#result").hidden=true;$("#form").hidden=false;});
 $("#copy").addEventListener("click",function(){
   var ta=$("#brief"),out=$("#copied"),t=T[lang];
