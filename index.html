@@ -1,9 +1,4 @@
-<!doctype html>
-<html lang="mn">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style>
+<!doctype html><html lang="mn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>[hidden]{display:none!important}body{padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)}</style>
 <title>JayBee Studio</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -65,6 +60,7 @@ nav.menu a:hover{color:var(--fg)}
 .chip:hover{border-color:var(--accent)}
 .btn{display:inline-flex;align-items:center;gap:.6rem;font:700 .95rem var(--body);background:var(--accent);color:var(--accent-fg);border:0;border-radius:99px;padding:.85rem 1.5rem;text-decoration:none;cursor:pointer}
 .btn:hover{filter:brightness(1.1)}
+.cbwin[hidden],.cbfab[hidden]{display:none!important}
 .btn.ghost{background:transparent;color:var(--fg);border:1px solid var(--fg)}
 .btn.gold{background:var(--gold);color:#1a1200}
 .btn.small{padding:.55rem 1.1rem;font-size:.85rem}
@@ -228,10 +224,28 @@ footer{border-top:1px solid var(--line);padding-block:1.6rem 2.5rem;display:flex
 footer a{color:var(--fg)}
 .sign{font-family:var(--hand);font-size:2.2rem;line-height:1;color:var(--accent);transform:rotate(-3deg);display:inline-block}
 footer .script2{font-family:var(--script);writing-mode:vertical-lr;color:var(--gold);font-size:1.6rem;line-height:1}
-</style>
-</head>
-<body>
 
+/* demo chatbot */
+.cbfab{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:max(16px,env(safe-area-inset-bottom,0px));z-index:40;display:flex;align-items:center;gap:.55rem;font:700 .88rem var(--body);background:var(--blue);color:var(--surface);border:0;border-radius:99px;padding:.75rem 1.1rem;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.cbfab::before{content:"";width:.6rem;height:.6rem;border-radius:50%;background:var(--gold)}
+.cbwin{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:max(16px,env(safe-area-inset-bottom,0px));z-index:60;width:min(380px,calc(100vw - 32px));height:min(560px,calc(100dvh - 32px));background:var(--surface);color:var(--fg);border:1px solid var(--line);border-radius:22px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 18px 50px rgba(0,0,0,.35)}
+.cbhead{display:flex;align-items:center;justify-content:space-between;gap:.6rem;padding:.8rem 1rem;background:var(--blue);color:var(--surface)}
+.cbhead b{font:700 .95rem var(--display)}.cbhead small{display:block;font:500 .68rem var(--mono);letter-spacing:.06em;opacity:.85}
+.cbhead button{background:transparent;border:1px solid currentColor;color:inherit;border-radius:99px;width:2rem;height:2rem;cursor:pointer;font-size:1rem}
+.cbnote{font:500 .7rem var(--mono);color:var(--muted);padding:.45rem 1rem;border-bottom:1px solid var(--line);background:var(--bg)}
+.cblog{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.6rem}
+.cbm{max-width:84%;padding:.6rem .85rem;border-radius:16px;font-size:.92rem;line-height:1.4;white-space:pre-line;overflow-wrap:anywhere}
+.cbm.bot{align-self:flex-start;background:var(--bg);border:1px solid var(--line);border-bottom-left-radius:4px}
+.cbm.me{align-self:flex-end;background:var(--accent);color:var(--accent-fg);border-bottom-right-radius:4px}
+.cbm.typing{color:var(--muted);letter-spacing:.2em}
+.cbq{display:flex;flex-wrap:wrap;gap:.4rem;padding:0 1rem .7rem}
+.cbq button{font:600 .8rem var(--body);background:var(--surface);color:var(--blue);border:1px solid var(--blue);border-radius:99px;padding:.4rem .8rem;cursor:pointer}
+.cbq button:hover{background:var(--blue);color:var(--surface)}
+.cbform{display:flex;gap:.5rem;padding:.7rem;border-top:1px solid var(--line)}
+.cbform input{flex:1;min-width:0;font:500 .95rem var(--body);color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:99px;padding:.6rem .9rem}
+.cbform button{font:700 .9rem var(--body);background:var(--accent);color:var(--accent-fg);border:0;border-radius:99px;padding:.6rem 1rem;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--blue);border:1px solid var(--blue)}
+</style></head><body>
 
 <header class="bar">
   <div class="wrap">
@@ -277,7 +291,7 @@ footer .script2{font-family:var(--script);writing-mode:vertical-lr;color:var(--g
     <div class="svc">
       <article><div class="orn" aria-hidden="true"></div><h3 data-i18n="s1t">Лого ба брэндинг</h3><p data-i18n="s1d">Лого, өнгө, фонт, брэндбүүк, нэрийн хуудас, бичгийн хэрэглэгдэхүүн.</p></article>
       <article><div class="orn" aria-hidden="true"></div><h3 data-i18n="s2t">Веб сайт</h3><p data-i18n="s2d">Танилцуулга, лэндинг, компанийн сайтыг Figma-аас бодит сайт хүртэл. Утсанд тохирсон.</p></article>
-      <article><div class="orn" aria-hidden="true"></div><h3 data-i18n="s3t">Чатбот</h3><p data-i18n="s3d">Асуултад хариулж, захиалга авч, лид цуглуулдаг автомат туслах.</p></article>
+      <article><div class="orn" aria-hidden="true"></div><h3 data-i18n="s3t">Чатбот</h3><p data-i18n="s3d">Асуултад хариулж, захиалга авч, лид цуглуулдаг автомат туслах.</p><button class="chip" type="button" data-demochat data-i18n="cb_try">Туршиж үзэх →</button></article>
       <article><div class="orn" aria-hidden="true"></div><h3 data-i18n="s4t">Маркетингийн дизайн</h3><p data-i18n="s4d">Сошиал пост, сурталчилгааны баннер, кампанит ажлын визуал, сошиал гайдлайн.</p></article>
       <article><div class="orn" aria-hidden="true"></div><h3 data-i18n="s5t">Хэвлэл</h3><p data-i18n="s5d">Брошур, меню, постер, каталог. Хэвлэхэд бэлэн файлаар.</p></article>
     </div>
@@ -378,6 +392,15 @@ footer .script2{font-family:var(--script);writing-mode:vertical-lr;color:var(--g
   </footer>
 </main>
 
+<button class="cbfab" id="cbfab" type="button" aria-controls="cbwin" data-i18n="cb_open">Чатбот туршиж үзэх</button>
+<div class="cbwin" id="cbwin" hidden role="dialog" aria-label="Demo chatbot">
+  <div class="cbhead"><div><b>Demo бот</b><small data-i18n="cb_sub">ТУРШИЛТЫН ХУВИЛБАР</small></div><button type="button" id="cbx" aria-label="Close">✕</button></div>
+  <div class="cbnote" data-i18n="cb_note">Жишээ бизнес, зохиомол мэдээлэл</div>
+  <div class="cblog" id="cblog" aria-live="polite"></div>
+  <div class="cbq" id="cbq"></div>
+  <form class="cbform" id="cbform"><input id="cbin" type="text" autocomplete="off" data-i18n-ph="cb_ph" placeholder="Асуултаа бичнэ үү…"><button type="submit" data-i18n="cb_send">Илгээх</button></form>
+</div>
+
 <div class="modal" id="modal" hidden role="dialog" aria-modal="true" aria-labelledby="mtitle">
   <div class="mpanel">
     <div class="mhead">
@@ -407,7 +430,7 @@ footer .script2{font-family:var(--script);writing-mode:vertical-lr;color:var(--g
 var CONFIG={phone:"",email:"",telegram:"",facebook:"",instagram:"",endpoint:"https://jaybee.jakj8334.workers.dev"}; /* endpoint: Cloudflare Worker-ийн URL. Хоосон бол автомат илгээлт идэвхгүй. */
 
 var T={
-mn:{nav1:"Үйлчилгээ",nav2:"Ажлууд",nav3:"Явц",navcta:"Захиалах",eyebrow:"Дизайнер · Веб · Чатбот",
+mn:{cb_open:"Чатбот туршиж үзэх",cb_sub:"ТУРШИЛТЫН ХУВИЛБАР",cb_note:"Жишээ бизнес, зохиомол мэдээлэл",cb_ph:"Асуултаа бичнэ үү…",cb_send:"Илгээх",cb_try:"Туршиж үзэх →",nav1:"Үйлчилгээ",nav2:"Ажлууд",nav3:"Явц",navcta:"Захиалах",eyebrow:"Дизайнер · Веб · Чатбот",
 h1:"Брэнд, сайт, <em>чатбот.</em> Нэг гараас.",
 lead:"Таны бизнесийн харагдах байдлыг лого, брэндбүүк, веб сайт, сошиал контентоос эхлээд хэрэглэгчтэй өөрөө ярьдаг чатбот хүртэл бүтээнэ.",
 cta1:"Захиалга өгөх →",cta2:"Ажлуудыг үзэх",
@@ -438,7 +461,7 @@ brief:"ЗАХИАЛГЫН БРИЙФ",l_svc:"Үйлчилгээ",l_bud:"Төсө
 ch_phone:"Утас",ch_email:"И-мэйл",ch_tg:"Telegram",ch_fb:"Facebook",ch_ig:"Instagram",ch_be:"Behance",
 tick:["Лого","Брэндбүүк","Веб дизайн","Чатбот","Сошиал контент","Брошур","Меню","Баннер"],
 tags:{multi:"Олон чиглэл",web:"Веб дизайн",brand:"Брэнд · хэвлэл · сошиал",brandsoc:"Брэнд · сошиал",print:"Брошур · хэвлэл",guide:"Сошиал гайдлайн",design:"Дизайн"}},
-en:{nav1:"Services",nav2:"Work",nav3:"Process",navcta:"Order",eyebrow:"Designer · Web · Chatbots",
+en:{cb_open:"Try the chatbot",cb_sub:"DEMO VERSION",cb_note:"Sample business, fictional data",cb_ph:"Type your question…",cb_send:"Send",cb_try:"Try it →",nav1:"Services",nav2:"Work",nav3:"Process",navcta:"Order",eyebrow:"Designer · Web · Chatbots",
 h1:"Brand, site, <em>chatbot.</em> One pair of hands.",
 lead:"I build how your business looks and talks: logo, brand book, website and social content, all the way to a chatbot that answers your customers.",
 cta1:"Place an order →",cta2:"See the work",
@@ -722,8 +745,54 @@ document.addEventListener("keydown",function(e){
     if(Math.abs(dx)>50)step(dx<0?1:-1);
   },{passive:true});
 })();
+
+/* ---------- Demo chatbot (зохиомол мэдээлэл) ---------- */
+/* Өөрийн чатботын сценарийг энд солино: DEMO.mn / DEMO.en дотор node-уудыг засна. */
+var DEMO={
+mn:{hi:"Сайн байна уу! Би «Demo Кафе»-ийн туршилтын бот. Юугаар туслах вэ?",
+ nodes:{
+ menu:{k:["цэс","меню","унд","хоол","кофе","menu"],a:"Манай цэс (жишээ):\n☕ Латте — 8,000₮\n☕ Американо — 6,000₮\n🥐 Круассан — 5,500₮\n🍰 Бялуу — 9,000₮",q:["Захиалах","Ажлын цаг"]},
+ hours:{k:["цаг","хэдээс","нээлттэй","hours"],a:"Өдөр бүр 09:00 – 21:00 цагт нээлттэй (жишээ).",q:["Хаяг","Цэс"]},
+ addr:{k:["хаяг","хаана","байршил","address"],a:"Улаанбаатар, Сүхбаатар дүүрэг, жишээ хаяг 12-р байр (зохиомол).",q:["Ажлын цаг","Цэс"]},
+ order:{k:["захиал","авъя","order"],a:"Сайхан байна! Юу захиалах вэ? Нэр, тоо ширхгээ бичээрэй. (Туршилт тул бодит захиалга үүсэхгүй.)",q:["Цэс"]},
+ human:{k:["хүн","оператор","менежер","холбогд"],a:"Оператортой холбох үед энд таны утас авч, ажилтанд дамжуулна. (Жишээ)",q:["Цэс","Ажлын цаг"]},
+ thanks:{k:["баярлалаа","thanks","thank"],a:"Баяртай! Дахин асуух зүйл гарвал бичээрэй 🙂",q:[]}},
+ fallback:"Уучлаарай, үүнийг одоогоор ойлгосонгүй. Доорх сонголтоос аль нэгийг дарна уу.",
+ start:["Цэс","Ажлын цаг","Хаяг","Захиалах","Оператор"],
+ map:{"Цэс":"menu","Ажлын цаг":"hours","Хаяг":"addr","Захиалах":"order","Оператор":"human"}},
+en:{hi:"Hi! I'm the demo bot of “Demo Cafe”. How can I help?",
+ nodes:{
+ menu:{k:["menu","drink","food","coffee"],a:"Our menu (sample):\n☕ Latte — 8,000₮\n☕ Americano — 6,000₮\n🥐 Croissant — 5,500₮\n🍰 Cake — 9,000₮",q:["Order","Hours"]},
+ hours:{k:["hour","open","time"],a:"Open daily 09:00 – 21:00 (sample).",q:["Address","Menu"]},
+ addr:{k:["address","where","location"],a:"Ulaanbaatar, Sukhbaatar district, sample address bldg 12 (fictional).",q:["Hours","Menu"]},
+ order:{k:["order","buy"],a:"Great! What would you like? Write item and quantity. (Demo only, no real order is created.)",q:["Menu"]},
+ human:{k:["human","operator","manager","agent"],a:"For a live operator the bot would take your phone number and pass it to staff. (Sample)",q:["Menu","Hours"]},
+ thanks:{k:["thank"],a:"Bye! Ask anytime 🙂",q:[]}},
+ fallback:"Sorry, I didn't get that. Please pick one of the options below.",
+ start:["Menu","Hours","Address","Order","Operator"],
+ map:{"Menu":"menu","Hours":"hours","Address":"addr","Order":"order","Operator":"human"}}
+};
+(function(){
+  var fab=$("#cbfab"),win=$("#cbwin"),log=$("#cblog"),qs=$("#cbq"),inp=$("#cbin"),started=false,busy=false;
+  function D(){return DEMO[lang]||DEMO.mn;}
+  function say(txt,who){var d=document.createElement("div");d.className="cbm "+who;d.textContent=txt;log.appendChild(d);log.scrollTop=log.scrollHeight;return d;}
+  function chips(arr){qs.innerHTML="";arr.forEach(function(x){var b=document.createElement("button");b.type="button";b.textContent=x;b.onclick=function(){ask(x);};qs.appendChild(b);});}
+  function find(txt){var d=D(),l=txt.toLowerCase();if(d.map[txt])return d.nodes[d.map[txt]];
+    var extra={"Захиалах":"order","Ажлын цаг":"hours","Хаяг":"addr","Цэс":"menu","Order":"order","Hours":"hours","Address":"addr","Menu":"menu"};if(extra[txt]&&d.nodes[extra[txt]])return d.nodes[extra[txt]];
+    for(var n in d.nodes){var ks=d.nodes[n].k;for(var i=0;i<ks.length;i++)if(l.indexOf(ks[i])>-1)return d.nodes[n];}return null;}
+  function ask(txt){if(busy||!txt.trim())return;busy=true;say(txt,"me");qs.innerHTML="";
+    var t=say("•••","bot typing");
+    setTimeout(function(){var n=find(txt.trim()),d=D();t.remove();
+      if(n){say(n.a,"bot");chips(n.q.length?n.q:d.start);}else{say(d.fallback,"bot");chips(d.start);}busy=false;},550);}
+  function open(){win.hidden=false;fab.hidden=true;if(!started){started=true;say(D().hi,"bot");chips(D().start);}setTimeout(function(){inp.focus();},50);}
+  function close(){win.hidden=true;fab.hidden=false;}
+  fab.onclick=open;$("#cbx").onclick=close;
+  $("#cbform").onsubmit=function(e){e.preventDefault();var v=inp.value;inp.value="";ask(v);};
+  document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!win.hidden)close();});
+  window.openDemoChat=open;
+  document.querySelectorAll("[data-demochat]").forEach(function(b){b.onclick=open;});
+  $("#lang").addEventListener("click",function(){if(started){log.innerHTML="";say(D().hi,"bot");chips(D().start);}});
+})();
 applyLang();
 </script>
-
-</body>
-</html>
+</body></html>
