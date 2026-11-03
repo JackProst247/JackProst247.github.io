@@ -492,13 +492,14 @@ footer .script2{font-family:var(--script);writing-mode:vertical-lr;color:var(--g
       <div class="mgrow" id="mgg" role="group">
         <button class="chip" type="button" data-g="tee" aria-pressed="true" data-i18n="mg_g_tee">Цамц</button>
         <button class="chip" type="button" data-g="hoodie" aria-pressed="false" data-i18n="mg_g_hoodie">Hoodie</button>
-        <button class="chip" type="button" data-g="jacket" aria-pressed="false" data-i18n="mg_g_jacket">Хүрэм</button>
+        <button class="chip" type="button" data-g="jacket" aria-pressed="false" data-i18n="mg_g_jacket">Бомбер</button>
+        <button class="chip" type="button" data-g="deel" aria-pressed="false" data-i18n="mg_g_deel">Дээл</button>
         <button class="chip" type="button" data-g="dress" aria-pressed="false" data-i18n="mg_g_dress">Даашинз</button>
       </div>
       <div class="mgrow" id="mgp" role="group">
-        <button class="chip" type="button" data-p="solid" aria-pressed="true" data-i18n="mg_p_solid">Энгийн</button>
-        <button class="chip" type="button" data-p="stripe" aria-pressed="false" data-i18n="mg_p_stripe">Судалтай</button>
-        <button class="chip" type="button" data-p="ornament" aria-pressed="false" data-i18n="mg_p_orn">Хээтэй</button>
+        <button class="chip" type="button" data-p="cloud" aria-pressed="true" data-i18n="mg_p_cloud">Үүлэн хээ</button>
+        <button class="chip" type="button" data-p="knot" aria-pressed="false" data-i18n="mg_p_knot">Угалз</button>
+        <button class="chip" type="button" data-p="plain" aria-pressed="false" data-i18n="mg_p_plain">Зөвхөн лого</button>
         <button class="chip" type="button" id="mgsnap" data-i18n="mg_snap">📷 Зураг авах</button>
       </div>
     </div>
@@ -920,7 +921,7 @@ Object.assign(T.mn,{mg_btn:"✦ Try the magic",mg_sub:"ХУРУУГААР ЗУР
  mg_1:"Долоовор хуруугаа өргөж зур",mg_2:"Хоёр хуруу өргөвөл зөөнө, өнгө сонгоно",mg_3:"Алгаа 1 секунд барьвал цэвэрлэнэ",
  mg_s1:"Алгаа дэлгэвэл ид шидийн хүрээ гарна",mg_s2:"Долоовор хуруугаараа оч цацруулж зур",mg_s3:"Хоёр гараа хоёуланг нь ашиглаж болно",
  mg_w1:"Мөр, ууцаа харагдахаар зайдаа зогс",mg_w2:"Хувцасны төрөл, өнгө, хээгээ сонго",mg_w3:"Дуртай загвараа зургаар хадгал",
- mg_g_tee:"Цамц",mg_g_hoodie:"Hoodie",mg_g_jacket:"Хүрэм",mg_g_dress:"Даашинз",mg_p_solid:"Энгийн",mg_p_stripe:"Судалтай",mg_p_orn:"Хээтэй",mg_snap:"📷 Зураг авах",
+ mg_g_tee:"Цамц",mg_g_hoodie:"Hoodie",mg_g_jacket:"Бомбер",mg_g_deel:"Дээл",mg_g_dress:"Даашинз",mg_p_cloud:"Үүлэн хээ",mg_p_knot:"Угалз",mg_p_plain:"Зөвхөн лого",mg_snap:"📷 Зураг авах",
  mg_priv:"Камерын дүрс таны төхөөрөмж дээр л боловсруулагдана, хаашаа ч илгээгдэхгүй.",
  mg_start:"Эхлэх",mg_nocam:"Камергүй туршах",mg_clear:"Арилгах",mg_cta:"Төслөө захиалах →",mg_cam_on:"Камер асаах",mg_cam_off:"Камер унтраах",
  mg_load_cam:"Камер асааж байна…",mg_load_model:"Таних загвар ачаалж байна…",mg_ready:"Бэлэн! Долоовор хуруугаа өргө ☝",mg_nohand:"Гараа камерт харуул",
@@ -934,7 +935,7 @@ Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW · SPELLS · TRY ON 
  mg_1:"Raise your index finger to draw",mg_2:"Two fingers move the cursor and pick colors",mg_3:"Hold your open palm for 1 second to clear",
  mg_s1:"Open your palm to summon a magic circle",mg_s2:"Point with your index finger to draw sparks",mg_s3:"You can use both hands",
  mg_w1:"Stand back so your shoulders and hips are visible",mg_w2:"Pick a garment, color and pattern",mg_w3:"Save the look as a photo",
- mg_g_tee:"T-shirt",mg_g_hoodie:"Hoodie",mg_g_jacket:"Jacket",mg_g_dress:"Dress",mg_p_solid:"Plain",mg_p_stripe:"Stripes",mg_p_orn:"Ornament",mg_snap:"📷 Snapshot",
+ mg_g_tee:"T-shirt",mg_g_hoodie:"Hoodie",mg_g_jacket:"Bomber",mg_g_deel:"Deel",mg_g_dress:"Dress",mg_p_cloud:"Cloud ornament",mg_p_knot:"Knot",mg_p_plain:"Logo only",mg_snap:"📷 Snapshot",
  mg_priv:"Camera video is processed on your device only and is never sent anywhere.",
  mg_start:"Start",mg_nocam:"Try without camera",mg_clear:"Clear",mg_cta:"Order your project →",mg_cam_on:"Turn camera on",mg_cam_off:"Turn camera off",
  mg_load_cam:"Starting camera…",mg_load_model:"Loading tracking model…",mg_ready:"Ready! Raise your index finger ☝",mg_nohand:"Show your hand to the camera",
@@ -949,8 +950,8 @@ Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW · SPELLS · TRY ON 
   var BASE="https://cdn.jsdelivr.net/npm/@mediapipe/";
   var HANDS_BASE=BASE+"hands@0.4.1675469240/",POSE_BASE=BASE+"pose@0.5.1675469404/";
   var NEON=["#ff3df0","#22e6ff","#5dff9b","#ffe933","#ff8a3d","#ffffff"];
-  var CLOTH=["#1d1d22","#f4f1ea","#c8302f","#1f4fd1","#2f8f5b","#e3a21a"];
-  var MODE="draw",color=NEON[0],wearColor=CLOTH[2],garment="tee",pattern="solid";
+  var CLOTH=["#0c0c10","#101b4a","#f4f1ea","#c8302f","#2f8f5b","#e3a21a"];
+  var MODE="draw",color=NEON[0],wearColor=CLOTH[0],garment="tee",pattern="cloud";
   var strokes=[],cs=null,stream=null,hands=null,pose=null,running=false,loopOn=false,busy=false,dpr=1,W=1,H=1,statKey="",opener=null;
   var sm=null,palmT=0,palmCool=0,dwellIdx=-1,dwellT=0,ptr=false,seen={},fxOn=false;
   var lastH=null,lastP=null,trail=[],parts=[],palmSince={},pdown=null,gc=document.createElement("canvas");
@@ -1128,51 +1129,113 @@ Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW · SPELLS · TRY ON 
   function shade(hex,amt){var n=parseInt(hex.slice(1),16),r=n>>16,g=(n>>8)&255,b=n&255;
     function f(v){return Math.max(0,Math.min(255,Math.round(v+(amt<0?v*amt:(255-v)*amt))));}
     return "rgb("+f(r)+","+f(g)+","+f(b)+")";}
+  function lum(h){var n=parseInt(h.slice(1),16);return ((n>>16)*.3+((n>>8)&255)*.59+(n&255)*.11)/255;}
+  function lobe(g,x,y,r,c,d){
+    g.fillStyle=c;g.beginPath();g.arc(x,y,r,0,7);g.fill();
+    g.strokeStyle=d;g.lineWidth=Math.max(1,r*.17);g.lineCap="round";g.beginPath();
+    for(var a=0;a<9.5;a+=.25){var rr=r*(.78-a*.07);if(rr<r*.1)break;var px=x+Math.cos(a)*rr,py=y+Math.sin(a)*rr;if(a)g.lineTo(px,py);else g.moveTo(px,py);}
+    g.stroke();
+  }
+  /* үүлэн хээ: булангаас дээш багасч өгсөх үүлний давхарга */
+  function clouds(g,x0,yb,w,h,c,d,dir){
+    dir=dir||1;
+    for(var row=0;row<3;row++){var n=Math.max(1,Math.round(w/(h*.34))-row*2),r=h*(.3-row*.07);
+      for(var i=0;i<n;i++){lobe(g,x0+dir*(r+i*r*1.55+row*r*.8),yb-r*.8-row*r*1.2,r*(1-i/(n+2)*.25),c,d);}}
+  }
+  function cloudBand(g,x0,x1,y,r,c,d){for(var x=x0;x<x1;x+=r*1.6)lobe(g,x+r*.8,y,r,c,d);}
+  function knot(g,x,y,r,c){
+    g.save();g.translate(x,y);g.strokeStyle=c;g.lineWidth=Math.max(1.5,r*.13);g.shadowColor="rgba(255,200,80,.45)";g.shadowBlur=r*.3;
+    for(var k=0;k<4;k++){g.rotate(Math.PI/2);g.beginPath();g.ellipse(r*.4,0,r*.6,r*.26,0,0,7);g.stroke();}
+    g.beginPath();g.moveTo(0,-r*.22);g.lineTo(r*.22,0);g.lineTo(0,r*.22);g.lineTo(-r*.22,0);g.closePath();g.stroke();g.restore();
+  }
+  function meander(g,x,y,sz,c){
+    var p=sz/2,d=sz*.2;g.save();g.translate(x,y);g.strokeStyle=c;g.lineWidth=sz*.1;g.lineJoin="miter";g.lineCap="butt";g.beginPath();
+    g.moveTo(-p,-p);g.lineTo(p,-p);g.lineTo(p,p);g.lineTo(-p+d,p);g.lineTo(-p+d,-p+d);g.lineTo(p-d,-p+d);g.lineTo(p-d,p-d);g.lineTo(-p+2*d,p-d);g.lineTo(-p+2*d,-p+2*d);g.lineTo(p-2*d,-p+2*d);g.stroke();g.restore();
+  }
+  function logo(g,x,y,h,c){
+    g.save();g.translate(x,y);g.fillStyle=c;g.textAlign="center";g.font=h+"px 'Kaushan Script',cursive";g.fillText("JayBee",0,0);
+    g.font="600 "+(h*.26)+"px Inter,sans-serif";g.fillText("S T U D I O",h*.1,h*.34);
+    g.beginPath();var sx=h*.95,sy=-h*.55,q=h*.2;g.moveTo(sx,sy-q);g.lineTo(sx+q*.3,sy-q*.3);g.lineTo(sx+q,sy);g.lineTo(sx+q*.3,sy+q*.3);g.lineTo(sx,sy+q);g.lineTo(sx-q*.3,sy+q*.3);g.lineTo(sx-q,sy);g.lineTo(sx-q*.3,sy-q*.3);g.closePath();g.fill();
+    g.restore();
+  }
+  var DEF={tee:"#0c0c10",hoodie:"#0c0c10",jacket:"#101b4a",deel:"#101b4a",dress:"#101b4a"};
   function drawGarment(P,type,col,pat){
     var g=gc.getContext("2d");g.setTransform(dpr,0,0,dpr,0,0);g.clearRect(0,0,W,H);
     var sw=dist(P.ls,P.rs);if(sw<8)return;
     var M=mix(P.ls,P.rs,.5),Hm=mix(P.lh,P.rh,.5),tv=[Hm[0]-M[0],Hm[1]-M[1]],tl=Math.max(10,Math.hypot(tv[0],tv[1])),u=[tv[0]/tl,tv[1]/tl];
-    var s=[(P.rs[0]-P.ls[0])/sw,(P.rs[1]-P.ls[1])/sw];
-    var hw=Math.max(sw*.5,dist(P.lh,P.rh)),hs=[(P.rh[0]-P.lh[0])/Math.max(1,dist(P.lh,P.rh)),(P.rh[1]-P.lh[1])/Math.max(1,dist(P.lh,P.rh))];
-    var SLo=add(add(P.ls,s,-sw*.12),u,-sw*.05),SRo=add(add(P.rs,s,sw*.12),u,-sw*.05);
-    var HLo=add(P.lh,hs,-hw*.28),HRo=add(P.rh,hs,hw*.28);
-    var ext={tee:.2,hoodie:.3,jacket:.24,dress:0}[type],hemC;
-    if(type==="dress"){var kv=(P.lk.v>.4&&P.rk.v>.4)?mix(P.lk,P.rk,.5):null;hemC=kv?add(kv,u,-tl*.1):add(Hm,u,tl*1.35);}
-    else hemC=add(Hm,u,tl*ext);
-    var flare=type==="dress"?1.65:1.08,hh=(dist(HLo,HRo)/2)*flare;
-    var hemL=add(hemC,hs,-hh),hemR=add(hemC,hs,hh);
-    var sleeve=type==="tee"?.7:(type==="dress"?0:1);
+    var s=[(P.rs[0]-P.ls[0])/sw,(P.rs[1]-P.ls[1])/sw],det=s[0]*u[1]-u[0]*s[1];if(Math.abs(det)<.25)return;
+    function L(p){var dx=p[0]-M[0],dy=p[1]-M[1];return [(u[1]*dx-u[0]*dy)/det,(-s[1]*dx+s[0]*dy)/det];}
+    var LS=L(P.ls),RS=L(P.rs),LE=L(P.le),RE=L(P.re),LW=L(P.lw),RW=L(P.rw),LH=L(P.lh),RH=L(P.rh),LK=L(P.lk),RK=L(P.rk);
+    g.transform(s[0],s[1],u[0],u[1],M[0],M[1]);
+    var dark=lum(col)<.4,blue="#2b45a6",gold="#e9b44c",cd="rgba(0,0,0,.7)",ink=dark?"#f3f4fa":"#10131f";
+    var ext={tee:.22,hoodie:.3,jacket:.18,deel:.55,dress:0}[type];
+    var hipY=(LH[1]+RH[1])/2,cx0=(LH[0]+RH[0])/2,hemY;
+    if(type==="dress")hemY=(P.lk.v>.4&&P.rk.v>.4)?(LK[1]+RK[1])/2-tl*.08:hipY+tl*1.2;else hemY=hipY+tl*ext;
+    var hemHalf=sw*({tee:.64,hoodie:.68,jacket:.6,deel:.6,dress:.95}[type]),ex={tee:.2,hoodie:.22,jacket:.19,deel:.15,dress:.1}[type],topY=-sw*.05;
+    var SL=[LS[0]-sw*ex,topY],SR=[RS[0]+sw*ex,topY],hemL=[cx0-hemHalf,hemY],hemR=[cx0+hemHalf,hemY];
     g.lineCap="round";g.lineJoin="round";g.fillStyle=col;g.strokeStyle=col;
-    if(type==="hoodie"){g.save();g.fillStyle=shade(col,-.28);g.beginPath();g.ellipse(M[0]-u[0]*sw*.1,M[1]-u[1]*sw*.1,sw*.34,sw*.26,Math.atan2(s[1],s[0]),0,Math.PI*2);g.fill();g.restore();}
-    function arm(sh,el,wr,out){
-      if(!sleeve)return;var e=sleeve>=1?mix(el,wr,.92):mix(sh,el,sleeve+.05);
-      g.lineWidth=sw*(sleeve>=1?.27:.31);g.beginPath();g.moveTo(sh[0]+s[0]*out*sw*.06,sh[1]+s[1]*out*sw*.06);g.lineTo(el[0],el[1]);
-      if(sleeve>=1)g.lineTo(e[0],e[1]);else{g.lineTo(e[0],e[1]);}g.stroke();
+    if(type==="hoodie"){g.fillStyle=shade(col,dark?.14:-.25);g.beginPath();g.ellipse(0,-sw*.1,sw*.36,sw*.28,0,0,7);g.fill();g.fillStyle=col;}
+    var sw1=type==="tee"?.38:(type==="dress"?.34:.3),cuff=type==="hoodie"||type==="jacket";
+    function arm(S,E,Wr){
+      var e=type==="tee"||type==="dress"?mix(S,E,.78):mix(E,Wr,.95);
+      g.strokeStyle=col;g.lineWidth=sw*sw1;g.beginPath();g.moveTo(S[0],S[1]);g.lineTo(E[0],E[1]);g.lineTo(e[0],e[1]);g.stroke();
+      if(cuff){var dx=e[0]-E[0],dy=e[1]-E[1],dl=Math.max(1,Math.hypot(dx,dy)),b=[e[0]-dx/dl*sw*.13,e[1]-dy/dl*sw*.13];
+        g.lineCap="butt";g.strokeStyle=shade(col,dark?.16:-.22);g.lineWidth=sw*sw1*.96;g.beginPath();g.moveTo(b[0],b[1]);g.lineTo(e[0],e[1]);g.stroke();g.lineCap="round";}
+      return e;
     }
-    arm(P.ls,P.le,P.lw,-1);arm(P.rs,P.re,P.rw,1);
-    g.beginPath();g.moveTo(SLo[0],SLo[1]);g.lineTo(SRo[0],SRo[1]);
-    var cR=add(mix(SRo,hemR,.5),s,-sw*.05),cL=add(mix(SLo,hemL,.5),s,sw*.05);
-    g.quadraticCurveTo(cR[0],cR[1],hemR[0],hemR[1]);
-    var hm=add(hemC,u,tl*.06);g.quadraticCurveTo(hm[0],hm[1],hemL[0],hemL[1]);
-    g.quadraticCurveTo(cL[0],cL[1],SLo[0],SLo[1]);g.closePath();g.fill();
+    var eL=arm(LS,LE,LW),eR=arm(RS,RE,RW);
+    g.fillStyle=col;g.beginPath();g.moveTo(SL[0],SL[1]);g.lineTo(SR[0],SR[1]);
+    g.quadraticCurveTo((SR[0]+hemR[0])/2-sw*.07,(topY+hemY)/2,hemR[0],hemR[1]);
+    g.quadraticCurveTo(cx0,hemY+tl*.05,hemL[0],hemL[1]);
+    g.quadraticCurveTo((SL[0]+hemL[0])/2+sw*.07,(topY+hemY)/2,SL[0],SL[1]);g.closePath();g.fill();
     g.globalCompositeOperation="source-atop";
-    var ang=Math.atan2(s[1],s[0]);
-    if(pat==="stripe"){g.save();g.translate(M[0],M[1]);g.rotate(ang);g.fillStyle=shade(col,col==="#f4f1ea"?-.35:.45);
-      var st=sw*.15;for(var y=-sw*3;y<sw*5;y+=st)g.fillRect(-sw*3,y,sw*6,st*.38);g.restore();}
-    else if(pat==="ornament"){g.save();g.translate(M[0],M[1]);g.rotate(ang);g.strokeStyle=shade(col,col==="#f4f1ea"||col==="#e3a21a"?-.45:.55);g.fillStyle=g.strokeStyle;g.lineWidth=Math.max(1,sw*.012);
-      var d=sw*.17;for(var yy=-sw*2,row=0;yy<sw*4;yy+=d,row++)for(var xx=-sw*2.5+(row%2)*d/2;xx<sw*2.5;xx+=d){
-        g.beginPath();g.moveTo(xx,yy-d*.3);g.lineTo(xx+d*.3,yy);g.lineTo(xx,yy+d*.3);g.lineTo(xx-d*.3,yy);g.closePath();g.stroke();
-        g.beginPath();g.arc(xx,yy,d*.05,0,7);g.fill();}g.restore();}
-    var gr=g.createLinearGradient(SLo[0],SLo[1],SRo[0],SRo[1]);
-    gr.addColorStop(0,"rgba(0,0,0,.34)");gr.addColorStop(.28,"rgba(0,0,0,0)");gr.addColorStop(.72,"rgba(255,255,255,.05)");gr.addColorStop(1,"rgba(0,0,0,.36)");
-    g.fillStyle=gr;g.fillRect(0,0,W,H);
-    var gv=g.createLinearGradient(M[0],M[1],hemC[0],hemC[1]);gv.addColorStop(0,"rgba(255,255,255,.12)");gv.addColorStop(1,"rgba(0,0,0,.2)");g.fillStyle=gv;g.fillRect(0,0,W,H);
-    if(type==="jacket"){g.strokeStyle="rgba(0,0,0,.55)";g.lineWidth=Math.max(1.5,sw*.02);g.beginPath();g.moveTo(M[0]+u[0]*sw*.12,M[1]+u[1]*sw*.12);g.lineTo(hemC[0],hemC[1]);g.stroke();}
-    if(type==="hoodie"){g.strokeStyle="rgba(0,0,0,.25)";g.lineWidth=sw*.05;var pk=add(mix(Hm,hemC,.3),u,0);g.beginPath();g.moveTo(pk[0]-hs[0]*sw*.2,pk[1]);g.lineTo(pk[0]+hs[0]*sw*.2,pk[1]);g.stroke();}
-    g.globalCompositeOperation="destination-out";g.beginPath();
-    var nc=add(M,u,sw*(type==="dress"?.1:.05));g.ellipse(nc[0],nc[1],sw*(type==="jacket"?.14:.19),sw*(type==="jacket"?.16:.17),ang,0,Math.PI*2);g.fill();
+    var hy=hemY-tl*.05;
+    /* загварын тусгай хэсэг */
+    if(type==="jacket"||type==="hoodie"){
+      g.fillStyle=shade(col,dark?.16:-.22);var bh=tl*.09;g.beginPath();g.moveTo(hemL[0]-5,hemY-bh);g.lineTo(hemR[0]+5,hemY-bh);g.lineTo(hemR[0]+5,hemY+tl*.12);g.lineTo(hemL[0]-5,hemY+tl*.12);g.closePath();g.fill();
+      g.strokeStyle="rgba(0,0,0,.28)";g.lineWidth=1;for(var rx=hemL[0];rx<hemR[0];rx+=sw*.045){g.beginPath();g.moveTo(rx,hemY-bh);g.lineTo(rx,hemY+tl*.12);g.stroke();}
+      hy=hemY-bh;
+    }
+    var lx=-sw*.21,ly=tl*.27,lh=sw*.15;
+    if(type==="tee"){
+      if(pat==="cloud"){clouds(g,hemL[0]+sw*.03,hy+tl*.04,hemHalf*.9,tl*.6,blue,cd,1);cloudBand(g,eR[0]-sw*.2,eR[0]+sw*.25,eR[1]-sw*.02,sw*.055,blue,cd);}
+      else if(pat==="knot")knot(g,hemHalf*.35,tl*.5,sw*.15,gold);
+      meander(g,mix(LS,LE,.62)[0],mix(LS,LE,.62)[1],sw*.1,gold);
+    }else if(type==="hoodie"){
+      g.strokeStyle="rgba(0,0,0,.3)";g.lineWidth=sw*.015;g.beginPath();g.moveTo(-hemHalf*.58,tl*.52);g.lineTo(-hemHalf*.45,hy-tl*.04);g.lineTo(hemHalf*.45,hy-tl*.04);g.lineTo(hemHalf*.58,tl*.52);g.closePath();g.stroke();
+      g.strokeStyle=dark?"#d8dbe8":"#222";g.lineWidth=sw*.018;g.lineCap="round";[-1,1].forEach(function(k){g.beginPath();g.moveTo(k*sw*.1,sw*.08);g.lineTo(k*sw*.11,tl*.3);g.stroke();});
+      if(pat==="cloud")clouds(g,hemL[0]+sw*.03,hy-tl*.02,hemHalf*.6,tl*.4,blue,cd,1);else if(pat==="knot")knot(g,hemHalf*.3,tl*.42,sw*.14,gold);
+      meander(g,hemHalf*.55,hy+tl*.06,sw*.06,gold);
+    }else if(type==="jacket"){
+      g.strokeStyle="#aeb3c0";g.lineWidth=Math.max(1.6,sw*.02);g.beginPath();g.moveTo(0,sw*.1);g.lineTo(0,hemY+tl*.1);g.stroke();
+      g.strokeStyle="rgba(0,0,0,.35)";g.lineWidth=1.2;[-1,1].forEach(function(k){g.beginPath();g.moveTo(k*hemHalf*.5,tl*.62);g.lineTo(k*hemHalf*.34,hy-tl*.04);g.stroke();});
+      if(pat==="cloud")clouds(g,hemL[0]+sw*.03,hy,hemHalf*.8,tl*.5,blue,cd,1);else if(pat==="knot")knot(g,sw*.3,tl*.3,sw*.13,gold);
+      lx=-sw*.24;
+    }else if(type==="deel"){
+      g.strokeStyle=shade(col,.35);g.lineWidth=sw*.03;g.beginPath();g.moveTo(-sw*.02,sw*.1);g.quadraticCurveTo(sw*.3,sw*.15,sw*.42,tl*.3);g.stroke();
+      g.fillStyle=gold;[[.12,.14],[.25,.2]].forEach(function(b){g.beginPath();g.arc(sw*b[0]+sw*.01,tl*b[1]*.7+sw*.02,sw*.022,0,7);g.fill();});
+      if(pat==="cloud"){cloudBand(g,hemL[0],hemR[0],hy-tl*.02,sw*.07,blue,cd);clouds(g,hemL[0],hy+tl*.04,hemHalf*.7,tl*.45,blue,cd,1);}
+      else if(pat==="knot")knot(g,0,tl*.55,sw*.15,gold);
+      lx=sw*.2;ly=tl*.24;
+    }else if(type==="dress"){
+      if(pat==="cloud"){cloudBand(g,hemL[0],hemR[0],hemY-tl*.06,sw*.09,blue,cd);clouds(g,hemL[0]+sw*.05,hemY-tl*.02,hemHalf*.9,tl*.5,blue,cd,1);}
+      else if(pat==="knot"){knot(g,-sw*.1,hemY-tl*.28,sw*.12,gold);knot(g,sw*.22,hemY-tl*.2,sw*.1,gold);}
+      meander(g,mix(LS,LE,.62)[0],mix(LS,LE,.62)[1],sw*.08,gold);
+      lx=-sw*.2;
+    }
+    logo(g,lx,ly,lh,type==="tee"||type==="hoodie"?ink:(dark?gold:ink));
+    var gr=g.createLinearGradient(-sw*.8,0,sw*.8,0);
+    gr.addColorStop(0,"rgba(0,0,0,.4)");gr.addColorStop(.3,"rgba(0,0,0,0)");gr.addColorStop(.7,"rgba(255,255,255,.05)");gr.addColorStop(1,"rgba(0,0,0,.4)");
+    g.fillStyle=gr;g.fillRect(-W,-H,W*3,H*3);
+    var gv=g.createLinearGradient(0,0,0,hemY);gv.addColorStop(0,"rgba(255,255,255,.1)");gv.addColorStop(1,"rgba(0,0,0,.22)");g.fillStyle=gv;g.fillRect(-W,-H,W*3,H*3);
+    /* хүзүү */
+    var nrx=sw*({tee:.19,hoodie:.17,jacket:.12,deel:.12,dress:.12}[type]),nry=sw*({tee:.17,hoodie:.15,jacket:.13,deel:.12,dress:.12}[type]),ny=sw*(type==="tee"?.05:.04);
+    g.globalCompositeOperation="destination-out";g.beginPath();g.ellipse(0,ny,nrx,nry,0,0,7);g.fill();
     g.globalCompositeOperation="source-over";
-    g.strokeStyle=shade(col,-.4);g.lineWidth=Math.max(2,sw*.035);g.beginPath();g.ellipse(nc[0],nc[1],sw*(type==="jacket"?.14:.19),sw*(type==="jacket"?.16:.17),ang,0,Math.PI*2);g.stroke();
+    var rib=shade(col,dark?.2:-.3);
+    if(type==="deel"||type==="dress"){g.fillStyle=rib;g.strokeStyle=rib;g.lineWidth=sw*.04;g.beginPath();g.rect(-sw*.12,-sw*.12,sw*.24,sw*.2);g.fill();g.stroke();
+      g.strokeStyle=gold;g.lineWidth=Math.max(1,sw*.008);g.beginPath();g.rect(-sw*.12,-sw*.12,sw*.24,sw*.2);g.stroke();}
+    else{g.strokeStyle=rib;g.lineWidth=sw*(type==="jacket"?.075:.045);g.beginPath();g.ellipse(0,ny,nrx,nry,0,0,7);g.stroke();}
   }
   function drawMannequin(P){
     fx.save();fx.strokeStyle="rgba(255,255,255,.2)";fx.fillStyle="rgba(255,255,255,.08)";fx.lineCap="round";fx.lineWidth=H*.045;
@@ -1188,7 +1251,7 @@ Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW · SPELLS · TRY ON 
     if(!P)return;
     if(demo)drawMannequin(P);
     drawGarment(P,garment,wearColor,pattern);
-    fx.save();fx.globalAlpha=.95;fx.drawImage(gc,0,0,W,H);fx.restore();
+    fx.save();fx.globalAlpha=.96;fx.shadowColor="rgba(130,160,255,.55)";fx.shadowBlur=12;fx.drawImage(gc,0,0,W,H);fx.restore();
   }
 
   /* ---- ид шид: Doctor Strange маягийн хүрээ ---- */
@@ -1261,7 +1324,7 @@ Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW · SPELLS · TRY ON 
     if(stream&&running){setStat("mg_load_model");try{await ensureModel();modeHint();}catch(e){stopCamera();pointerMode("mg_err_model");}}
   }
   $("#mgtabs").addEventListener("click",function(e){var b=e.target.closest("button[data-mode]");if(b)setMode(b.dataset.mode);});
-  $("#mgg").addEventListener("click",function(e){var b=e.target.closest("button[data-g]");if(!b)return;garment=b.dataset.g;Array.prototype.forEach.call($("#mgg").children,function(x){x.setAttribute("aria-pressed",x===b?"true":"false");});});
+  $("#mgg").addEventListener("click",function(e){var b=e.target.closest("button[data-g]");if(!b)return;garment=b.dataset.g;if(DEF[garment]){setColor(DEF[garment]);}Array.prototype.forEach.call($("#mgg").children,function(x){x.setAttribute("aria-pressed",x===b?"true":"false");});});
   $("#mgp").addEventListener("click",function(e){var b=e.target.closest("button[data-p]");if(!b)return;pattern=b.dataset.p;Array.prototype.forEach.call($("#mgp").children,function(x){if(x.dataset.p)x.setAttribute("aria-pressed",x===b?"true":"false");});});
   $("#mgsnap").addEventListener("click",snapshot);
 
