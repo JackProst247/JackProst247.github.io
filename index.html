@@ -245,6 +245,40 @@ footer .script2{font-family:var(--script);writing-mode:vertical-lr;color:var(--g
 .cbform input{flex:1;min-width:0;font:500 .95rem var(--body);color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:99px;padding:.6rem .9rem}
 .cbform button{font:700 .9rem var(--body);background:var(--accent);color:var(--accent-fg);border:0;border-radius:99px;padding:.6rem 1rem;cursor:pointer}
 .btn.ghost{background:transparent;color:var(--blue);border:1px solid var(--blue)}
+
+/* try the magic: air drawing window */
+.mgpanel{background:#070d24;color:#eef0fa;border:1px solid rgba(255,255,255,.14);border-radius:22px;width:min(1040px,100%);max-height:100%;display:flex;flex-direction:column;overflow:hidden}
+.mgpanel .mono{color:#aab6e0}
+.mghead{display:flex;justify-content:space-between;gap:1rem;align-items:flex-start;padding:1rem 1.2rem}
+.mghead h3{font-size:clamp(1.2rem,2.8vw,1.7rem);background:linear-gradient(90deg,#ff3df0,#22e6ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.mgpanel .chip{background:rgba(255,255,255,.08);color:#eef0fa;border-color:rgba(255,255,255,.22)}
+.mgpanel .chip:hover{border-color:#22e6ff}
+.mgstage{position:relative;width:min(100%,calc(66vh*4/3));aspect-ratio:4/3;margin:0 auto;background:radial-gradient(120% 90% at 50% 40%,#10194a,#03061a);border-radius:16px;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none}
+.mgstage video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scaleX(-1);opacity:.5;display:none}
+.mgstage.cam video{display:block}
+.mgstage canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:crosshair}
+.mgcur{position:absolute;left:0;top:0;width:30px;height:30px;margin:-15px 0 0 -15px;border-radius:50%;border:2px solid var(--mgc,#ff3df0);pointer-events:none;box-shadow:0 0 16px var(--mgc,#ff3df0);transition:background .08s,transform 0s}
+.mgcur.draw{background:var(--mgc,#ff3df0)}
+.mgcur.move{border-style:dashed}
+.mgstat{position:absolute;left:12px;top:12px;background:rgba(3,6,26,.7);border:1px solid rgba(255,255,255,.16);border-radius:99px;padding:.3rem .8rem;max-width:calc(100% - 90px);text-transform:none;letter-spacing:.03em;font-size:.74rem}
+.mgpal{position:absolute;right:10px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;padding:10px 8px;background:rgba(3,6,26,.55);border:1px solid rgba(255,255,255,.14);border-radius:99px}
+.mgpal button{width:28px;height:28px;border-radius:50%;border:2px solid transparent;padding:0;cursor:pointer;background:var(--c);box-shadow:0 0 10px var(--c)}
+.mgpal button[aria-pressed="true"]{border-color:#fff;transform:scale(1.18)}
+.mgpal button.dwell{outline:2px solid #fff;outline-offset:2px}
+.mghelp{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:1rem;background:rgba(3,6,26,.72);backdrop-filter:blur(4px)}
+.mghelp[hidden]{display:none}
+.mgcard{width:min(420px,100%);background:#0c1538;border:1px solid rgba(255,255,255,.16);border-radius:18px;padding:1.2rem 1.3rem;display:grid;gap:.9rem}
+.mgcard h4{margin:0;font:800 1.15rem var(--display)}
+.mgcard ul{list-style:none;margin:0;padding:0;display:grid;gap:.6rem}
+.mgcard li{display:flex;gap:.7rem;align-items:center;font-size:.93rem}
+.mgcard li b{flex:none;width:2.1rem;height:2.1rem;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:1.1rem}
+.mgcard p{margin:0;text-transform:none;letter-spacing:.02em;line-height:1.5}
+.mgacts{display:flex;gap:.6rem;flex-wrap:wrap}
+.mgcard .btn.ghost{color:#eef0fa;border-color:rgba(255,255,255,.5)}
+.mgbar{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;padding:.9rem 1.2rem}
+.mgbar .btn{margin-left:auto}
+@media (max-width:560px){.mgstage{width:100%}.mgpal button{width:24px;height:24px}}
+.btn.magic{background:linear-gradient(90deg,#ff3df0,#22e6ff);color:#05091c;border:0}
 </style></head><body>
 
 <header class="bar">
@@ -274,6 +308,7 @@ footer .script2{font-family:var(--script);writing-mode:vertical-lr;color:var(--g
       <div class="cta">
         <a class="btn gold" href="#order" data-i18n="cta1">Захиалга өгөх →</a>
         <a class="btn ghost" href="#works" data-i18n="cta2">Ажлуудыг үзэх</a>
+        <button class="btn magic" id="mgopen" type="button" data-i18n="mg_btn">✦ Try the magic</button>
       </div>
     </div>
     <div class="orn" aria-hidden="true"></div>
@@ -399,6 +434,42 @@ footer .script2{font-family:var(--script);writing-mode:vertical-lr;color:var(--g
   <div class="cblog" id="cblog" aria-live="polite"></div>
   <div class="cbq" id="cbq"></div>
   <form class="cbform" id="cbform"><input id="cbin" type="text" autocomplete="off" data-i18n-ph="cb_ph" placeholder="Асуултаа бичнэ үү…"><button type="submit" data-i18n="cb_send">Илгээх</button></form>
+</div>
+
+<div class="modal" id="magic" hidden role="dialog" aria-modal="true" aria-labelledby="mgtitle">
+  <div class="mgpanel">
+    <div class="mghead">
+      <div><h3 id="mgtitle">Try the magic</h3><div class="mono" data-i18n="mg_sub">ХУРУУГААР АГААРТ ЗУР</div></div>
+      <button class="chip mclose" id="mgclose" type="button" aria-label="Close">✕</button>
+    </div>
+    <div class="mgstage" id="mgstage">
+      <video id="mgvid" playsinline muted></video>
+      <canvas id="mgcv"></canvas>
+      <div class="mgcur" id="mgcur" hidden></div>
+      <div class="mgstat mono" id="mgstat" hidden aria-live="polite"></div>
+      <div class="mgpal" id="mgpal" role="group" aria-label="Colors"></div>
+      <div class="mghelp" id="mghelp">
+        <div class="mgcard">
+          <h4 data-i18n="mg_h">Хэрхэн тоглох вэ</h4>
+          <ul>
+            <li><b aria-hidden="true">☝</b><span data-i18n="mg_1">Долоовор хуруугаа өргөж зур</span></li>
+            <li><b aria-hidden="true">✌</b><span data-i18n="mg_2">Хоёр хуруу өргөвөл зөөнө, өнгө сонгоно</span></li>
+            <li><b aria-hidden="true">✋</b><span data-i18n="mg_3">Алгаа 1 секунд барьвал цэвэрлэнэ</span></li>
+          </ul>
+          <p class="mono" data-i18n="mg_priv">Камерын дүрс таны төхөөрөмж дээр л боловсруулагдана, хаашаа ч илгээгдэхгүй.</p>
+          <div class="mgacts">
+            <button class="btn gold" type="button" id="mgstart" data-i18n="mg_start">Эхлэх</button>
+            <button class="btn ghost" type="button" id="mgnocam" data-i18n="mg_nocam">Камергүй зурах</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mgbar">
+      <button class="chip" type="button" id="mgcam"></button>
+      <button class="chip" type="button" id="mgclear" data-i18n="mg_clear">Арилгах</button>
+      <a class="btn gold small" id="mgcta" href="#order" data-i18n="mg_cta">Төслөө захиалах →</a>
+    </div>
+  </div>
 </div>
 
 <div class="modal" id="modal" hidden role="dialog" aria-modal="true" aria-labelledby="mtitle">
@@ -804,6 +875,163 @@ en:{hi:"Hi! I'm the demo bot of “Demo Cafe”. How can I help?",
   document.querySelectorAll("[data-demochat]").forEach(function(b){b.onclick=open;});
   $("#lang").addEventListener("click",function(){if(started){log.innerHTML="";hist=[];say(D().hi,"bot");chips(D().start);}});
 })();
+
+/* ---------- Try the magic: агаарт неон зураг ---------- */
+Object.assign(T.mn,{mg_btn:"✦ Try the magic",mg_sub:"ХУРУУГААР АГААРТ ЗУР",mg_h:"Хэрхэн тоглох вэ",
+ mg_1:"Долоовор хуруугаа өргөж зур",mg_2:"Хоёр хуруу өргөвөл зөөнө, өнгө сонгоно",mg_3:"Алгаа 1 секунд барьвал цэвэрлэнэ",
+ mg_priv:"Камерын дүрс таны төхөөрөмж дээр л боловсруулагдана, хаашаа ч илгээгдэхгүй.",
+ mg_start:"Эхлэх",mg_nocam:"Камергүй зурах",mg_clear:"Арилгах",mg_cta:"Төслөө захиалах →",mg_cam_on:"Камер асаах",mg_cam_off:"Камер унтраах",
+ mg_load_cam:"Камер асааж байна…",mg_load_model:"Гар таних загвар ачаалж байна…",mg_ready:"Бэлэн! Долоовор хуруугаа өргө ☝",mg_nohand:"Гараа камерт харуул",
+ mg_draw:"Зурж байна",mg_move:"Зөөж байна · өнгө сонго",mg_clearing:"Арилгаж байна…",
+ mg_err_perm:"Камерын зөвшөөрөл өгөөгүй байна. Хулгана эсвэл хуруугаараа зурж болно.",mg_err_cam:"Камер олдсонгүй. Хулгана эсвэл хуруугаараа зурж болно.",
+ mg_err_model:"Гар таних загвар ачаалагдсангүй. Хулгана эсвэл хуруугаараа зурж болно.",mg_pointer:"Хулгана эсвэл хуруугаараа зурна уу"});
+Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW IN THE AIR",mg_h:"How to play",
+ mg_1:"Raise your index finger to draw",mg_2:"Two fingers move the cursor and pick colors",mg_3:"Hold your open palm for 1 second to clear",
+ mg_priv:"Camera video is processed on your device only and is never sent anywhere.",
+ mg_start:"Start",mg_nocam:"Draw without camera",mg_clear:"Clear",mg_cta:"Order your project →",mg_cam_on:"Turn camera on",mg_cam_off:"Turn camera off",
+ mg_load_cam:"Starting camera…",mg_load_model:"Loading hand tracking…",mg_ready:"Ready! Raise your index finger ☝",mg_nohand:"Show your hand to the camera",
+ mg_draw:"Drawing",mg_move:"Moving · pick a color",mg_clearing:"Clearing…",
+ mg_err_perm:"Camera permission was not granted. You can still draw with the mouse or your finger.",mg_err_cam:"No camera found. You can still draw with the mouse or your finger.",
+ mg_err_model:"Hand tracking could not be loaded. You can still draw with the mouse or your finger.",mg_pointer:"Draw with your mouse or finger"});
+
+(function(){
+  var modal=$("#magic"),stage=$("#mgstage"),vid=$("#mgvid"),cv=$("#mgcv"),cx=cv.getContext("2d"),cur=$("#mgcur"),statEl=$("#mgstat"),help=$("#mghelp"),pal=$("#mgpal"),camBtn=$("#mgcam");
+  var HANDS_BASE="https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1675469240/";
+  var COLORS=["#ff3df0","#22e6ff","#5dff9b","#ffe933","#ff8a3d","#ffffff"];
+  var color=COLORS[0],strokes=[],cs=null,stream=null,hands=null,running=false,busy=false,dpr=1,W=1,H=1,statKey="",opener=null;
+  var sm=null,palmT=0,palmCool=0,dwellIdx=-1,dwellT=0,ptr=false;
+
+  function setStat(k){statKey=k;statEl.hidden=!k;statEl.textContent=k?(T[lang][k]||""):"";}
+  function updCam(){camBtn.textContent=T[lang][stream?"mg_cam_off":"mg_cam_on"];}
+  function setColor(c){color=c;stage.style.setProperty("--mgc",c);cur.style.setProperty("--mgc",c);
+    Array.prototype.forEach.call(pal.children,function(b){b.setAttribute("aria-pressed",b.dataset.c===c?"true":"false");});}
+  COLORS.forEach(function(c){var b=document.createElement("button");b.type="button";b.dataset.c=c;b.style.setProperty("--c",c);b.setAttribute("aria-label",c);
+    b.addEventListener("click",function(){setColor(c);});pal.appendChild(b);});
+  setColor(COLORS[0]);
+
+  function resize(){
+    var r=stage.getBoundingClientRect();dpr=Math.min(2,window.devicePixelRatio||1);W=Math.max(1,r.width);H=Math.max(1,r.height);
+    cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);redraw();
+  }
+  function seg(c,a,b){
+    cx.save();cx.lineCap="round";cx.lineJoin="round";
+    cx.shadowColor=c;cx.shadowBlur=22*dpr;cx.strokeStyle=c;cx.lineWidth=7*dpr;cx.globalAlpha=.9;
+    cx.beginPath();cx.moveTo(a[0]*W*dpr,a[1]*H*dpr);cx.lineTo(b[0]*W*dpr,b[1]*H*dpr);cx.stroke();
+    cx.shadowBlur=0;cx.strokeStyle="#fff";cx.globalAlpha=.75;cx.lineWidth=2.4*dpr;cx.stroke();cx.restore();
+  }
+  function dot(c,p){seg(c,p,[p[0]+.0001,p[1]]);}
+  function redraw(){cx.clearRect(0,0,cv.width,cv.height);strokes.forEach(function(s){if(s.pts.length===1)dot(s.c,s.pts[0]);for(var i=1;i<s.pts.length;i++)seg(s.c,s.pts[i-1],s.pts[i]);});}
+  function addPoint(x,y){
+    x=Math.min(1,Math.max(0,x));y=Math.min(1,Math.max(0,y));
+    if(!cs){cs={c:color,pts:[[x,y]]};strokes.push(cs);if(strokes.length>300)strokes.shift();dot(cs.c,[x,y]);return;}
+    var l=cs.pts[cs.pts.length-1];if(Math.abs(l[0]-x)+Math.abs(l[1]-y)<.002)return;
+    cs.pts.push([x,y]);seg(cs.c,l,[x,y]);
+  }
+  function endStroke(){cs=null;}
+  function clearAll(){strokes=[];cs=null;redraw();}
+  function showCur(x,y,mode){cur.hidden=false;cur.className="mgcur"+(mode?" "+mode:"");cur.style.transform="translate("+(x*W)+"px,"+(y*H)+"px)";}
+
+  /* pointer drawing (works with or without the camera) */
+  function np(e){var r=stage.getBoundingClientRect();return [(e.clientX-r.left)/r.width,(e.clientY-r.top)/r.height];}
+  cv.addEventListener("pointerdown",function(e){if(!help.hidden)return;e.preventDefault();try{cv.setPointerCapture(e.pointerId);}catch(x){}ptr=true;var p=np(e);addPoint(p[0],p[1]);showCur(p[0],p[1],"draw");});
+  cv.addEventListener("pointermove",function(e){var p=np(e);if(ptr){addPoint(p[0],p[1]);showCur(p[0],p[1],"draw");}else if(!running&&help.hidden&&e.pointerType==="mouse")showCur(p[0],p[1],"");});
+  function pup(){ptr=false;endStroke();if(!running)cur.hidden=true;}
+  cv.addEventListener("pointerup",pup);cv.addEventListener("pointercancel",pup);
+  cv.addEventListener("pointerleave",function(){if(!ptr&&!running)cur.hidden=true;});
+
+  /* camera + hand tracking (MediaPipe Hands, runs locally in the browser) */
+  function loadScript(src){return new Promise(function(res,rej){var s=document.createElement("script");s.src=src;s.crossOrigin="anonymous";s.onload=res;s.onerror=function(){rej(new Error("script"));};document.head.appendChild(s);});}
+  function withTimeout(p,ms){return Promise.race([p,new Promise(function(_,rej){setTimeout(function(){rej(new Error("timeout"));},ms);})]);}
+  function stopCamera(){
+    running=false;busy=false;sm=null;
+    if(stream){stream.getTracks().forEach(function(t){t.stop();});stream=null;}
+    vid.srcObject=null;stage.classList.remove("cam");
+    if(hands){try{hands.close();}catch(e){}hands=null;}
+    cur.hidden=true;updCam();
+  }
+  function pointerMode(k){setStat(k||"mg_pointer");updCam();}
+  async function startCamera(){
+    if(stream||running)return;
+    if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){pointerMode("mg_err_cam");return;}
+    setStat("mg_load_cam");
+    try{stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"user",width:{ideal:960},height:{ideal:720}},audio:false});}
+    catch(e){stream=null;pointerMode(e&&e.name==="NotAllowedError"?"mg_err_perm":"mg_err_cam");return;}
+    vid.srcObject=stream;try{await vid.play();}catch(e){}
+    stage.classList.add("cam");updCam();setStat("mg_load_model");
+    try{
+      if(!window.Hands)await withTimeout(loadScript(HANDS_BASE+"hands.js"),20000);
+      hands=new window.Hands({locateFile:function(f){return HANDS_BASE+f;}});
+      hands.setOptions({maxNumHands:1,modelComplexity:0,minDetectionConfidence:.6,minTrackingConfidence:.5});
+      hands.onResults(onResults);
+      await withTimeout(hands.initialize(),30000);
+    }catch(e){stopCamera();pointerMode("mg_err_model");return;}
+    running=true;setStat("mg_ready");loop();
+  }
+  function loop(){
+    if(!running)return;
+    if(!busy&&vid.readyState>=2&&hands){busy=true;hands.send({image:vid}).catch(function(){}).then(function(){busy=false;});}
+    requestAnimationFrame(loop);
+  }
+  function mapPt(nx,ny){
+    var vw=vid.videoWidth||4,vh=vid.videoHeight||3,s=Math.max(W/vw,H/vh),ox=(W-vw*s)/2,oy=(H-vh*s)/2;
+    return [(ox+(1-nx)*vw*s)/W,(oy+ny*vh*s)/H];
+  }
+  function onResults(r){
+    if(!running)return;
+    var lm=r.multiHandLandmarks&&r.multiHandLandmarks[0];
+    if(!lm){endStroke();cur.hidden=true;sm=null;palmT=0;setStat("mg_nohand");return;}
+    var raw=mapPt(lm[8].x,lm[8].y);
+    sm=sm?[sm[0]+(raw[0]-sm[0])*.55,sm[1]+(raw[1]-sm[1])*.55]:raw;
+    function up(t,p){return lm[t].y<lm[p].y-.015;}
+    var i=up(8,6),m=up(12,10),rg=up(16,14),pk=up(20,18);
+    var mode=(i&&!m&&!rg&&!pk)?"draw":(i&&m&&!rg&&!pk)?"move":(i&&m&&rg&&pk)?"palm":"idle";
+    var now=performance.now();
+    if(mode==="palm"&&now>palmCool){
+      endStroke();showCur(sm[0],sm[1],"");setStat("mg_clearing");
+      if(!palmT)palmT=now;
+      if(now-palmT>1000){clearAll();palmT=0;palmCool=now+1500;}
+      return;
+    }
+    palmT=0;
+    if(mode==="draw"){addPoint(sm[0],sm[1]);showCur(sm[0],sm[1],"draw");setStat("mg_draw");dwellIdx=-1;clearDwell();}
+    else if(mode==="move"){endStroke();showCur(sm[0],sm[1],"move");setStat("mg_move");paletteDwell(sm[0]*W,sm[1]*H,now);}
+    else{endStroke();showCur(sm[0],sm[1],"");setStat("mg_ready");dwellIdx=-1;clearDwell();}
+  }
+  function clearDwell(){Array.prototype.forEach.call(pal.children,function(b){b.classList.remove("dwell");});}
+  function paletteDwell(px,py,now){
+    var sr=stage.getBoundingClientRect(),hit=-1;
+    Array.prototype.forEach.call(pal.children,function(b,k){var r=b.getBoundingClientRect(),x=r.left-sr.left,y=r.top-sr.top;
+      if(px>x-16&&px<x+r.width+16&&py>y-14&&py<y+r.height+14)hit=k;});
+    clearDwell();
+    if(hit<0){dwellIdx=-1;return;}
+    pal.children[hit].classList.add("dwell");
+    if(hit!==dwellIdx){dwellIdx=hit;dwellT=now;}
+    else if(now-dwellT>450){setColor(COLORS[hit]);dwellIdx=-1;clearDwell();}
+  }
+
+  /* open / close */
+  function openMagic(from){
+    opener=from||null;modal.hidden=false;document.documentElement.style.overflow="hidden";
+    help.hidden=false;setStat("");updCam();resize();$("#mgstart").focus();
+  }
+  function closeMagic(){
+    stopCamera();ptr=false;endStroke();modal.hidden=true;document.documentElement.style.overflow="";
+    if(opener&&opener.focus)opener.focus();
+  }
+  $("#mgopen").addEventListener("click",function(){openMagic(this);});
+  $("#mgclose").addEventListener("click",closeMagic);
+  modal.addEventListener("click",function(e){if(e.target===modal)closeMagic();});
+  $("#mgstart").addEventListener("click",function(){help.hidden=true;startCamera();});
+  $("#mgnocam").addEventListener("click",function(){help.hidden=true;pointerMode();});
+  camBtn.addEventListener("click",function(){if(stream){stopCamera();pointerMode();}else{help.hidden=true;startCamera();}});
+  $("#mgclear").addEventListener("click",clearAll);
+  $("#mgcta").addEventListener("click",function(){closeMagic();});
+  document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!modal.hidden)closeMagic();});
+  window.addEventListener("resize",function(){if(!modal.hidden)resize();});
+  $("#lang").addEventListener("click",function(){setStat(statKey);updCam();});
+  window.__magic={open:openMagic,state:function(){return {strokes:strokes.length,running:running,stream:!!stream,stat:statKey};}};
+})();
+
 applyLang();
 </script>
 </body></html>
