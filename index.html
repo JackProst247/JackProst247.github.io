@@ -1272,7 +1272,7 @@ Object.assign(T.en,{mg_ai:"✨ Realistic photo (AI)",mg_up:"🖼 Upload photo",m
       var o=r.data&&r.data[0],url=o&&(o.url||o.path||o);
       if(!url||typeof url!=="string")throw new Error("no image");
       showRes("",url,false);resTxt.textContent="";
-    }catch(e){showRes("mg_ai_err",null,false);}
+    }catch(e){var em=String((e&&(e.message||e.detail||e.type))||e);try{console.error("AI try-on",e);}catch(x){}showRes("mg_ai_err",null,false);resTxt.textContent+="\n["+em.slice(0,220)+"]";resTxt.style.whiteSpace="pre-wrap";}
     aiBusy=false;
   }
   $("#mgai").addEventListener("click",runAI);
