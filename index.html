@@ -278,6 +278,14 @@ footer .script2{font-family:var(--script);writing-mode:vertical-lr;color:var(--g
 .mgbar{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;padding:.9rem 1.2rem}
 .mgbar .btn{margin-left:auto}
 @media (max-width:560px){.mgstage{width:100%}.mgpal button{width:24px;height:24px}}
+.mgtabs{display:flex;gap:.4rem;padding:0 1.2rem .8rem;flex-wrap:wrap}
+.mgtabs button{font:700 .85rem var(--body);color:#eef0fa;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.2);border-radius:99px;padding:.5rem 1rem;cursor:pointer}
+.mgtabs button[aria-selected="true"]{background:linear-gradient(90deg,#ff3df0,#22e6ff);color:#05091c;border-color:transparent}
+.mgstage canvas#mgfx{pointer-events:none;cursor:default}
+.mgwear{display:grid;gap:.5rem;padding:.8rem 1.2rem 0}
+.mgrow{display:flex;gap:.5rem;flex-wrap:wrap}
+.mgpanel .chip[aria-pressed="true"]{background:#22e6ff;color:#05091c;border-color:#22e6ff}
+.mgcard ul[hidden]{display:none}
 .btn.magic{background:linear-gradient(90deg,#ff3df0,#22e6ff);color:#05091c;border:0}
 </style></head><body>
 
@@ -442,19 +450,35 @@ footer .script2{font-family:var(--script);writing-mode:vertical-lr;color:var(--g
       <div><h3 id="mgtitle">Try the magic</h3><div class="mono" data-i18n="mg_sub">ХУРУУГААР АГААРТ ЗУР</div></div>
       <button class="chip mclose" id="mgclose" type="button" aria-label="Close">✕</button>
     </div>
+    <div class="mgtabs" role="tablist" id="mgtabs">
+      <button type="button" role="tab" data-mode="draw" aria-selected="true" data-i18n="mg_t_draw">✎ Зурах</button>
+      <button type="button" role="tab" data-mode="spell" aria-selected="false" data-i18n="mg_t_spell">✦ Ид шид</button>
+      <button type="button" role="tab" data-mode="wear" aria-selected="false" data-i18n="mg_t_wear">👕 Хувцас турших</button>
+    </div>
     <div class="mgstage" id="mgstage">
       <video id="mgvid" playsinline muted></video>
       <canvas id="mgcv"></canvas>
+      <canvas id="mgfx"></canvas>
       <div class="mgcur" id="mgcur" hidden></div>
       <div class="mgstat mono" id="mgstat" hidden aria-live="polite"></div>
       <div class="mgpal" id="mgpal" role="group" aria-label="Colors"></div>
       <div class="mghelp" id="mghelp">
         <div class="mgcard">
           <h4 data-i18n="mg_h">Хэрхэн тоглох вэ</h4>
-          <ul>
+          <ul data-m="draw">
             <li><b aria-hidden="true">☝</b><span data-i18n="mg_1">Долоовор хуруугаа өргөж зур</span></li>
             <li><b aria-hidden="true">✌</b><span data-i18n="mg_2">Хоёр хуруу өргөвөл зөөнө, өнгө сонгоно</span></li>
             <li><b aria-hidden="true">✋</b><span data-i18n="mg_3">Алгаа 1 секунд барьвал цэвэрлэнэ</span></li>
+          </ul>
+          <ul data-m="spell">
+            <li><b aria-hidden="true">✋</b><span data-i18n="mg_s1">Алгаа дэлгэвэл ид шидийн хүрээ гарна</span></li>
+            <li><b aria-hidden="true">☝</b><span data-i18n="mg_s2">Долоовор хуруугаараа оч цацруулж зур</span></li>
+            <li><b aria-hidden="true">🙌</b><span data-i18n="mg_s3">Хоёр гараа хоёуланг нь ашиглаж болно</span></li>
+          </ul>
+          <ul data-m="wear">
+            <li><b aria-hidden="true">🧍</b><span data-i18n="mg_w1">Мөр, ууцаа харагдахаар зайдаа зогс</span></li>
+            <li><b aria-hidden="true">👕</b><span data-i18n="mg_w2">Хувцасны төрөл, өнгө, хээгээ сонго</span></li>
+            <li><b aria-hidden="true">📷</b><span data-i18n="mg_w3">Дуртай загвараа зургаар хадгал</span></li>
           </ul>
           <p class="mono" data-i18n="mg_priv">Камерын дүрс таны төхөөрөмж дээр л боловсруулагдана, хаашаа ч илгээгдэхгүй.</p>
           <div class="mgacts">
@@ -462,6 +486,20 @@ footer .script2{font-family:var(--script);writing-mode:vertical-lr;color:var(--g
             <button class="btn ghost" type="button" id="mgnocam" data-i18n="mg_nocam">Камергүй зурах</button>
           </div>
         </div>
+      </div>
+    </div>
+    <div class="mgwear" id="mgwear" hidden>
+      <div class="mgrow" id="mgg" role="group">
+        <button class="chip" type="button" data-g="tee" aria-pressed="true" data-i18n="mg_g_tee">Цамц</button>
+        <button class="chip" type="button" data-g="hoodie" aria-pressed="false" data-i18n="mg_g_hoodie">Hoodie</button>
+        <button class="chip" type="button" data-g="jacket" aria-pressed="false" data-i18n="mg_g_jacket">Хүрэм</button>
+        <button class="chip" type="button" data-g="dress" aria-pressed="false" data-i18n="mg_g_dress">Даашинз</button>
+      </div>
+      <div class="mgrow" id="mgp" role="group">
+        <button class="chip" type="button" data-p="solid" aria-pressed="true" data-i18n="mg_p_solid">Энгийн</button>
+        <button class="chip" type="button" data-p="stripe" aria-pressed="false" data-i18n="mg_p_stripe">Судалтай</button>
+        <button class="chip" type="button" data-p="ornament" aria-pressed="false" data-i18n="mg_p_orn">Хээтэй</button>
+        <button class="chip" type="button" id="mgsnap" data-i18n="mg_snap">📷 Зураг авах</button>
       </div>
     </div>
     <div class="mgbar">
@@ -876,42 +914,65 @@ en:{hi:"Hi! I'm the demo bot of “Demo Cafe”. How can I help?",
   $("#lang").addEventListener("click",function(){if(started){log.innerHTML="";hist=[];say(D().hi,"bot");chips(D().start);}});
 })();
 
-/* ---------- Try the magic: агаарт неон зураг ---------- */
-Object.assign(T.mn,{mg_btn:"✦ Try the magic",mg_sub:"ХУРУУГААР АГААРТ ЗУР",mg_h:"Хэрхэн тоглох вэ",
+/* ---------- Try the magic: зурах · ид шид · хувцас турших ---------- */
+Object.assign(T.mn,{mg_btn:"✦ Try the magic",mg_sub:"ХУРУУГААР ЗУР · ИД ШИД · ХУВЦАС ТУРШИХ",mg_h:"Хэрхэн тоглох вэ",
+ mg_t_draw:"✎ Зурах",mg_t_spell:"✦ Ид шид",mg_t_wear:"👕 Хувцас турших",
  mg_1:"Долоовор хуруугаа өргөж зур",mg_2:"Хоёр хуруу өргөвөл зөөнө, өнгө сонгоно",mg_3:"Алгаа 1 секунд барьвал цэвэрлэнэ",
+ mg_s1:"Алгаа дэлгэвэл ид шидийн хүрээ гарна",mg_s2:"Долоовор хуруугаараа оч цацруулж зур",mg_s3:"Хоёр гараа хоёуланг нь ашиглаж болно",
+ mg_w1:"Мөр, ууцаа харагдахаар зайдаа зогс",mg_w2:"Хувцасны төрөл, өнгө, хээгээ сонго",mg_w3:"Дуртай загвараа зургаар хадгал",
+ mg_g_tee:"Цамц",mg_g_hoodie:"Hoodie",mg_g_jacket:"Хүрэм",mg_g_dress:"Даашинз",mg_p_solid:"Энгийн",mg_p_stripe:"Судалтай",mg_p_orn:"Хээтэй",mg_snap:"📷 Зураг авах",
  mg_priv:"Камерын дүрс таны төхөөрөмж дээр л боловсруулагдана, хаашаа ч илгээгдэхгүй.",
- mg_start:"Эхлэх",mg_nocam:"Камергүй зурах",mg_clear:"Арилгах",mg_cta:"Төслөө захиалах →",mg_cam_on:"Камер асаах",mg_cam_off:"Камер унтраах",
- mg_load_cam:"Камер асааж байна…",mg_load_model:"Гар таних загвар ачаалж байна…",mg_ready:"Бэлэн! Долоовор хуруугаа өргө ☝",mg_nohand:"Гараа камерт харуул",
+ mg_start:"Эхлэх",mg_nocam:"Камергүй туршах",mg_clear:"Арилгах",mg_cta:"Төслөө захиалах →",mg_cam_on:"Камер асаах",mg_cam_off:"Камер унтраах",
+ mg_load_cam:"Камер асааж байна…",mg_load_model:"Таних загвар ачаалж байна…",mg_ready:"Бэлэн! Долоовор хуруугаа өргө ☝",mg_nohand:"Гараа камерт харуул",
  mg_draw:"Зурж байна",mg_move:"Зөөж байна · өнгө сонго",mg_clearing:"Арилгаж байна…",
- mg_err_perm:"Камерын зөвшөөрөл өгөөгүй байна. Хулгана эсвэл хуруугаараа зурж болно.",mg_err_cam:"Камер олдсонгүй. Хулгана эсвэл хуруугаараа зурж болно.",
- mg_err_model:"Гар таних загвар ачаалагдсангүй. Хулгана эсвэл хуруугаараа зурж болно.",mg_pointer:"Хулгана эсвэл хуруугаараа зурна уу"});
-Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW IN THE AIR",mg_h:"How to play",
+ mg_spell_ready:"Алгаа дэлгэ ✋",mg_spell_ptr:"Дэлгэц дээр дарж, чирж ид шид үз",
+ mg_wear_ready:"Бэлэн! Мөр, ууцаа харуул",mg_nobody:"Мөр, ууцаа камерт бүтэн харуул",mg_wear_demo:"Жишиг загвар дээр харуулж байна. Камер асаавал өөрт тань таарна",
+ mg_err_perm:"Камерын зөвшөөрөл өгөөгүй байна. Камергүй горимоор үргэлжлүүлнэ.",mg_err_cam:"Камер олдсонгүй. Камергүй горимоор үргэлжлүүлнэ.",
+ mg_err_model:"Таних загвар ачаалагдсангүй. Камергүй горимоор үргэлжлүүлнэ.",mg_pointer:"Хулгана эсвэл хуруугаараа зурна уу"});
+Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW · SPELLS · TRY ON CLOTHES",mg_h:"How to play",
+ mg_t_draw:"✎ Draw",mg_t_spell:"✦ Spell",mg_t_wear:"👕 Try on",
  mg_1:"Raise your index finger to draw",mg_2:"Two fingers move the cursor and pick colors",mg_3:"Hold your open palm for 1 second to clear",
+ mg_s1:"Open your palm to summon a magic circle",mg_s2:"Point with your index finger to draw sparks",mg_s3:"You can use both hands",
+ mg_w1:"Stand back so your shoulders and hips are visible",mg_w2:"Pick a garment, color and pattern",mg_w3:"Save the look as a photo",
+ mg_g_tee:"T-shirt",mg_g_hoodie:"Hoodie",mg_g_jacket:"Jacket",mg_g_dress:"Dress",mg_p_solid:"Plain",mg_p_stripe:"Stripes",mg_p_orn:"Ornament",mg_snap:"📷 Snapshot",
  mg_priv:"Camera video is processed on your device only and is never sent anywhere.",
- mg_start:"Start",mg_nocam:"Draw without camera",mg_clear:"Clear",mg_cta:"Order your project →",mg_cam_on:"Turn camera on",mg_cam_off:"Turn camera off",
- mg_load_cam:"Starting camera…",mg_load_model:"Loading hand tracking…",mg_ready:"Ready! Raise your index finger ☝",mg_nohand:"Show your hand to the camera",
+ mg_start:"Start",mg_nocam:"Try without camera",mg_clear:"Clear",mg_cta:"Order your project →",mg_cam_on:"Turn camera on",mg_cam_off:"Turn camera off",
+ mg_load_cam:"Starting camera…",mg_load_model:"Loading tracking model…",mg_ready:"Ready! Raise your index finger ☝",mg_nohand:"Show your hand to the camera",
  mg_draw:"Drawing",mg_move:"Moving · pick a color",mg_clearing:"Clearing…",
- mg_err_perm:"Camera permission was not granted. You can still draw with the mouse or your finger.",mg_err_cam:"No camera found. You can still draw with the mouse or your finger.",
- mg_err_model:"Hand tracking could not be loaded. You can still draw with the mouse or your finger.",mg_pointer:"Draw with your mouse or finger"});
+ mg_spell_ready:"Open your palm ✋",mg_spell_ptr:"Press and drag on the screen to cast",
+ mg_wear_ready:"Ready! Show your shoulders and hips",mg_nobody:"Show your shoulders and hips to the camera",mg_wear_demo:"Showing a sample figure. Turn the camera on to fit it to you",
+ mg_err_perm:"Camera permission was not granted. Continuing without the camera.",mg_err_cam:"No camera found. Continuing without the camera.",
+ mg_err_model:"The tracking model could not be loaded. Continuing without the camera.",mg_pointer:"Draw with your mouse or finger"});
 
 (function(){
-  var modal=$("#magic"),stage=$("#mgstage"),vid=$("#mgvid"),cv=$("#mgcv"),cx=cv.getContext("2d"),cur=$("#mgcur"),statEl=$("#mgstat"),help=$("#mghelp"),pal=$("#mgpal"),camBtn=$("#mgcam");
-  var HANDS_BASE="https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1675469240/";
-  var COLORS=["#ff3df0","#22e6ff","#5dff9b","#ffe933","#ff8a3d","#ffffff"];
-  var color=COLORS[0],strokes=[],cs=null,stream=null,hands=null,running=false,busy=false,dpr=1,W=1,H=1,statKey="",opener=null;
-  var sm=null,palmT=0,palmCool=0,dwellIdx=-1,dwellT=0,ptr=false;
+  var modal=$("#magic"),stage=$("#mgstage"),vid=$("#mgvid"),cv=$("#mgcv"),cx=cv.getContext("2d"),fxc=$("#mgfx"),fx=fxc.getContext("2d"),cur=$("#mgcur"),statEl=$("#mgstat"),help=$("#mghelp"),pal=$("#mgpal"),camBtn=$("#mgcam"),wearBar=$("#mgwear");
+  var BASE="https://cdn.jsdelivr.net/npm/@mediapipe/";
+  var HANDS_BASE=BASE+"hands@0.4.1675469240/",POSE_BASE=BASE+"pose@0.5.1675469404/";
+  var NEON=["#ff3df0","#22e6ff","#5dff9b","#ffe933","#ff8a3d","#ffffff"];
+  var CLOTH=["#1d1d22","#f4f1ea","#c8302f","#1f4fd1","#2f8f5b","#e3a21a"];
+  var MODE="draw",color=NEON[0],wearColor=CLOTH[2],garment="tee",pattern="solid";
+  var strokes=[],cs=null,stream=null,hands=null,pose=null,running=false,loopOn=false,busy=false,dpr=1,W=1,H=1,statKey="",opener=null;
+  var sm=null,palmT=0,palmCool=0,dwellIdx=-1,dwellT=0,ptr=false,seen={},fxOn=false;
+  var lastH=null,lastP=null,trail=[],parts=[],palmSince={},pdown=null,gc=document.createElement("canvas");
 
   function setStat(k){statKey=k;statEl.hidden=!k;statEl.textContent=k?(T[lang][k]||""):"";}
   function updCam(){camBtn.textContent=T[lang][stream?"mg_cam_off":"mg_cam_on"];}
-  function setColor(c){color=c;stage.style.setProperty("--mgc",c);cur.style.setProperty("--mgc",c);
-    Array.prototype.forEach.call(pal.children,function(b){b.setAttribute("aria-pressed",b.dataset.c===c?"true":"false");});}
-  COLORS.forEach(function(c){var b=document.createElement("button");b.type="button";b.dataset.c=c;b.style.setProperty("--c",c);b.setAttribute("aria-label",c);
-    b.addEventListener("click",function(){setColor(c);});pal.appendChild(b);});
-  setColor(COLORS[0]);
+  function curCol(){return MODE==="wear"?wearColor:color;}
+  function buildPal(){
+    pal.innerHTML="";pal.hidden=MODE==="spell";
+    (MODE==="wear"?CLOTH:NEON).forEach(function(c){var b=document.createElement("button");b.type="button";b.dataset.c=c;b.style.setProperty("--c",c);b.setAttribute("aria-label",c);
+      b.addEventListener("click",function(){setColor(c);});pal.appendChild(b);});
+    setColor(curCol());
+  }
+  function setColor(c){
+    if(MODE==="wear")wearColor=c;else color=c;
+    stage.style.setProperty("--mgc",color);cur.style.setProperty("--mgc",color);
+    Array.prototype.forEach.call(pal.children,function(b){b.setAttribute("aria-pressed",b.dataset.c===c?"true":"false");});
+  }
 
   function resize(){
     var r=stage.getBoundingClientRect();dpr=Math.min(2,window.devicePixelRatio||1);W=Math.max(1,r.width);H=Math.max(1,r.height);
-    cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);redraw();
+    [cv,fxc,gc].forEach(function(c){c.width=Math.round(W*dpr);c.height=Math.round(H*dpr);});redraw();
   }
   function seg(c,a,b){
     cx.save();cx.lineCap="round";cx.lineJoin="round";
@@ -928,28 +989,54 @@ Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW IN THE AIR",mg_h:"Ho
     cs.pts.push([x,y]);seg(cs.c,l,[x,y]);
   }
   function endStroke(){cs=null;}
-  function clearAll(){strokes=[];cs=null;redraw();}
+  function clearAll(){strokes=[];cs=null;trail=[];parts=[];redraw();}
   function showCur(x,y,mode){cur.hidden=false;cur.className="mgcur"+(mode?" "+mode:"");cur.style.transform="translate("+(x*W)+"px,"+(y*H)+"px)";}
 
-  /* pointer drawing (works with or without the camera) */
+  /* pointer: зурах горимд зураг зурна, ид шид горимд хүрээ + оч */
   function np(e){var r=stage.getBoundingClientRect();return [(e.clientX-r.left)/r.width,(e.clientY-r.top)/r.height];}
-  cv.addEventListener("pointerdown",function(e){if(!help.hidden)return;e.preventDefault();try{cv.setPointerCapture(e.pointerId);}catch(x){}ptr=true;var p=np(e);addPoint(p[0],p[1]);showCur(p[0],p[1],"draw");});
-  cv.addEventListener("pointermove",function(e){var p=np(e);if(ptr){addPoint(p[0],p[1]);showCur(p[0],p[1],"draw");}else if(!running&&help.hidden&&e.pointerType==="mouse")showCur(p[0],p[1],"");});
-  function pup(){ptr=false;endStroke();if(!running)cur.hidden=true;}
+  cv.addEventListener("pointerdown",function(e){if(!help.hidden||MODE==="wear")return;e.preventDefault();try{cv.setPointerCapture(e.pointerId);}catch(x){}ptr=true;var p=np(e);
+    if(MODE==="spell"){pdown={x:p[0]*W,y:p[1]*H,t:performance.now()};trail.push({x:p[0]*W,y:p[1]*H,t:performance.now()});}
+    else{addPoint(p[0],p[1]);showCur(p[0],p[1],"draw");}});
+  cv.addEventListener("pointermove",function(e){var p=np(e);
+    if(MODE==="spell"){if(ptr){pdown={x:p[0]*W,y:p[1]*H,t:pdown?pdown.t:performance.now()};trail.push({x:p[0]*W,y:p[1]*H,t:performance.now()});if(trail.length>200)trail.shift();}return;}
+    if(ptr){addPoint(p[0],p[1]);showCur(p[0],p[1],"draw");}else if(!running&&help.hidden&&e.pointerType==="mouse"&&MODE==="draw")showCur(p[0],p[1],"");});
+  function pup(){ptr=false;pdown=null;endStroke();if(!running)cur.hidden=true;}
   cv.addEventListener("pointerup",pup);cv.addEventListener("pointercancel",pup);
   cv.addEventListener("pointerleave",function(){if(!ptr&&!running)cur.hidden=true;});
 
-  /* camera + hand tracking (MediaPipe Hands, runs locally in the browser) */
+  /* камер + MediaPipe (хөтчид дотор нь ажиллана) */
   function loadScript(src){return new Promise(function(res,rej){var s=document.createElement("script");s.src=src;s.crossOrigin="anonymous";s.onload=res;s.onerror=function(){rej(new Error("script"));};document.head.appendChild(s);});}
   function withTimeout(p,ms){return Promise.race([p,new Promise(function(_,rej){setTimeout(function(){rej(new Error("timeout"));},ms);})]);}
   function stopCamera(){
-    running=false;busy=false;sm=null;
+    running=false;busy=false;sm=null;lastH=null;lastP=null;
     if(stream){stream.getTracks().forEach(function(t){t.stop();});stream=null;}
     vid.srcObject=null;stage.classList.remove("cam");
     if(hands){try{hands.close();}catch(e){}hands=null;}
+    if(pose){try{pose.close();}catch(e){}pose=null;}
     cur.hidden=true;updCam();
   }
-  function pointerMode(k){setStat(k||"mg_pointer");updCam();}
+  function modeHint(){
+    setStat(MODE==="draw"?(running?"mg_ready":"mg_pointer"):MODE==="spell"?(running?"mg_spell_ready":"mg_spell_ptr"):(running?"mg_wear_ready":"mg_wear_demo"));
+  }
+  function pointerMode(k){setStat(k||"");if(!k)modeHint();updCam();}
+  async function ensureModel(){
+    if(MODE==="wear"){
+      if(pose)return;
+      if(!window.Pose)await withTimeout(loadScript(POSE_BASE+"pose.js"),20000);
+      var p=new window.Pose({locateFile:function(f){return POSE_BASE+f;}});
+      p.setOptions({modelComplexity:0,smoothLandmarks:true,minDetectionConfidence:.5,minTrackingConfidence:.5});
+      p.onResults(onPose);await withTimeout(p.initialize(),40000);pose=p;
+    }else{
+      if(!hands){
+        if(!window.Hands)await withTimeout(loadScript(HANDS_BASE+"hands.js"),20000);
+        var h=new window.Hands({locateFile:function(f){return HANDS_BASE+f;}});
+        h.onResults(onHands);hands=h;
+        hands.setOptions({maxNumHands:1,modelComplexity:0,minDetectionConfidence:.6,minTrackingConfidence:.5});
+        await withTimeout(hands.initialize(),30000);
+      }
+      hands.setOptions({maxNumHands:MODE==="spell"?2:1,modelComplexity:0,minDetectionConfidence:.6,minTrackingConfidence:.5});
+    }
+  }
   async function startCamera(){
     if(stream||running)return;
     if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){pointerMode("mg_err_cam");return;}
@@ -958,34 +1045,43 @@ Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW IN THE AIR",mg_h:"Ho
     catch(e){stream=null;pointerMode(e&&e.name==="NotAllowedError"?"mg_err_perm":"mg_err_cam");return;}
     vid.srcObject=stream;try{await vid.play();}catch(e){}
     stage.classList.add("cam");updCam();setStat("mg_load_model");
-    try{
-      if(!window.Hands)await withTimeout(loadScript(HANDS_BASE+"hands.js"),20000);
-      hands=new window.Hands({locateFile:function(f){return HANDS_BASE+f;}});
-      hands.setOptions({maxNumHands:1,modelComplexity:0,minDetectionConfidence:.6,minTrackingConfidence:.5});
-      hands.onResults(onResults);
-      await withTimeout(hands.initialize(),30000);
-    }catch(e){stopCamera();pointerMode("mg_err_model");return;}
-    running=true;setStat("mg_ready");loop();
+    try{await ensureModel();}catch(e){stopCamera();pointerMode("mg_err_model");return;}
+    running=true;modeHint();loop();
   }
   function loop(){
-    if(!running)return;
-    if(!busy&&vid.readyState>=2&&hands){busy=true;hands.send({image:vid}).catch(function(){}).then(function(){busy=false;});}
+    if(!running){loopOn=false;return;}loopOn=true;
+    var m=MODE==="wear"?pose:hands;
+    if(!busy&&m&&vid.readyState>=2){busy=true;m.send({image:vid}).catch(function(){}).then(function(){busy=false;});}
     requestAnimationFrame(loop);
   }
   function mapPt(nx,ny){
     var vw=vid.videoWidth||4,vh=vid.videoHeight||3,s=Math.max(W/vw,H/vh),ox=(W-vw*s)/2,oy=(H-vh*s)/2;
     return [(ox+(1-nx)*vw*s)/W,(oy+ny*vh*s)/H];
   }
-  function onResults(r){
-    if(!running)return;
-    var lm=r.multiHandLandmarks&&r.multiHandLandmarks[0];
+
+  /* ---- гар: зурах ба ид шид ---- */
+  function onHands(r){
+    if(!running||MODE==="wear")return;
+    var list=r.multiHandLandmarks||[];
+    var now=performance.now();
+    if(MODE==="spell"){
+      lastH={t:now,hands:list.map(function(lm,k){
+        var pts=lm.map(function(l){var p=mapPt(l.x,l.y);return [p[0]*W,p[1]*H];});
+        function up(t,p){return lm[t].y<lm[p].y-.015;}
+        var i=up(8,6),m=up(12,10),rg=up(16,14),pk=up(20,18);
+        return {pts:pts,palm:i&&m&&rg&&pk,point:i&&!m&&!rg&&!pk};
+      })};
+      lastH.hands.forEach(function(h,k){if(h.point){trail.push({x:h.pts[8][0],y:h.pts[8][1],t:now});if(trail.length>200)trail.shift();}});
+      if(!list.length)setStat("mg_nohand");else setStat("mg_spell_ready");
+      return;
+    }
+    var lm=list[0];
     if(!lm){endStroke();cur.hidden=true;sm=null;palmT=0;setStat("mg_nohand");return;}
     var raw=mapPt(lm[8].x,lm[8].y);
     sm=sm?[sm[0]+(raw[0]-sm[0])*.55,sm[1]+(raw[1]-sm[1])*.55]:raw;
-    function up(t,p){return lm[t].y<lm[p].y-.015;}
-    var i=up(8,6),m=up(12,10),rg=up(16,14),pk=up(20,18);
+    function up2(t,p){return lm[t].y<lm[p].y-.015;}
+    var i=up2(8,6),m=up2(12,10),rg=up2(16,14),pk=up2(20,18);
     var mode=(i&&!m&&!rg&&!pk)?"draw":(i&&m&&!rg&&!pk)?"move":(i&&m&&rg&&pk)?"palm":"idle";
-    var now=performance.now();
     if(mode==="palm"&&now>palmCool){
       endStroke();showCur(sm[0],sm[1],"");setStat("mg_clearing");
       if(!palmT)palmT=now;
@@ -1006,22 +1102,183 @@ Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW IN THE AIR",mg_h:"Ho
     if(hit<0){dwellIdx=-1;return;}
     pal.children[hit].classList.add("dwell");
     if(hit!==dwellIdx){dwellIdx=hit;dwellT=now;}
-    else if(now-dwellT>450){setColor(COLORS[hit]);dwellIdx=-1;clearDwell();}
+    else if(now-dwellT>450){setColor(NEON[hit]);dwellIdx=-1;clearDwell();}
   }
 
-  /* open / close */
+  /* ---- бие: хувцас турших ---- */
+  var IDX={ls:11,rs:12,le:13,re:14,lw:15,rw:16,lh:23,rh:24,lk:25,rk:26};
+  var PS=null;
+  function onPose(r){
+    if(!running||MODE!=="wear")return;
+    var lm=r.poseLandmarks;
+    if(!lm||(lm[11].visibility||0)<.5||(lm[12].visibility||0)<.5){lastP=null;setStat("mg_nobody");return;}
+    var P={};
+    Object.keys(IDX).forEach(function(k){var l=lm[IDX[k]],p=mapPt(l.x,l.y);P[k]=[p[0]*W,p[1]*H];P[k].v=l.visibility||0;});
+    if(PS){Object.keys(P).forEach(function(k){if(PS[k]){P[k][0]=PS[k][0]+(P[k][0]-PS[k][0])*.55;P[k][1]=PS[k][1]+(P[k][1]-PS[k][1])*.55;}});}
+    PS=P;lastP={t:performance.now(),P:P};setStat("mg_wear_ready");
+  }
+  function demoPose(){
+    var s=H,c=W/2,P={ls:[c-.11*s,.26*s],rs:[c+.11*s,.26*s],le:[c-.16*s,.42*s],re:[c+.16*s,.42*s],lw:[c-.17*s,.57*s],rw:[c+.17*s,.57*s],
+      lh:[c-.06*s,.53*s],rh:[c+.06*s,.53*s],lk:[c-.065*s,.73*s],rk:[c+.065*s,.73*s]};
+    Object.keys(P).forEach(function(k){P[k].v=1;});return P;
+  }
+  function mix(a,b,t){return [a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t];}
+  function add(a,v,k){return [a[0]+v[0]*k,a[1]+v[1]*k];}
+  function dist(a,b){return Math.hypot(a[0]-b[0],a[1]-b[1]);}
+  function shade(hex,amt){var n=parseInt(hex.slice(1),16),r=n>>16,g=(n>>8)&255,b=n&255;
+    function f(v){return Math.max(0,Math.min(255,Math.round(v+(amt<0?v*amt:(255-v)*amt))));}
+    return "rgb("+f(r)+","+f(g)+","+f(b)+")";}
+  function drawGarment(P,type,col,pat){
+    var g=gc.getContext("2d");g.setTransform(dpr,0,0,dpr,0,0);g.clearRect(0,0,W,H);
+    var sw=dist(P.ls,P.rs);if(sw<8)return;
+    var M=mix(P.ls,P.rs,.5),Hm=mix(P.lh,P.rh,.5),tv=[Hm[0]-M[0],Hm[1]-M[1]],tl=Math.max(10,Math.hypot(tv[0],tv[1])),u=[tv[0]/tl,tv[1]/tl];
+    var s=[(P.rs[0]-P.ls[0])/sw,(P.rs[1]-P.ls[1])/sw];
+    var hw=Math.max(sw*.5,dist(P.lh,P.rh)),hs=[(P.rh[0]-P.lh[0])/Math.max(1,dist(P.lh,P.rh)),(P.rh[1]-P.lh[1])/Math.max(1,dist(P.lh,P.rh))];
+    var SLo=add(add(P.ls,s,-sw*.12),u,-sw*.05),SRo=add(add(P.rs,s,sw*.12),u,-sw*.05);
+    var HLo=add(P.lh,hs,-hw*.28),HRo=add(P.rh,hs,hw*.28);
+    var ext={tee:.2,hoodie:.3,jacket:.24,dress:0}[type],hemC;
+    if(type==="dress"){var kv=(P.lk.v>.4&&P.rk.v>.4)?mix(P.lk,P.rk,.5):null;hemC=kv?add(kv,u,-tl*.1):add(Hm,u,tl*1.35);}
+    else hemC=add(Hm,u,tl*ext);
+    var flare=type==="dress"?1.65:1.08,hh=(dist(HLo,HRo)/2)*flare;
+    var hemL=add(hemC,hs,-hh),hemR=add(hemC,hs,hh);
+    var sleeve=type==="tee"?.7:(type==="dress"?0:1);
+    g.lineCap="round";g.lineJoin="round";g.fillStyle=col;g.strokeStyle=col;
+    if(type==="hoodie"){g.save();g.fillStyle=shade(col,-.28);g.beginPath();g.ellipse(M[0]-u[0]*sw*.1,M[1]-u[1]*sw*.1,sw*.34,sw*.26,Math.atan2(s[1],s[0]),0,Math.PI*2);g.fill();g.restore();}
+    function arm(sh,el,wr,out){
+      if(!sleeve)return;var e=sleeve>=1?mix(el,wr,.92):mix(sh,el,sleeve+.05);
+      g.lineWidth=sw*(sleeve>=1?.27:.31);g.beginPath();g.moveTo(sh[0]+s[0]*out*sw*.06,sh[1]+s[1]*out*sw*.06);g.lineTo(el[0],el[1]);
+      if(sleeve>=1)g.lineTo(e[0],e[1]);else{g.lineTo(e[0],e[1]);}g.stroke();
+    }
+    arm(P.ls,P.le,P.lw,-1);arm(P.rs,P.re,P.rw,1);
+    g.beginPath();g.moveTo(SLo[0],SLo[1]);g.lineTo(SRo[0],SRo[1]);
+    var cR=add(mix(SRo,hemR,.5),s,-sw*.05),cL=add(mix(SLo,hemL,.5),s,sw*.05);
+    g.quadraticCurveTo(cR[0],cR[1],hemR[0],hemR[1]);
+    var hm=add(hemC,u,tl*.06);g.quadraticCurveTo(hm[0],hm[1],hemL[0],hemL[1]);
+    g.quadraticCurveTo(cL[0],cL[1],SLo[0],SLo[1]);g.closePath();g.fill();
+    g.globalCompositeOperation="source-atop";
+    var ang=Math.atan2(s[1],s[0]);
+    if(pat==="stripe"){g.save();g.translate(M[0],M[1]);g.rotate(ang);g.fillStyle=shade(col,col==="#f4f1ea"?-.35:.45);
+      var st=sw*.15;for(var y=-sw*3;y<sw*5;y+=st)g.fillRect(-sw*3,y,sw*6,st*.38);g.restore();}
+    else if(pat==="ornament"){g.save();g.translate(M[0],M[1]);g.rotate(ang);g.strokeStyle=shade(col,col==="#f4f1ea"||col==="#e3a21a"?-.45:.55);g.fillStyle=g.strokeStyle;g.lineWidth=Math.max(1,sw*.012);
+      var d=sw*.17;for(var yy=-sw*2,row=0;yy<sw*4;yy+=d,row++)for(var xx=-sw*2.5+(row%2)*d/2;xx<sw*2.5;xx+=d){
+        g.beginPath();g.moveTo(xx,yy-d*.3);g.lineTo(xx+d*.3,yy);g.lineTo(xx,yy+d*.3);g.lineTo(xx-d*.3,yy);g.closePath();g.stroke();
+        g.beginPath();g.arc(xx,yy,d*.05,0,7);g.fill();}g.restore();}
+    var gr=g.createLinearGradient(SLo[0],SLo[1],SRo[0],SRo[1]);
+    gr.addColorStop(0,"rgba(0,0,0,.34)");gr.addColorStop(.28,"rgba(0,0,0,0)");gr.addColorStop(.72,"rgba(255,255,255,.05)");gr.addColorStop(1,"rgba(0,0,0,.36)");
+    g.fillStyle=gr;g.fillRect(0,0,W,H);
+    var gv=g.createLinearGradient(M[0],M[1],hemC[0],hemC[1]);gv.addColorStop(0,"rgba(255,255,255,.12)");gv.addColorStop(1,"rgba(0,0,0,.2)");g.fillStyle=gv;g.fillRect(0,0,W,H);
+    if(type==="jacket"){g.strokeStyle="rgba(0,0,0,.55)";g.lineWidth=Math.max(1.5,sw*.02);g.beginPath();g.moveTo(M[0]+u[0]*sw*.12,M[1]+u[1]*sw*.12);g.lineTo(hemC[0],hemC[1]);g.stroke();}
+    if(type==="hoodie"){g.strokeStyle="rgba(0,0,0,.25)";g.lineWidth=sw*.05;var pk=add(mix(Hm,hemC,.3),u,0);g.beginPath();g.moveTo(pk[0]-hs[0]*sw*.2,pk[1]);g.lineTo(pk[0]+hs[0]*sw*.2,pk[1]);g.stroke();}
+    g.globalCompositeOperation="destination-out";g.beginPath();
+    var nc=add(M,u,sw*(type==="dress"?.1:.05));g.ellipse(nc[0],nc[1],sw*(type==="jacket"?.14:.19),sw*(type==="jacket"?.16:.17),ang,0,Math.PI*2);g.fill();
+    g.globalCompositeOperation="source-over";
+    g.strokeStyle=shade(col,-.4);g.lineWidth=Math.max(2,sw*.035);g.beginPath();g.ellipse(nc[0],nc[1],sw*(type==="jacket"?.14:.19),sw*(type==="jacket"?.16:.17),ang,0,Math.PI*2);g.stroke();
+  }
+  function drawMannequin(P){
+    fx.save();fx.strokeStyle="rgba(255,255,255,.2)";fx.fillStyle="rgba(255,255,255,.08)";fx.lineCap="round";fx.lineWidth=H*.045;
+    function ln(a,b){fx.beginPath();fx.moveTo(a[0],a[1]);fx.lineTo(b[0],b[1]);fx.stroke();}
+    ln(P.ls,P.le);ln(P.le,P.lw);ln(P.rs,P.re);ln(P.re,P.rw);ln(P.lh,P.lk);ln(P.rh,P.rk);
+    fx.lineWidth=H*.02;fx.beginPath();fx.arc(W/2,H*.13,H*.06,0,7);fx.fill();fx.stroke();
+    ln(P.lk,[P.lk[0],H*.93]);ln(P.rk,[P.rk[0],H*.93]);fx.restore();
+  }
+  function drawWear(now){
+    var P=null,demo=false;
+    if(running&&lastP&&now-lastP.t<700)P=lastP.P;
+    else if(!running){P=demoPose();demo=true;}
+    if(!P)return;
+    if(demo)drawMannequin(P);
+    drawGarment(P,garment,wearColor,pattern);
+    fx.save();fx.globalAlpha=.95;fx.drawImage(gc,0,0,W,H);fx.restore();
+  }
+
+  /* ---- ид шид: Doctor Strange маягийн хүрээ ---- */
+  function mandala(x,y,r,t,a){
+    fx.save();fx.translate(x,y);fx.globalCompositeOperation="lighter";fx.globalAlpha=a;
+    fx.shadowColor="#ff7a00";fx.shadowBlur=18;fx.strokeStyle="#ffa43a";fx.lineWidth=Math.max(2,r*.035);
+    fx.beginPath();fx.arc(0,0,r,0,7);fx.stroke();
+    fx.lineWidth=Math.max(1,r*.015);fx.beginPath();fx.arc(0,0,r*.9,0,7);fx.stroke();
+    fx.save();fx.rotate(t*.0007);fx.setLineDash([r*.07,r*.09]);fx.lineWidth=r*.04;fx.beginPath();fx.arc(0,0,r*.8,0,7);fx.stroke();fx.restore();
+    fx.save();fx.rotate(-t*.0005);fx.lineWidth=Math.max(1.4,r*.022);
+    for(var k=0;k<2;k++){fx.save();fx.rotate(k*Math.PI/4);fx.strokeRect(-r*.56,-r*.56,r*1.12,r*1.12);fx.restore();}
+    fx.restore();
+    fx.save();fx.rotate(t*.0009);fx.beginPath();fx.arc(0,0,r*.3,0,7);fx.stroke();
+    for(var i=0;i<12;i++){fx.rotate(Math.PI/6);fx.beginPath();fx.moveTo(r*.9,0);fx.lineTo(r*1.0,0);fx.moveTo(r*.3,0);fx.lineTo(r*.42,0);fx.stroke();}
+    fx.restore();
+    fx.save();fx.rotate(t*.0006);fx.fillStyle="#ffd27a";for(var j=0;j<8;j++){fx.rotate(Math.PI/4);fx.beginPath();fx.arc(r*.7,0,r*.03,0,7);fx.fill();}fx.restore();
+    fx.restore();
+  }
+  function spawn(x,y,r,n){
+    for(var i=0;i<n;i++){var a=Math.random()*6.283;parts.push({x:x+Math.cos(a)*r,y:y+Math.sin(a)*r,vx:Math.cos(a)*(.4+Math.random()*1.6)-Math.sin(a)*.5,vy:Math.sin(a)*(.4+Math.random()*1.6)+Math.cos(a)*.5,t:performance.now(),l:500+Math.random()*700});}
+    if(parts.length>500)parts.splice(0,parts.length-500);
+  }
+  function drawSpell(now){
+    var centers=[];
+    if(running&&lastH&&now-lastH.t<600)lastH.hands.forEach(function(h,k){
+      if(h.palm){var c=[0,5,9,13,17].reduce(function(a,i){return [a[0]+h.pts[i][0]/5,a[1]+h.pts[i][1]/5];},[0,0]);
+        var r=Math.max(40,dist(h.pts[0],h.pts[9])*1.5);palmSince[k]=palmSince[k]||now;centers.push({x:c[0],y:c[1],r:r,since:palmSince[k]});}
+      else palmSince[k]=0;});
+    if(pdown){centers.push({x:pdown.x,y:pdown.y,r:Math.min(W,H)*.2,since:pdown.t});}
+    centers.forEach(function(c){var e=Math.min(1,(now-c.since)/380);e=1-Math.pow(1-e,3);mandala(c.x,c.y,c.r*e,now,e);spawn(c.x,c.y,c.r*e,2);});
+    /* trail */
+    trail=trail.filter(function(p){return now-p.t<1700;});
+    if(trail.length>1){fx.save();fx.globalCompositeOperation="lighter";fx.lineCap="round";fx.lineJoin="round";
+      for(var i=1;i<trail.length;i++){var a=trail[i],b=trail[i-1];if(a.t-b.t>140)continue;var f=1-(now-a.t)/1700;
+        fx.strokeStyle="rgba(255,150,40,"+(f*.95)+")";fx.shadowColor="#ff7a00";fx.shadowBlur=16;fx.lineWidth=2+5*f;fx.beginPath();fx.moveTo(b.x,b.y);fx.lineTo(a.x,a.y);fx.stroke();}
+      fx.restore();
+      var h=trail[trail.length-1];if(now-h.t<200)spawn(h.x,h.y,0,3);}
+    /* sparks */
+    parts=parts.filter(function(p){return now-p.t<p.l;});
+    fx.save();fx.globalCompositeOperation="lighter";
+    parts.forEach(function(p){p.x+=p.vx;p.y+=p.vy;p.vx*=.985;p.vy*=.985;var f=1-(now-p.t)/p.l;
+      fx.fillStyle="rgba(255,"+Math.round(150+90*f)+",60,"+f+")";fx.shadowColor="#ff8a00";fx.shadowBlur=8;fx.beginPath();fx.arc(p.x,p.y,1+2.2*f,0,7);fx.fill();});
+    fx.restore();
+  }
+  function fxLoop(){
+    if(modal.hidden){fxOn=false;return;}requestAnimationFrame(fxLoop);
+    fx.setTransform(dpr,0,0,dpr,0,0);fx.clearRect(0,0,W,H);
+    var now=performance.now();
+    if(MODE==="spell")drawSpell(now);else if(MODE==="wear")drawWear(now);
+  }
+
+  function snapshot(){
+    var c=document.createElement("canvas");c.width=cv.width;c.height=cv.height;var x=c.getContext("2d");
+    x.fillStyle="#03061a";x.fillRect(0,0,c.width,c.height);
+    if(stream&&vid.videoWidth){var vw=vid.videoWidth,vh=vid.videoHeight,s=Math.max(c.width/vw,c.height/vh);x.save();x.translate(c.width,0);x.scale(-1,1);x.drawImage(vid,(c.width-vw*s)/2,(c.height-vh*s)/2,vw*s,vh*s);x.restore();}
+    x.drawImage(fxc,0,0);x.font="700 "+Math.round(14*dpr)+"px sans-serif";x.fillStyle="rgba(255,255,255,.8)";x.fillText("JayBee Studio",14*dpr,c.height-14*dpr);
+    c.toBlob(function(b){if(!b)return;var a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="jaybee-tryon.png";document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href);},4000);});
+  }
+
+  /* горим солих */
+  function showHelpFor(m){Array.prototype.forEach.call(help.querySelectorAll("ul[data-m]"),function(u){u.hidden=u.dataset.m!==m;});}
+  async function setMode(m){
+    if(m===MODE)return;
+    MODE=m;endStroke();ptr=false;pdown=null;cur.hidden=true;fx.clearRect(0,0,fxc.width,fxc.height);
+    Array.prototype.forEach.call($("#mgtabs").children,function(b){b.setAttribute("aria-selected",b.dataset.mode===m?"true":"false");});
+    wearBar.hidden=m!=="wear";$("#mgclear").hidden=m==="wear";
+    cv.style.cursor=m==="wear"?"default":"crosshair";
+    buildPal();resize();showHelpFor(m);
+    if(!seen[m]){seen[m]=1;help.hidden=false;setStat("");}else modeHint();
+    if(stream&&running){setStat("mg_load_model");try{await ensureModel();modeHint();}catch(e){stopCamera();pointerMode("mg_err_model");}}
+  }
+  $("#mgtabs").addEventListener("click",function(e){var b=e.target.closest("button[data-mode]");if(b)setMode(b.dataset.mode);});
+  $("#mgg").addEventListener("click",function(e){var b=e.target.closest("button[data-g]");if(!b)return;garment=b.dataset.g;Array.prototype.forEach.call($("#mgg").children,function(x){x.setAttribute("aria-pressed",x===b?"true":"false");});});
+  $("#mgp").addEventListener("click",function(e){var b=e.target.closest("button[data-p]");if(!b)return;pattern=b.dataset.p;Array.prototype.forEach.call($("#mgp").children,function(x){if(x.dataset.p)x.setAttribute("aria-pressed",x===b?"true":"false");});});
+  $("#mgsnap").addEventListener("click",snapshot);
+
+  /* нээх / хаах */
   function openMagic(from){
     opener=from||null;modal.hidden=false;document.documentElement.style.overflow="hidden";
-    help.hidden=false;setStat("");updCam();resize();$("#mgstart").focus();
+    seen[MODE]=1;showHelpFor(MODE);help.hidden=false;setStat("");updCam();buildPal();resize();$("#mgstart").focus();
+    if(!fxOn){fxOn=true;fxLoop();}
   }
   function closeMagic(){
-    stopCamera();ptr=false;endStroke();modal.hidden=true;document.documentElement.style.overflow="";
+    stopCamera();ptr=false;pdown=null;endStroke();modal.hidden=true;document.documentElement.style.overflow="";
     if(opener&&opener.focus)opener.focus();
   }
   $("#mgopen").addEventListener("click",function(){openMagic(this);});
   $("#mgclose").addEventListener("click",closeMagic);
   modal.addEventListener("click",function(e){if(e.target===modal)closeMagic();});
-  $("#mgstart").addEventListener("click",function(){help.hidden=true;startCamera();});
+  $("#mgstart").addEventListener("click",function(){help.hidden=true;if(stream)modeHint();else startCamera();});
   $("#mgnocam").addEventListener("click",function(){help.hidden=true;pointerMode();});
   camBtn.addEventListener("click",function(){if(stream){stopCamera();pointerMode();}else{help.hidden=true;startCamera();}});
   $("#mgclear").addEventListener("click",clearAll);
@@ -1029,7 +1286,8 @@ Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW IN THE AIR",mg_h:"Ho
   document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!modal.hidden)closeMagic();});
   window.addEventListener("resize",function(){if(!modal.hidden)resize();});
   $("#lang").addEventListener("click",function(){setStat(statKey);updCam();});
-  window.__magic={open:openMagic,state:function(){return {strokes:strokes.length,running:running,stream:!!stream,stat:statKey};}};
+  showHelpFor("draw");
+  window.__magic={open:openMagic,setMode:setMode,state:function(){return {mode:MODE,strokes:strokes.length,running:running,stream:!!stream,stat:statKey};}};
 })();
 
 applyLang();
