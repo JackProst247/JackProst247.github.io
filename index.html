@@ -332,6 +332,16 @@ footer .script2{font-family:var(--script);writing-mode:vertical-lr;color:var(--g
 .labg{max-width:100%;overflow-x:auto;flex-wrap:nowrap;padding-bottom:2px}
 .labg .chip{flex:none}
 @media (prefers-reduced-motion:reduce){.labintro{backdrop-filter:none}}
+
+/* lookbook */
+.lbgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));gap:1rem}
+.lbcard{position:relative;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:var(--surface);margin:0}
+.lbimg{position:relative;aspect-ratio:3/4;background:#05091c;touch-action:pan-y}
+.lbimg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.lbimg .lba{clip-path:inset(0 0 0 50%)}
+.lbimg input{position:absolute;left:8%;right:8%;bottom:10px;width:84%;accent-color:var(--gold,#e9b44c)}
+.lbcap{padding:.7rem .9rem;font-weight:700;font-size:.92rem;display:flex;justify-content:space-between;gap:.5rem}
+.lbcap span{font:600 .72rem var(--mono,monospace);letter-spacing:.08em;color:var(--muted)}
 </style></head><body>
 
 <header class="bar">
@@ -395,6 +405,14 @@ footer .script2{font-family:var(--script);writing-mode:vertical-lr;color:var(--g
     <div class="more">
       <a class="btn ghost small" href="https://www.behance.net/jakjjak" target="_blank" rel="noopener" data-i18n="w_more">Behance дээр бүгдийг үзэх ↗</a>
     </div>
+  </section>
+
+  <section id="lookbook" hidden>
+    <div class="head">
+      <div><div class="orn mini" aria-hidden="true"></div><h2 data-i18n="lb_h">JayBee Lookbook</h2></div>
+      <p data-i18n="lb_p">Өөрийн загвар хувцаснуудаа биед өмсүүлсэн харагдац. Гулсуулж өмнө/дараа харьцуул.</p>
+    </div>
+    <div class="lbgrid" id="lbgrid"></div>
   </section>
 
   <section id="process">
@@ -1755,6 +1773,30 @@ Object.assign(T.en,{fl_btn:"👗 AI Fashion Lab",fl_sub:"AR try-on · free · ru
   document.addEventListener("visibilitychange",function(){if(document.hidden&&stream&&!modal.hidden){stopCam();fallback("fl_s_demo");}});
   $l("#lang").addEventListener("click",function(){renderChips();setStat(statKey);updInfo();$l("#labcam").textContent=tx(stream?"fl_camoff":"fl_camon");});
   window.__lab={open:openLab,feed:function(lm){feed(lm,true);},state:function(){return {gl:!!GL,cur:cur&&cur.id,n:GARM.length,live:live,demo:demoOn,lowEnd:lowEnd};},select:function(i){selectGarment(GARM[i]);},demo:function(){$l("#labdemo").click();},snap:function(){return compose(true).toDataURL("image/png");}};
+})();
+
+
+/* ---------- Lookbook: lookbook/manifest.json-оос уншина, байхгүй бол нуугдана ---------- */
+Object.assign(T.mn,{lb_h:"JayBee Lookbook",lb_p:"Өөрийн загвар хувцаснуудаа биед өмсүүлсэн харагдац. Гулсуулж өмнө/дараа харьцуул.",lb_before:"ӨМНӨ",lb_after:"ДАРАА"});
+Object.assign(T.en,{lb_h:"JayBee Lookbook",lb_p:"Our own garments on real people. Drag the slider to compare before and after.",lb_before:"BEFORE",lb_after:"AFTER"});
+(function(){
+  var sec=$("#lookbook"),grid=$("#lbgrid");
+  function build(items){
+    items.forEach(function(it){
+      if(!it||!it.before||!it.after)return;
+      var f=document.createElement("figure");f.className="lbcard";
+      f.innerHTML='<div class="lbimg"><img class="lbb" alt="" loading="lazy"><img class="lba" alt="" loading="lazy"><input type="range" min="0" max="100" value="50" aria-label="Before / After"></div><figcaption class="lbcap"></figcaption>';
+      var b=f.querySelector(".lbb"),a=f.querySelector(".lba"),r=f.querySelector("input"),c=f.querySelector(".lbcap");
+      b.src=it.before;a.src=it.after;b.alt=(it.title||"")+" before";a.alt=(it.title||"")+" after";
+      var n=document.createElement("b");n.textContent=it.title||"";c.appendChild(n);
+      var sp=document.createElement("span");sp.textContent=T[lang].lb_before+" · "+T[lang].lb_after;c.appendChild(sp);
+      r.addEventListener("input",function(){a.style.clipPath="inset(0 0 0 "+r.value+"%)";});
+      grid.appendChild(f);
+    });
+    if(grid.children.length)sec.hidden=false;
+  }
+  try{fetch("lookbook/manifest.json",{cache:"no-cache"}).then(function(r){return r.ok?r.json():[];}).then(function(j){if(Array.isArray(j))build(j);}).catch(function(){});}catch(e){}
+  $("#lang").addEventListener("click",function(){Array.prototype.forEach.call(grid.querySelectorAll(".lbcap span"),function(sp){sp.textContent=T[lang].lb_before+" · "+T[lang].lb_after;});});
 })();
 
 applyLang();
