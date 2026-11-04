@@ -1,0 +1,20 @@
+<!doctype html><html lang="mn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>JayBee Try-on туршилт</title>
+<style>body{font:16px system-ui;background:#070d24;color:#eef0fa;margin:0;padding:16px;max-width:640px;margin:auto}h1{font-size:1.2rem}label{display:block;margin:.8rem 0 .2rem;font-size:.85rem;color:#aab6e0}input,button{font:inherit;width:100%;box-sizing:border-box;padding:.6rem;border-radius:10px;border:1px solid #445;background:#0c1538;color:#fff}button{background:#ffd27a;color:#05091c;font-weight:700;margin-top:1rem;border:0}img{max-width:100%;border-radius:12px;margin-top:.6rem}pre{white-space:pre-wrap;background:#03061a;padding:.6rem;border-radius:10px;font-size:.78rem;max-height:240px;overflow:auto}.n{font-size:.78rem;color:#aab6e0}</style></head><body>
+<h1>Try-on туршилт (түр хуудас)</h1>
+<p class="n">Анхаар: таны оруулсан 2 зураг Hugging Face-ийн үнэгүй Space рүү илгээгдэнэ. Зөвхөн өөрийн зургаа ашигла. Энэ хуудас үндсэн сайтаас холбогдоогүй.</p>
+<label>Space (owner/name)</label><input id="sp" value="yisol/IDM-VTON">
+<label>1. Загвар өмсөгчийн зураг</label><input type="file" id="pf" accept="image/*">
+<label>2. Хувцасны цэвэр зураг</label><input type="file" id="gf" accept="image/*">
+<button id="go">Өмсгөх</button><button id="api" style="background:#22e6ff">Space-ийн API харах</button>
+<div id="st" class="n" style="margin-top:.8rem"></div><div id="out"></div><pre id="log"></pre>
+<script type="module">
+import {Client,handle_file} from "https://cdn.jsdelivr.net/npm/@gradio/client@1.7.0/dist/index.min.js";
+const $=s=>document.querySelector(s),log=t=>{$("#log").textContent+=t+"\n"};
+let c;async function conn(){if(!c){$("#st").textContent="Холбогдож байна…";c=await Client.connect($("#sp").value.trim())}return c}
+$("#api").onclick=async()=>{try{const k=await conn();$("#st").textContent="Холбогдлоо";log(JSON.stringify(await k.view_api(),null,1).slice(0,3000))}catch(e){$("#st").textContent="Алдаа";log(String(e&&e.message||JSON.stringify(e)))}};
+$("#go").onclick=async()=>{const p=$("#pf").files[0],g=$("#gf").files[0];if(!p||!g){$("#st").textContent="2 зургаа сонго";return}
+try{const k=await conn();$("#st").textContent="Боловсруулж байна… (1-3 минут болно, хуудсаа битгий хаа)";
+const r=await k.predict("/tryon",[{background:handle_file(p),layers:[],composite:null},handle_file(g),"a garment",true,false,30,42]);
+log(JSON.stringify(r.data).slice(0,600));const u=r.data[0]&&(r.data[0].url||r.data[0]);$("#out").innerHTML='<img src="'+u+'" alt="result">';$("#st").textContent="Бэлэн"}
+catch(e){$("#st").textContent="Алдаа гарлаа";log(String(e&&e.message||JSON.stringify(e)))}};
+</script></body></html>
