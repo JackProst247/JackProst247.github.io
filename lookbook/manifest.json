@@ -1,1 +1,8 @@
-[]
+[
+ {
+  "title": "JayBee Hoodie",
+  "before": "lookbook/hoodie-flat.jpg",
+  "after": "lookbook/hoodie-model.jpg",
+  "garment": "hoodie"
+ }
+]
