@@ -570,7 +570,7 @@ footer .script2{font-family:var(--script);writing-mode:vertical-lr;color:var(--g
             <h4 data-i18n="fl_h">AR хувцас турших</h4>
             <ul>
               <li data-i18n="fl_i1">Камераар мөр, ууцаа харуулбал хувцас биед тань тааруулагдаж дагана</li>
-              <li data-i18n="fl_i2">Өөрийн хувцасны зургаа (тунгалаг PNG) оруулж болно</li>
+              <li data-i18n="fl_i2">Хувцсаа сонгоод шууд үзнэ, хэмжээ нь автоматаар таарна</li>
               <li data-i18n="fl_i3">Зураг авч, өмнө/дараа харьцуулна</li>
             </ul>
             <p class="labnote" data-i18n-html="fl_priv"><b>Нууцлал:</b> камерын дүрс таны төхөөрөмж дээр л боловсруулагдана, хаашаа ч илгээгдэхгүй. Бүх зүйл үнэгүй, нээлттэй технологи.</p>
@@ -595,16 +595,16 @@ footer .script2{font-family:var(--script);writing-mode:vertical-lr;color:var(--g
       <div class="labctl">
         <p class="labsec" data-i18n="fl_garm">Хувцас</p>
         <div class="labrow labg" id="labg" role="group"></div>
-        <div class="labrow">
+        <div class="labrow" hidden>
           <label class="mono" for="labcol" data-i18n="fl_color">Өнгө</label>
           <input type="color" id="labcol" value="#2b45a6">
           <button class="chip" type="button" id="labcolreset" data-i18n="fl_orig">Анхны өнгө</button>
         </div>
-        <div class="labsl"><span data-i18n="fl_tint">Өнгө хүч</span><input type="range" id="labts" min="0" max="100" value="0"><output id="labtso">0</output></div>
-        <div class="labsl"><span data-i18n="fl_size">Хэмжээ</span><input type="range" id="labsz" min="70" max="140" value="100"><output id="labszo">100</output></div>
-        <div class="labsl"><span data-i18n="fl_up">Дээш/доош</span><input type="range" id="labyo" min="-30" max="30" value="0"><output id="labyoo">0</output></div>
-        <div class="labsl"><span data-i18n="fl_op">Тунгалаг</span><input type="range" id="labop" min="40" max="100" value="100"><output id="labopo">100</output></div>
-        <details class="labedit" id="labedit">
+        <div class="labsl" hidden><span data-i18n="fl_tint">Өнгө хүч</span><input type="range" id="labts" min="0" max="100" value="0"><output id="labtso">0</output></div>
+        <div class="labsl" hidden><span data-i18n="fl_size">Хэмжээ</span><input type="range" id="labsz" min="70" max="140" value="100"><output id="labszo">100</output></div>
+        <div class="labsl" hidden><span data-i18n="fl_up">Дээш/доош</span><input type="range" id="labyo" min="-30" max="30" value="0"><output id="labyoo">0</output></div>
+        <div class="labsl" hidden><span data-i18n="fl_op">Тунгалаг</span><input type="range" id="labop" min="40" max="100" value="100"><output id="labopo">100</output></div>
+        <details class="labedit" id="labedit" hidden>
           <summary data-i18n="fl_edit">✎ Хувцас засах</summary>
           <div class="labctl">
             <div class="labrow" id="labkindrow" hidden>
@@ -620,13 +620,13 @@ footer .script2{font-family:var(--script);writing-mode:vertical-lr;color:var(--g
         </details>
         <div class="labrow">
           <button class="btn magic small" type="button" id="labsnap" data-i18n="fl_snap">📷 Зураг авах</button>
-          <button class="chip" type="button" id="labup" data-i18n="fl_upload">＋ Өөрийн хувцас</button>
+          <button class="chip" type="button" id="labup" hidden data-i18n="fl_upload">＋ Өөрийн хувцас</button>
           <button class="chip" type="button" id="labflip" hidden data-i18n="fl_flip">🔄 Камер солих</button>
           <button class="chip" type="button" id="labcam" hidden data-i18n="fl_camoff">Камер унтраах</button>
         </div>
-        <label class="labchk"><input type="checkbox" id="labmask"><span data-i18n="fl_mask">Дэвсгэрээс цэвэрлэх (удаан төхөөрөмжид удааширна)</span></label>
+        <label class="labchk" hidden><input type="checkbox" id="labmask"><span data-i18n="fl_mask">Дэвсгэрээс цэвэрлэх (удаан төхөөрөмжид удааширна)</span></label>
         <label class="labchk" id="labbgrow" hidden><input type="checkbox" id="labbgrm" checked><span data-i18n="fl_bgrm">Зургийн дэвсгэрийг арилгах</span></label>
-        <p class="labnote" id="labinfo"></p>
+        <p class="labnote" id="labinfo" hidden></p>
         <a class="btn gold small" href="#order" id="labcta" data-i18n="mg_cta">Төслөө захиалах →</a>
       </div>
     </div>
@@ -1516,15 +1516,15 @@ Object.assign(T.en,{fl_btn:"👗 AI Fashion Lab",fl_sub:"AR try-on · free · ru
     var gl=null;try{gl=glc.getContext("webgl",{alpha:true,premultipliedAlpha:true,antialias:false,powerPreference:"low-power"});}catch(e){}
     if(!gl)return null;
     var vs="attribute vec2 a_p;attribute vec2 a_uv;uniform vec2 u_res;varying vec2 v_uv;varying vec2 v_px;void main(){v_uv=a_uv;v_px=a_p;vec2 c=a_p/u_res*2.0-1.0;gl_Position=vec4(c.x,-c.y,0.0,1.0);}";
-    var fs="precision mediump float;varying vec2 v_uv;varying vec2 v_px;uniform sampler2D u_tex;uniform sampler2D u_mask;uniform vec3 u_tint;uniform float u_ts;uniform float u_op;uniform float u_um;uniform vec4 u_map;uniform float u_flip;"+
-      "void main(){vec4 t=texture2D(u_tex,v_uv);float a=t.a;vec3 rgb=t.rgb/max(a,0.001);float l=dot(rgb,vec3(0.3,0.59,0.11));vec3 tc=u_tint*(l*1.5+0.12);rgb=mix(rgb,tc,u_ts);float k=u_op;"+
+    var fs="precision mediump float;varying vec2 v_uv;varying vec2 v_px;uniform sampler2D u_tex;uniform sampler2D u_mask;uniform vec3 u_tint;uniform float u_ts;uniform float u_op;uniform float u_um;uniform vec4 u_map;uniform float u_flip;uniform vec4 u_hole;uniform float u_hr;uniform float u_br;"+
+      "void main(){vec4 t=texture2D(u_tex,v_uv);float a=t.a;vec3 rgb=t.rgb/max(a,0.001);float l=dot(rgb,vec3(0.3,0.59,0.11));vec3 tc=u_tint*(l*1.5+0.12);rgb=mix(rgb,tc,u_ts);float k=u_op;rgb*=u_br;if(u_hole.z>0.0){vec2 d=v_px-u_hole.xy;float c=cos(u_hr),s=sin(u_hr);vec2 r=vec2(c*d.x+s*d.y,-s*d.x+c*d.y);float e=length(vec2(r.x/u_hole.z,r.y/u_hole.w));k*=smoothstep(0.85,1.08,e);}"+
       "if(u_um>0.5){vec2 cu=(v_px-u_map.xy)/u_map.zw;if(u_flip>0.5)cu.x=1.0-cu.x;float m=texture2D(u_mask,cu).r;k*=smoothstep(0.25,0.6,m);}"+
       "gl_FragColor=vec4(rgb*a*k,a*k);}";
     function sh(t,s){var o=gl.createShader(t);gl.shaderSource(o,s);gl.compileShader(o);if(!gl.getShaderParameter(o,gl.COMPILE_STATUS))throw new Error(gl.getShaderInfoLog(o));return o;}
     try{
       var pr=gl.createProgram();gl.attachShader(pr,sh(gl.VERTEX_SHADER,vs));gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,fs));gl.linkProgram(pr);if(!gl.getProgramParameter(pr,gl.LINK_STATUS))throw new Error("link");
       gl.useProgram(pr);
-      var U={};["u_res","u_tex","u_mask","u_tint","u_ts","u_op","u_um","u_map","u_flip"].forEach(function(n){U[n]=gl.getUniformLocation(pr,n);});
+      var U={};["u_res","u_tex","u_mask","u_tint","u_ts","u_op","u_um","u_map","u_flip","u_hole","u_hr","u_br"].forEach(function(n){U[n]=gl.getUniformLocation(pr,n);});
       var nv=(GX+1)*(GY+1),pos=new Float32Array(nv*2),uv=new Float32Array(nv*2),idx=new Uint16Array(GX*GY*6),i=0,k=0;
       for(var y=0;y<=GY;y++)for(var x=0;x<=GX;x++){uv[k++]=x/GX;uv[k++]=y/GY;}
       for(var y2=0;y2<GY;y2++)for(var x2=0;x2<GX;x2++){var a=y2*(GX+1)+x2,b=a+1,c=a+GX+1,d=c+1;idx[i++]=a;idx[i++]=b;idx[i++]=c;idx[i++]=b;idx[i++]=d;idx[i++]=c;}
@@ -1556,16 +1556,44 @@ Object.assign(T.en,{fl_btn:"👗 AI Fashion Lab",fl_sub:"AR try-on · free · ru
     var BLt=[mB[0]-hh[0],mB[1]-hh[1]],BRt=[mB[0]+hh[0],mB[1]+hh[1]];
     var iw=g.iw,ih=g.ih,sl=(a.cx-a.sx/2)*iw,sr=(a.cx+a.sx/2)*iw,hl=(a.hc-a.hx/2)*iw,hr=(a.hc+a.hx/2)*iw,sy=a.sy*ih,hy=a.hy*ih;
     var dy=Math.max(4,hy-sy),c=lerp(TL,TR,.5);
+    var arm=g.kind==="lower"?null:armInfo(p,g);
     return function(x,y){
       var t=(y-sy)/dy,xl=sl+(hl-sl)*t,xr=sr+(hr-sr)*t,den=Math.max(4,xr-xl),s=(x-xl)/den;
       var top=lerp(TL,TR,s),bot=lerp(BLt,BRt,s),q=lerp(top,bot,t);
+      if(arm){
+        var wl=Math.min(1,Math.max(0,(sl-x)/(iw*.1))),wr=Math.min(1,Math.max(0,(x-sr)/(iw*.1)));
+        if(wl>0)q=swing(q,arm.ls,arm.r,arm.d,-1,arm.al*wl);
+        if(wr>0)q=swing(q,arm.rs,arm.r,arm.d,1,arm.ar*wr);
+      }
       return [c[0]+(q[0]-c[0])*P.size,c[1]+(q[1]-c[1])*P.size+P.yo*H];
     };
+  }
+  function norm(v){var l=Math.hypot(v[0],v[1])||1;return [v[0]/l,v[1]/l];}
+  function armInfo(p,g){
+    var mS=lerp(p.ls,p.rs,.5),mH=lerp(p.lh,p.rh,.5),d=norm([mH[0]-mS[0],mH[1]-mS[1]]),r=norm([p.rs[0]-p.ls[0],p.rs[1]-p.ls[1]]),def=g.id==="hoodie"?.14:.25;
+    function ang(s,e,sg){if(!e||e.v<.4)return 0;var vx=(e[0]-s[0])*r[0]+(e[1]-s[1])*r[1],vy=(e[0]-s[0])*d[0]+(e[1]-s[1])*d[1],a=Math.atan2(sg*vx,vy)-def;return Math.max(-1.1,Math.min(1.1,a));}
+    return {ls:p.ls,rs:p.rs,r:r,d:d,al:ang(p.ls,p.lel,-1),ar:ang(p.rs,p.rel,1)};
+  }
+  function swing(q,S,r,d,sg,a){
+    var rx=q[0]-S[0],ry=q[1]-S[1],x=rx*r[0]+ry*r[1],y=rx*d[0]+ry*d[1],o=sg*x,c=Math.cos(a),s=Math.sin(a),o2=o*c+y*s,y2=y*c-o*s,x2=sg*o2;
+    return [S[0]+x2*r[0]+y2*d[0],S[1]+x2*r[1]+y2*d[1]];
   }
   function lowerPts(p){ // шагайн цэг харагдахгүй бол өвдгөөс таамаглана
     var q=Object.assign({},p);
     ["l","r"].forEach(function(s){var an=p[s+"a"],kn=p[s+"k"],hp=p[s+"h"];if(!an||an.v<.35){q[s+"a"]=kn&&kn.v>.3?[hp[0]+(kn[0]-hp[0])*2,hp[1]+(kn[1]-hp[1])*2]:[hp[0],hp[1]+H*.5];}});
     return q;
+  }
+  var bright=1,lumC=document.createElement("canvas");lumC.width=lumC.height=12;
+  function headHole(p){
+    if(!p.no||!p.lea||!p.rea||p.lea.v<.4||p.rea.v<.4||p.no.v<.4)return [0,0,-1,1,0];
+    var mS=lerp(p.ls,p.rs,.5),sw=Math.hypot(p.rs[0]-p.ls[0],p.rs[1]-p.ls[1]),up=norm([p.no[0]-mS[0],p.no[1]-mS[1]]),ang=Math.atan2(p.rs[1]-p.ls[1],p.rs[0]-p.ls[0]);
+    var E=lerp(p.lea,p.rea,.5),ew=Math.hypot(p.lea[0]-p.rea[0],p.lea[1]-p.rea[1]);
+    var B=[mS[0]+up[0]*sw*.07,mS[1]+up[1]*sw*.07],T=[E[0]+up[0]*ew*.9,E[1]+up[1]*ew*.9],cx=(B[0]+T[0])/2,cy=(B[1]+T[1])/2;
+    return [cx,cy,Math.max(ew*.78,sw*.2),Math.hypot(T[0]-B[0],T[1]-B[1])/2,ang];
+  }
+  function sampleLight(){
+    try{var x=lumC.getContext("2d",{willReadFrequently:true}),vw=vid.videoWidth,vh=vid.videoHeight;if(!vw)return;x.drawImage(vid,vw*.25,vh*.4,vw*.5,vh*.4,0,0,12,12);
+      var d=x.getImageData(0,0,12,12).data,s=0;for(var i=0;i<d.length;i+=4)s+=d[i]*.3+d[i+1]*.59+d[i+2]*.11;var L=s/(144*255);bright=bright+(Math.max(.9,Math.min(1.3,.85+L*.7))-bright)*.3;}catch(e){}
   }
   function drawGL(){
     var g=GL,gl=g.gl;gl.viewport(0,0,glc.width,glc.height);gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT);
@@ -1575,6 +1603,7 @@ Object.assign(T.en,{fl_btn:"👗 AI Fashion Lab",fl_sub:"AR try-on · free · ru
     gl.bindBuffer(gl.ARRAY_BUFFER,g.pb);gl.bufferSubData(gl.ARRAY_BUFFER,0,pos);
     var rgb=hexRgb(P.tint),U=g.U;
     gl.uniform2f(U.u_res,W,H);gl.uniform3f(U.u_tint,rgb[0],rgb[1],rgb[2]);gl.uniform1f(U.u_ts,P.ts);gl.uniform1f(U.u_op,P.op);
+    var ho=headHole(p);gl.uniform4f(U.u_hole,ho[0],ho[1],ho[2],ho[3]);gl.uniform1f(U.u_hr,ho[4]);gl.uniform1f(U.u_br,bright);
     var um=useMask&&maskInfo&&live&&!!g.mask;gl.uniform1f(U.u_um,um?1:0);gl.uniform1f(U.u_flip,facing==="user"?1:0);
     if(um){var vw=vid.videoWidth||4,vh=vid.videoHeight||3,s=Math.max(W/vw,H/vh);gl.uniform4f(U.u_map,(W-vw*s)/2,(H-vh*s)/2,vw*s,vh*s);}
     gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,cur.tex);gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,um&&g.mask?g.mask:g.white);
@@ -1616,7 +1645,7 @@ Object.assign(T.en,{fl_btn:"👗 AI Fashion Lab",fl_sub:"AR try-on · free · ru
   function loop(){
     raf=0;if(modal.hidden)return;
     if(live&&pose&&vid.readyState>=2&&vid.currentTime!==lastT){
-      lastT=vid.currentTime;frame++;
+      lastT=vid.currentTime;frame++;if(frame%8===0)sampleLight();
       if(!lowEnd||frame%2===0)detect();
     }
     if(needDraw){needDraw=false;if(demoOn&&!live)pts=demoPts();render();}
@@ -1637,7 +1666,7 @@ Object.assign(T.en,{fl_btn:"👗 AI Fashion Lab",fl_sub:"AR try-on · free · ru
       setStat("fl_s_ready");feed(lm);
     }catch(e){}
   }
-  var IDX={ls:11,rs:12,lh:23,rh:24,lk:25,rk:26,la:27,ra:28};
+  var IDX={no:0,lea:7,rea:8,lmo:9,rmo:10,ls:11,rs:12,lel:13,rel:14,lh:23,rh:24,lk:25,rk:26,la:27,ra:28};
   function mapPt(nx,ny){
     var vw=vid.videoWidth||4,vh=vid.videoHeight||3,s=Math.max(W/vw,H/vh),ox=(W-vw*s)/2,oy=(H-vh*s)/2,x=facing==="user"?1-nx:nx;
     return [ox+x*vw*s,oy+ny*vh*s];
