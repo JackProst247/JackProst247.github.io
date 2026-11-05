@@ -500,6 +500,7 @@ footer .script2{font-family:var(--script);writing-mode:vertical-lr;color:var(--g
     </div>
     <div class="mgtabs" role="tablist" id="mgtabs">
       <button type="button" role="tab" data-mode="draw" aria-selected="true" data-i18n="mg_t_draw">✎ Зурах</button>
+      <button type="button" role="tab" data-mode="effect" aria-selected="false" data-i18n="mg_t_effect">🎞 Эффект</button>
       <button type="button" role="tab" data-mode="spell" aria-selected="false" data-i18n="mg_t_spell">✦ Ид шид</button>
       <button type="button" role="tab" data-mode="wear" aria-selected="false" data-i18n="mg_t_wear">👕 Хувцас турших</button>
     </div>
@@ -520,6 +521,11 @@ footer .script2{font-family:var(--script);writing-mode:vertical-lr;color:var(--g
             <li><b aria-hidden="true">🖐</b><span data-i18n="mg_5">Эрхий хуруутай гурван хуруу өргөвөл зургаа зөөнө</span></li>
             <li><b aria-hidden="true">✋</b><span data-i18n="mg_3">Алгаа 1 секунд барьвал цэвэрлэнэ</span></li>
           </ul>
+          <ul data-m="effect">
+            <li><b aria-hidden="true">🫰</b><span data-i18n="mg_e1">Хоёр гараараа L хэлбэр үүсгэж, 4 хурууны үзүүрээр хүрээ хий</span></li>
+            <li><b aria-hidden="true">🎞</b><span data-i18n="mg_e2">Хүрээний дотор нь эффект гарна</span></li>
+            <li><b aria-hidden="true">🤏</b><span data-i18n="mg_e3">Хүрээгээ нарийсгаад дахин тэлбэл эффект солигдоно</span></li>
+          </ul>
           <ul data-m="spell">
             <li><b aria-hidden="true">✋</b><span data-i18n="mg_s1">Алгаа дэлгэвэл ид шидийн хүрээ гарна</span></li>
             <li><b aria-hidden="true">☝</b><span data-i18n="mg_s2">Долоовор хуруугаараа оч цацруулж зур</span></li>
@@ -539,6 +545,15 @@ footer .script2{font-family:var(--script);writing-mode:vertical-lr;color:var(--g
             <button class="btn ghost" type="button" id="mgnocam" data-i18n="mg_nocam">Камергүй зурах</button>
           </div>
         </div>
+      </div>
+    </div>
+    <div class="mgwear" id="mgefsel" hidden>
+      <div class="mgrow" id="mgefg" role="group">
+        <button class="chip" type="button" data-ef="grid" aria-pressed="true" data-i18n="mg_ef1">▦ Тор</button>
+        <button class="chip" type="button" data-ef="thermal" aria-pressed="false" data-i18n="mg_ef2">🔥 Дулаан</button>
+        <button class="chip" type="button" data-ef="neon" aria-pressed="false" data-i18n="mg_ef3">⚡ Неон</button>
+        <button class="chip" type="button" data-ef="frost" aria-pressed="false" data-i18n="mg_ef4">❄ Мөс</button>
+        <button class="chip" type="button" data-ef="glitch" aria-pressed="false" data-i18n="mg_ef5">▒ Глитч</button>
       </div>
     </div>
     <div class="mgwear" id="mgfxsel" hidden>
@@ -1063,7 +1078,7 @@ Object.assign(T.mn,{mg_btn:"✦ Try the magic",mg_sub:"ХУРУУГААР ЗУР
  mg_priv:"Камерын дүрс таны төхөөрөмж дээр л боловсруулагдана, хаашаа ч илгээгдэхгүй.",
  mg_start:"Эхлэх",mg_nocam:"Камергүй туршах",mg_clear:"Арилгах",mg_cta:"Төслөө захиалах →",mg_cam_on:"Камер асаах",mg_cam_off:"Камер унтраах",
  mg_load_cam:"Камер асааж байна…",mg_load_model:"Таних загвар ачаалж байна…",mg_ready:"Бэлэн! Долоовор хуруугаа өргө ☝",mg_nohand:"Гараа камерт харуул",
- mg_draw:"Зурж байна",mg_erase:"Баллуурдаж байна ◌",mg_grab:"Зураг зөөж байна ✊",mg_4:"Гурван хуруу өргөвөл баллуурдана",mg_5:"Эрхий хуруутай гурван хуруу өргөвөл зургаа зөөнө",mg_move:"Зөөж байна · өнгө сонго",mg_clearing:"Арилгаж байна…",
+ mg_draw:"Зурж байна",mg_t_effect:"🎞 Эффект",mg_ef1:"▦ Тор",mg_ef2:"🔥 Дулаан",mg_ef3:"⚡ Неон",mg_ef4:"❄ Мөс",mg_ef5:"▒ Глитч",mg_ef_ready:"Хоёр гараараа L хэлбэр үүсгэ ⌐ ¬",mg_ef_demo:"Жишээ: камер асаавал өөрийн дүрс дээр гарна",mg_ef_on:"Эффект идэвхтэй · хүрээгээ хумиад тэлбэл солигдоно",mg_ef_two:"Хоёр дахь гараа харуул",mg_e1:"Хоёр гараараа L хэлбэр үүсгэж, 4 хурууны үзүүрээр хүрээ хий",mg_e2:"Хүрээний дотор нь эффект гарна",mg_e3:"Хүрээгээ нарийсгаад дахин тэлбэл эффект солигдоно",mg_erase:"Баллуурдаж байна ◌",mg_grab:"Зураг зөөж байна ✊",mg_4:"Гурван хуруу өргөвөл баллуурдана",mg_5:"Эрхий хуруутай гурван хуруу өргөвөл зургаа зөөнө",mg_move:"Зөөж байна · өнгө сонго",mg_clearing:"Арилгаж байна…",
  mg_fx1:"✦ Мандала",mg_fx2:"〰 Руны туузан",mg_fx3:"⭕ Портал",mg_fx4:"🔮 Дүрс",mg_s5:"Хоёр гараа хүрээ шиг барьбал голд нь тэмдэг гарна",mg_s6:"\"Дүрс\": алган дээр дүрс гарна, нөгөө гараа атгаад дэлгэвэл утаа болж өөр дүрс болно",mg_s4:"Хуруугаараа тойрог зурвал портал нээгдэнэ",mg_spell_ready:"Алгаа дэлгэ ✋",mg_spell_ptr:"Дэлгэц дээр дарж, чирж ид шид үз",
  mg_wear_ready:"Бэлэн! Мөр, ууцаа харуул",mg_nobody:"Мөр, ууцаа камерт бүтэн харуул",mg_wear_demo:"Жишиг загвар дээр харуулж байна. Камер асаавал өөрт тань таарна",
  mg_err_perm:"Камерын зөвшөөрөл өгөөгүй байна. Камергүй горимоор үргэлжлүүлнэ.",mg_err_cam:"Камер олдсонгүй. Камергүй горимоор үргэлжлүүлнэ.",
@@ -1077,7 +1092,7 @@ Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW · SPELLS · TRY ON 
  mg_priv:"Camera video is processed on your device only and is never sent anywhere.",
  mg_start:"Start",mg_nocam:"Try without camera",mg_clear:"Clear",mg_cta:"Order your project →",mg_cam_on:"Turn camera on",mg_cam_off:"Turn camera off",
  mg_load_cam:"Starting camera…",mg_load_model:"Loading tracking model…",mg_ready:"Ready! Raise your index finger ☝",mg_nohand:"Show your hand to the camera",
- mg_draw:"Drawing",mg_erase:"Erasing ◌",mg_grab:"Moving drawing ✊",mg_4:"Raise three fingers to erase",mg_5:"Three fingers plus thumb to move your drawing",mg_move:"Moving · pick a color",mg_clearing:"Clearing…",
+ mg_draw:"Drawing",mg_t_effect:"🎞 Effect",mg_ef1:"▦ Grid",mg_ef2:"🔥 Thermal",mg_ef3:"⚡ Neon",mg_ef4:"❄ Frost",mg_ef5:"▒ Glitch",mg_ef_ready:"Make an L shape with both hands",mg_ef_demo:"Demo: turn on the camera to see it on yourself",mg_ef_on:"Effect on · pinch the frame shut and open it to switch",mg_ef_two:"Show your second hand",mg_e1:"Make an L with each hand and frame with your 4 fingertips",mg_e2:"The effect appears inside the frame",mg_e3:"Close the frame to a line and open it again to switch effect",mg_erase:"Erasing ◌",mg_grab:"Moving drawing ✊",mg_4:"Raise three fingers to erase",mg_5:"Three fingers plus thumb to move your drawing",mg_move:"Moving · pick a color",mg_clearing:"Clearing…",
  mg_fx1:"✦ Mandala",mg_fx2:"〰 Rune ribbon",mg_fx3:"⭕ Portal",mg_fx4:"🔮 Summon",mg_s5:"Hold both hands like a frame to summon the sigil",mg_s6:"Summon: a figure floats above your palm; close then open your other hand to dissolve it into smoke and form the next",mg_s4:"Draw a circle with your finger to open a portal",mg_spell_ready:"Open your palm ✋",mg_spell_ptr:"Press and drag on the screen to cast",
  mg_wear_ready:"Ready! Show your shoulders and hips",mg_nobody:"Show your shoulders and hips to the camera",mg_wear_demo:"Showing a sample figure. Turn the camera on to fit it to you",
  mg_err_perm:"Camera permission was not granted. Continuing without the camera.",mg_err_cam:"No camera found. Continuing without the camera.",
@@ -1156,7 +1171,7 @@ Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW · SPELLS · TRY ON 
     cur.hidden=true;updCam();
   }
   function modeHint(){
-    setStat(MODE==="draw"?(running?"mg_ready":"mg_pointer"):MODE==="spell"?(running?"mg_spell_ready":"mg_spell_ptr"):(running?"mg_wear_ready":"mg_wear_demo"));
+    setStat(MODE==="draw"?(running?"mg_ready":"mg_pointer"):MODE==="spell"?(running?"mg_spell_ready":"mg_spell_ptr"):MODE==="effect"?(running?"mg_ef_ready":"mg_ef_demo"):(running?"mg_wear_ready":"mg_wear_demo"));
   }
   function pointerMode(k){setStat(k||"");if(!k)modeHint();updCam();}
   async function ensureModel(){
@@ -1174,7 +1189,7 @@ Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW · SPELLS · TRY ON 
         hands.setOptions({maxNumHands:1,modelComplexity:0,minDetectionConfidence:.6,minTrackingConfidence:.5});
         await withTimeout(hands.initialize(),30000);
       }
-      hands.setOptions({maxNumHands:MODE==="spell"?2:1,modelComplexity:0,minDetectionConfidence:.6,minTrackingConfidence:.5});
+      hands.setOptions({maxNumHands:(MODE==="spell"||MODE==="effect")?2:1,modelComplexity:0,minDetectionConfidence:.6,minTrackingConfidence:.5});
     }
   }
   async function startCamera(){
@@ -1204,6 +1219,10 @@ Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW · SPELLS · TRY ON 
     if(!running||MODE==="wear")return;
     var list=r.multiHandLandmarks||[];
     var now=performance.now();
+    if(MODE==="effect"){
+      lastE={t:now,hands:list.slice(0,2).map(function(lm){var a=mapPt(lm[4].x,lm[4].y),b=mapPt(lm[8].x,lm[8].y);return {t:[a[0]*W,a[1]*H],i:[b[0]*W,b[1]*H]};})};
+      setStat(list.length>=2?"mg_ef_on":list.length?"mg_ef_two":"mg_nohand");return;
+    }
     if(MODE==="spell"){
       lastH={t:now,hands:list.map(function(lm,k){
         var pts=lm.map(function(l){var p=mapPt(l.x,l.y);return [p[0]*W,p[1]*H];});
@@ -1637,11 +1656,94 @@ Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW · SPELLS · TRY ON 
       fx.fillStyle="rgba("+c[0]+","+Math.min(255,Math.round(c[1]+(c[0]>200?90*f:30*f)))+","+c[2]+","+f+")";fx.beginPath();fx.arc(p.x,p.y,1+2.4*f,0,7);fx.fill();});
     fx.restore();
   }
+  /* ЭФФЕКТ: хоёр гараар L хэлбэр хийж хүрээ үүсгэ, хүрээ дотор нь шүүлтүүр */
+  var EF="grid",EFN=["grid","thermal","neon","frost","glitch"],lastE=null,EQ=null,efLast=0,efCol=0,efBuf=document.createElement("canvas"),efSm=document.createElement("canvas"),efDemo=document.createElement("canvas"),THL=null;
+  function thermalLUT(){
+    var st=[[0,[8,0,50]],[.22,[90,0,150]],[.45,[220,30,60]],[.7,[255,150,0]],[1,[255,250,190]]],L=[];
+    for(var i=0;i<256;i++){var t=i/255,k=0;while(k<st.length-2&&t>st[k+1][0])k++;var a=st[k],b=st[k+1],f=(t-a[0])/(b[0]-a[0]);
+      L.push([Math.round(a[1][0]+(b[1][0]-a[1][0])*f),Math.round(a[1][1]+(b[1][1]-a[1][1])*f),Math.round(a[1][2]+(b[1][2]-a[1][2])*f)]);}
+    return L;
+  }
+  function demoScene(now){
+    var w=Math.max(2,Math.round(W/2)),h=Math.max(2,Math.round(H/2));efDemo.width=w;efDemo.height=h;var g=efDemo.getContext("2d");
+    var bg=g.createLinearGradient(0,0,w,h);bg.addColorStop(0,"#1b2a6b");bg.addColorStop(1,"#d9467c");g.fillStyle=bg;g.fillRect(0,0,w,h);
+    g.fillStyle="#ffd27a";g.beginPath();g.arc(w*(.5+.25*Math.sin(now*.0007)),h*.45,h*.16,0,7);g.fill();
+    g.fillStyle="#0a1030";g.fillRect(0,h*.72,w,h*.28);g.fillStyle="#fff";g.font="700 "+Math.round(h*.12)+"px sans-serif";g.textAlign="center";g.fillText("JayBee",w/2,h*.9);
+    return efDemo;
+  }
+  function efSort(P){
+    var cx=0,cy=0;P.forEach(function(p){cx+=p[0]/4;cy+=p[1]/4;});
+    var o=P.slice().sort(function(a,b){return Math.atan2(a[1]-cy,a[0]-cx)-Math.atan2(b[1]-cy,b[0]-cx);});
+    if(EQ){var bi=0,bd=1e9;o.forEach(function(p,i){var d=Math.hypot(p[0]-EQ.q[0][0],p[1]-EQ.q[0][1]);if(d<bd){bd=d;bi=i;}});o=o.slice(bi).concat(o.slice(0,bi));}
+    return o;
+  }
+  function efArea(q){var a=0;for(var i=0;i<4;i++){var p=q[i],n=q[(i+1)%4];a+=p[0]*n[1]-n[0]*p[1];}return Math.abs(a)/2;}
+  function efFilter(id,w,h,now){
+    var d=id.data,n=w*h,i,x,y;
+    if(EF==="thermal"){if(!THL)THL=thermalLUT();
+      for(i=0;i<n;i++){var l=Math.round(.299*d[i*4]+.587*d[i*4+1]+.114*d[i*4+2]),c=THL[Math.min(255,Math.max(0,Math.round((l-30)*1.35)))];d[i*4]=c[0];d[i*4+1]=c[1];d[i*4+2]=c[2];d[i*4+3]=255;}
+    }else if(EF==="grid"){
+      var cs=Math.max(5,Math.round(w/26));
+      for(y=0;y<h;y+=cs)for(x=0;x<w;x+=cs){var s=0,c=0,xx,yy;
+        for(yy=y;yy<Math.min(h,y+cs);yy+=2)for(xx=x;xx<Math.min(w,x+cs);xx+=2){var k=(yy*w+xx)*4;s+=.299*d[k]+.587*d[k+1]+.114*d[k+2];c++;}
+        var v=Math.min(255,Math.round(s/c*1.1+8));
+        for(yy=y;yy<Math.min(h,y+cs);yy++)for(xx=x;xx<Math.min(w,x+cs);xx++){var j=(yy*w+xx)*4,ln=(xx===x||yy===y);d[j]=d[j+1]=d[j+2]=ln?Math.min(255,v+70):v;d[j+3]=255;}}
+    }else if(EF==="neon"){
+      var g=new Uint8Array(n);for(i=0;i<n;i++)g[i]=.299*d[i*4]+.587*d[i*4+1]+.114*d[i*4+2];
+      for(y=0;y<h;y++)for(x=0;x<w;x++){var o=(y*w+x)*4,m=0;
+        if(x>0&&y>0&&x<w-1&&y<h-1){var a=g[(y-1)*w+x-1],b=g[(y-1)*w+x],c2=g[(y-1)*w+x+1],e=g[y*w+x-1],f=g[y*w+x+1],gg=g[(y+1)*w+x-1],hh=g[(y+1)*w+x],ii=g[(y+1)*w+x+1];
+          var sx=-a-2*e-gg+c2+2*f+ii,sy=-a-2*b-c2+gg+2*hh+ii;m=Math.min(1,Math.hypot(sx,sy)/140);}
+        var t=x/w;d[o]=Math.round(10+m*(40+215*t));d[o+1]=Math.round(8+m*(240-120*t));d[o+2]=Math.round(34+m*255);d[o+3]=255;}
+    }else if(EF==="glitch"){
+      var src=new Uint8ClampedArray(d),seed=Math.floor(now/110);
+      for(y=0;y<h;y++){var band=Math.floor(y/Math.max(3,h/14)),hs=Math.sin(band*12.9898+seed*78.233)*43758.5453,r=hs-Math.floor(hs),off=r>.72?Math.round((r-.72)*w*.9)*(r>.86?-1:1):0,sp=Math.round(w*.018*(.4+r));
+        for(x=0;x<w;x++){var xs=(x+off+w)%w,o2=(y*w+x)*4,rx=Math.min(w-1,xs+sp),bx=Math.max(0,xs-sp);
+          d[o2]=src[(y*w+rx)*4];d[o2+1]=src[(y*w+xs)*4+1];d[o2+2]=src[(y*w+bx)*4+2];d[o2+3]=255;}}
+    }
+  }
+  function drawEffect(now){
+    var live=running&&vid.videoWidth&&lastE&&now-lastE.t<450&&lastE.hands.length>=2,Q=null;
+    if(live){
+      var A=lastE.hands[0],B=lastE.hands[1];Q=efSort([A.t,A.i,B.i,B.t]);
+      if(!EQ||now-EQ.last>400)EQ={q:Q,last:now,since:now};else{for(var k=0;k<4;k++){EQ.q[k]=[EQ.q[k][0]+(Q[k][0]-EQ.q[k][0])*.55,EQ.q[k][1]+(Q[k][1]-EQ.q[k][1])*.55];}EQ.last=now;}
+    }else if(!running){
+      var wb=Math.sin(now*.0012)*H*.02,cx0=W/2,cy0=H*.5,hw=W*.3,hh=H*.17;
+      Q=[[cx0-hw,cy0-hh+wb],[cx0+hw,cy0-hh-wb],[cx0+hw,cy0+hh+wb],[cx0-hw,cy0+hh-wb]];EQ={q:Q,last:now,since:EQ&&now-EQ.last<400?EQ.since:now};
+    }
+    if(!EQ)return;
+    var age=now-EQ.last;if(age>300){EQ=null;return;}
+    var q=EQ.q,fade=Math.min(1,(now-EQ.since)/300)*(1-Math.max(0,age-50)/250);
+    var area=efArea(q)/(W*H);
+    if(running){
+      if(area<.012)efCol=now;else if(area>.035&&efCol&&now-efCol<3000&&now-efLast>500){efCol=0;efLast=now;EF=EFN[(EFN.indexOf(EF)+1)%EFN.length];syncEfChips();}
+    }
+    if(area<.004)return;
+    var x0=W,y0=H,x1=0,y1=0;q.forEach(function(p){x0=Math.min(x0,p[0]);y0=Math.min(y0,p[1]);x1=Math.max(x1,p[0]);y1=Math.max(y1,p[1]);});
+    x0=Math.max(0,Math.floor(x0));y0=Math.max(0,Math.floor(y0));x1=Math.min(W,Math.ceil(x1));y1=Math.min(H,Math.ceil(y1));
+    var bw=x1-x0,bh=y1-y0;if(bw<6||bh<6)return;
+    var sc=Math.min(1,190/Math.max(bw,bh)),ew=Math.max(4,Math.round(bw*sc)),eh=Math.max(4,Math.round(bh*sc));
+    efBuf.width=ew;efBuf.height=eh;var g=efBuf.getContext("2d");
+    if(running){
+      var vw=vid.videoWidth,vh=vid.videoHeight,s=Math.max(W/vw,H/vh),ox=(W-vw*s)/2,oy=(H-vh*s)/2;
+      var sx=vw-(x1-ox)/s,sy=(y0-oy)/s,sw=bw/s,sh=bh/s;
+      g.save();g.translate(ew,0);g.scale(-1,1);try{g.drawImage(vid,sx,sy,sw,sh,0,0,ew,eh);}catch(e){}g.restore();
+    }else{var ds=demoScene(now);g.drawImage(ds,x0/W*ds.width,y0/H*ds.height,bw/W*ds.width,bh/H*ds.height,0,0,ew,eh);}
+    if(EF==="frost"){
+      var sm=efSm,tw=Math.max(2,Math.round(ew/9)),th=Math.max(2,Math.round(eh/9));sm.width=tw;sm.height=th;var sg=sm.getContext("2d");sg.drawImage(efBuf,0,0,tw,th);
+      g.imageSmoothingEnabled=true;g.clearRect(0,0,ew,eh);g.drawImage(sm,0,0,ew,eh);g.fillStyle="rgba(245,250,255,.55)";g.fillRect(0,0,ew,eh);
+    }else{var id=g.getImageData(0,0,ew,eh);efFilter(id,ew,eh,now);g.putImageData(id,0,0);}
+    fx.save();fx.globalAlpha=fade;fx.beginPath();fx.moveTo(q[0][0],q[0][1]);for(var i=1;i<4;i++)fx.lineTo(q[i][0],q[i][1]);fx.closePath();fx.clip();
+    fx.imageSmoothingEnabled=EF!=="grid";fx.drawImage(efBuf,x0,y0,bw,bh);fx.restore();
+    fx.save();fx.globalAlpha=fade;fx.lineJoin="round";fx.strokeStyle="rgba(255,255,255,.9)";fx.shadowColor="#22e6ff";fx.shadowBlur=10;fx.lineWidth=2;
+    fx.beginPath();fx.moveTo(q[0][0],q[0][1]);for(var j=1;j<4;j++)fx.lineTo(q[j][0],q[j][1]);fx.closePath();fx.stroke();
+    fx.fillStyle="#fff";q.forEach(function(p){fx.beginPath();fx.arc(p[0],p[1],4,0,7);fx.fill();});fx.restore();
+  }
+  function syncEfChips(){Array.prototype.forEach.call($("#mgefg").children,function(x){x.setAttribute("aria-pressed",x.dataset.ef===EF?"true":"false");});}
   function fxLoop(){
     if(modal.hidden){fxOn=false;return;}requestAnimationFrame(fxLoop);
     fx.setTransform(dpr,0,0,dpr,0,0);fx.clearRect(0,0,W,H);
     var now=performance.now();
-    if(MODE==="spell")drawSpell(now);else if(MODE==="wear")drawWear(now);
+    if(MODE==="spell")drawSpell(now);else if(MODE==="wear")drawWear(now);else if(MODE==="effect")drawEffect(now);
   }
 
   function snapshot(){
@@ -1658,13 +1760,14 @@ Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW · SPELLS · TRY ON 
     if(m===MODE)return;
     MODE=m;endStroke();ptr=false;pdown=null;cur.hidden=true;fx.clearRect(0,0,fxc.width,fxc.height);
     Array.prototype.forEach.call($("#mgtabs").children,function(b){b.setAttribute("aria-selected",b.dataset.mode===m?"true":"false");});
-    wearBar.hidden=m!=="wear";$("#mgfxsel").hidden=m!=="spell";$("#mgclear").hidden=m==="wear";
+    wearBar.hidden=m!=="wear";$("#mgfxsel").hidden=m!=="spell";$("#mgefsel").hidden=m!=="effect";$("#mgclear").hidden=m==="wear";
     cv.style.cursor=m==="wear"?"default":"crosshair";
     buildPal();resize();showHelpFor(m);
     if(!seen[m]){seen[m]=1;help.hidden=false;setStat("");}else modeHint();
     if(stream&&running){setStat("mg_load_model");try{await ensureModel();modeHint();}catch(e){stopCamera();pointerMode("mg_err_model");}}
   }
   $("#mgtabs").addEventListener("click",function(e){var b=e.target.closest("button[data-mode]");if(!b)return;if(b.dataset.mode==="wear"){closeMagic();if(window.openLab)window.openLab();return;}setMode(b.dataset.mode);});
+  $("#mgefg").addEventListener("click",function(e){var b=e.target.closest("button[data-ef]");if(!b)return;EF=b.dataset.ef;syncEfChips();});
   $("#mgfxg").addEventListener("click",function(e){var b=e.target.closest("button[data-fx]");if(!b)return;FX=b.dataset.fx;trail.length=0;parts.length=0;portals.length=0;Array.prototype.forEach.call($("#mgfxg").children,function(x){x.setAttribute("aria-pressed",x===b?"true":"false");});});
   $("#mgg").addEventListener("click",function(e){var b=e.target.closest("button[data-g]");if(!b)return;garment=b.dataset.g;Array.prototype.forEach.call($("#mgg").children,function(x){x.setAttribute("aria-pressed",x===b?"true":"false");});});
   $("#mgp").addEventListener("click",function(e){var b=e.target.closest("button[data-p]");if(!b)return;pattern=b.dataset.p;Array.prototype.forEach.call($("#mgp").children,function(x){if(x.dataset.p)x.setAttribute("aria-pressed",x===b?"true":"false");});});
