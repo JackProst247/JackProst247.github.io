@@ -1174,6 +1174,9 @@ Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW · SPELLS · TRY ON 
     setStat(MODE==="draw"?(running?"mg_ready":"mg_pointer"):MODE==="spell"?(running?"mg_spell_ready":"mg_spell_ptr"):MODE==="effect"?(running?"mg_ef_ready":"mg_ef_demo"):(running?"mg_wear_ready":"mg_wear_demo"));
   }
   function pointerMode(k){setStat(k||"");if(!k)modeHint();updCam();}
+  var inC=document.createElement("canvas"),inX=inC.getContext("2d"),infMs=60,pv={};
+  function lead(key,v,now){var p=pv[key];pv[key]={v:v,t:now};if(!p||now-p.t>300||now-p.t<8)return v;var dt=now-p.t,L=Math.min(110,infMs)*.8,k=L/dt;
+    var dx=(v[0]-p.v[0])*k,dy=(v[1]-p.v[1])*k,mx=Math.max(Math.abs(dx),Math.abs(dy));if(mx>.12){dx*=.12/mx;dy*=.12/mx;}return [v[0]+dx,v[1]+dy];}
   var handsReady=null;
   function preloadHands(){
     if(hands)return Promise.resolve();
@@ -1216,7 +1219,9 @@ Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW · SPELLS · TRY ON 
   function loop(){
     if(!running){loopOn=false;return;}loopOn=true;
     var m=MODE==="wear"?pose:hands;
-    if(!busy&&m&&vid.readyState>=2){busy=true;m.send({image:vid}).catch(function(){}).then(function(){busy=false;});}
+    if(!busy&&m&&vid.readyState>=2){busy=true;var t0=performance.now(),src=vid;
+      try{var iw=320,ih=Math.round(320*(vid.videoHeight||3)/(vid.videoWidth||4));if(inC.width!==iw||inC.height!==ih){inC.width=iw;inC.height=ih;}inX.drawImage(vid,0,0,iw,ih);src=inC;}catch(e){src=vid;}
+      m.send({image:src}).catch(function(){}).then(function(){busy=false;infMs=infMs*.8+(performance.now()-t0)*.2;});}
     requestAnimationFrame(loop);
   }
   function mapPt(nx,ny){
@@ -1230,7 +1235,7 @@ Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW · SPELLS · TRY ON 
     var list=r.multiHandLandmarks||[];
     var now=performance.now();
     if(MODE==="effect"){
-      lastE={t:now,hands:list.slice(0,2).map(function(lm){var a=mapPt(lm[4].x,lm[4].y),b=mapPt(lm[8].x,lm[8].y);return {t:[a[0]*W,a[1]*H],i:[b[0]*W,b[1]*H]};})};
+      lastE={t:now,hands:list.slice(0,2).map(function(lm,hk){var a=lead("et"+hk,mapPt(lm[4].x,lm[4].y),now),b=lead("ei"+hk,mapPt(lm[8].x,lm[8].y),now);return {t:[a[0]*W,a[1]*H],i:[b[0]*W,b[1]*H]};})};
       setStat(list.length>=2?"mg_ef_on":list.length?"mg_ef_two":"mg_nohand");return;
     }
     if(MODE==="spell"){
@@ -1246,8 +1251,8 @@ Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW · SPELLS · TRY ON 
     }
     var lm=list[0];
     if(!lm){endStroke();cur.hidden=true;sm=null;palmT=0;setStat("mg_nohand");return;}
-    var raw=mapPt(lm[8].x,lm[8].y);
-    sm=sm?[sm[0]+(raw[0]-sm[0])*.55,sm[1]+(raw[1]-sm[1])*.55]:raw;
+    var raw=lead("tip",mapPt(lm[8].x,lm[8].y),now);
+    sm=sm?[sm[0]+(raw[0]-sm[0])*.75,sm[1]+(raw[1]-sm[1])*.75]:raw;
     function up2(t,p){return lm[t].y<lm[p].y-.015;}
     var i=up2(8,6),m=up2(12,10),rg=up2(16,14),pk=up2(20,18);
     var ar=(vid.videoWidth&&vid.videoHeight)?vid.videoWidth/vid.videoHeight:1.333;
@@ -1510,7 +1515,7 @@ Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW · SPELLS · TRY ON 
         var an=Math.atan2(h.pts[17][1]-h.pts[5][1],h.pts[17][0]-h.pts[5][0]);if(an>1.5708)an-=Math.PI;if(an<-1.5708)an+=Math.PI;
         var s=mand[k];
         if(!s||now-s.last>400)mand[k]={x:c[0],y:c[1],r:r,w:w,an:an,since:now,last:now};
-        else{s.x+=(c[0]-s.x)*.4;s.y+=(c[1]-s.y)*.4;s.r+=(r-s.r)*.3;s.w+=(w-s.w)*.3;s.an+=(an-s.an)*.3;s.last=now;}}});
+        else{s.x+=(c[0]-s.x)*.6;s.y+=(c[1]-s.y)*.6;s.r+=(r-s.r)*.35;s.w+=(w-s.w)*.35;s.an+=(an-s.an)*.35;s.last=now;}}});
     mand.forEach(function(s,k){if(!s)return;var age=now-s.last;if(age>300){mand[k]=null;return;}
       out.push({k:k,x:s.x,y:s.y,r:s.r*(1-Math.max(0,age-60)/240*.25),w:s.w,an:s.an,since:s.since,fade:1-age/300});});
     return out;
@@ -1715,7 +1720,7 @@ Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW · SPELLS · TRY ON 
     var live=running&&vid.videoWidth&&lastE&&now-lastE.t<450&&lastE.hands.length>=2,Q=null;
     if(live){
       var A=lastE.hands[0],B=lastE.hands[1];Q=efSort([A.t,A.i,B.i,B.t]);
-      if(!EQ||now-EQ.last>400)EQ={q:Q,last:now,since:now};else{for(var k=0;k<4;k++){EQ.q[k]=[EQ.q[k][0]+(Q[k][0]-EQ.q[k][0])*.55,EQ.q[k][1]+(Q[k][1]-EQ.q[k][1])*.55];}EQ.last=now;}
+      if(!EQ||now-EQ.last>400)EQ={q:Q,last:now,since:now};else{for(var k=0;k<4;k++){EQ.q[k]=[EQ.q[k][0]+(Q[k][0]-EQ.q[k][0])*.75,EQ.q[k][1]+(Q[k][1]-EQ.q[k][1])*.75];}EQ.last=now;}
     }else if(!running){
       var wb=Math.sin(now*.0012)*H*.02,cx0=W/2,cy0=H*.5,hw=W*.3,hh=H*.17;
       Q=[[cx0-hw,cy0-hh+wb],[cx0+hw,cy0-hh-wb],[cx0+hw,cy0+hh+wb],[cx0-hw,cy0+hh-wb]];EQ={q:Q,last:now,since:EQ&&now-EQ.last<400?EQ.since:now};
