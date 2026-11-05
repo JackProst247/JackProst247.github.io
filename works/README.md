@@ -25,6 +25,7 @@
 | Miners Villa | works/miners-villa/ |
 | Social guideline | works/social-guideline/ |
 | Цэлмэг интернэйшнл | works/tselmeg-international/ |
+| Цэлмэг дижитал сургууль | works/tselmeg-digital-school/ |
 | Tselmeg Tech School | works/tselmeg-tech-school/ |
 | Хөгжил трейд ХХК | works/khugjil-trade/ |
 | Практикал | works/practical/ |
