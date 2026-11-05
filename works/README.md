@@ -29,5 +29,8 @@
 | Хөгжил трейд ХХК | works/khugjil-trade/ |
 | Практикал | works/practical/ |
 | Мультипак ХХК | works/multipack/ |
+| Jackery Brand | works/jackery/ |
+| Seclab LLC | works/seclab/ |
+| Landmark Hotel | works/landmark-hotel/ |
 
 Зөвлөмж: JPG, өргөн нь 1500px хүртэл, нэг зураг 500KB-аас бага.
