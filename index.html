@@ -520,6 +520,7 @@ footer .script2{font-family:var(--script);writing-mode:vertical-lr;color:var(--g
             <li><b aria-hidden="true">✋</b><span data-i18n="mg_s1">Алгаа дэлгэвэл ид шидийн хүрээ гарна</span></li>
             <li><b aria-hidden="true">☝</b><span data-i18n="mg_s2">Долоовор хуруугаараа оч цацруулж зур</span></li>
             <li><b aria-hidden="true">⭕</b><span data-i18n="mg_s4">Хуруугаараа тойрог зурвал портал нээгдэнэ</span></li>
+            <li><b aria-hidden="true">🔮</b><span data-i18n="mg_s6">"Дүрс": алган дээр дүрс гарна, нөгөө гараа атгаад дэлгэвэл утаа болж өөр дүрс болно</span></li>
             <li><b aria-hidden="true">🤲</b><span data-i18n="mg_s5">Хоёр гараа хүрээ шиг барьбал голд нь тэмдэг гарна</span></li>
             <li><b aria-hidden="true">🙌</b><span data-i18n="mg_s3">Хоёр гараа хоёуланг нь ашиглаж болно</span></li>
           </ul>
@@ -541,7 +542,7 @@ footer .script2{font-family:var(--script);writing-mode:vertical-lr;color:var(--g
         <button class="chip" type="button" data-fx="strange" aria-pressed="true" data-i18n="mg_fx1">✦ Мандала</button>
         <button class="chip" type="button" data-fx="ribbon" aria-pressed="false" data-i18n="mg_fx2">〰 Руны</button>
         <button class="chip" type="button" data-fx="portal" aria-pressed="false" data-i18n="mg_fx3">⭕ Портал</button>
-        <button class="chip" type="button" data-fx="eyes" aria-pressed="false" data-i18n="mg_fx4">👁 Нүд</button>
+        <button class="chip" type="button" data-fx="shape" aria-pressed="false" data-i18n="mg_fx4">🔮 Дүрс</button>
       </div>
     </div>
     <div class="mgwear" id="mgwear" hidden>
@@ -1059,7 +1060,7 @@ Object.assign(T.mn,{mg_btn:"✦ Try the magic",mg_sub:"ХУРУУГААР ЗУР
  mg_start:"Эхлэх",mg_nocam:"Камергүй туршах",mg_clear:"Арилгах",mg_cta:"Төслөө захиалах →",mg_cam_on:"Камер асаах",mg_cam_off:"Камер унтраах",
  mg_load_cam:"Камер асааж байна…",mg_load_model:"Таних загвар ачаалж байна…",mg_ready:"Бэлэн! Долоовор хуруугаа өргө ☝",mg_nohand:"Гараа камерт харуул",
  mg_draw:"Зурж байна",mg_move:"Зөөж байна · өнгө сонго",mg_clearing:"Арилгаж байна…",
- mg_fx1:"✦ Мандала",mg_fx2:"〰 Руны туузан",mg_fx3:"⭕ Портал",mg_fx4:"👁 Нүд",mg_s5:"Хоёр гараа хүрээ шиг барьбал голд нь тэмдэг гарна",mg_s4:"Хуруугаараа тойрог зурвал портал нээгдэнэ",mg_spell_ready:"Алгаа дэлгэ ✋",mg_spell_ptr:"Дэлгэц дээр дарж, чирж ид шид үз",
+ mg_fx1:"✦ Мандала",mg_fx2:"〰 Руны туузан",mg_fx3:"⭕ Портал",mg_fx4:"🔮 Дүрс",mg_s5:"Хоёр гараа хүрээ шиг барьбал голд нь тэмдэг гарна",mg_s6:"\"Дүрс\": алган дээр дүрс гарна, нөгөө гараа атгаад дэлгэвэл утаа болж өөр дүрс болно",mg_s4:"Хуруугаараа тойрог зурвал портал нээгдэнэ",mg_spell_ready:"Алгаа дэлгэ ✋",mg_spell_ptr:"Дэлгэц дээр дарж, чирж ид шид үз",
  mg_wear_ready:"Бэлэн! Мөр, ууцаа харуул",mg_nobody:"Мөр, ууцаа камерт бүтэн харуул",mg_wear_demo:"Жишиг загвар дээр харуулж байна. Камер асаавал өөрт тань таарна",
  mg_err_perm:"Камерын зөвшөөрөл өгөөгүй байна. Камергүй горимоор үргэлжлүүлнэ.",mg_err_cam:"Камер олдсонгүй. Камергүй горимоор үргэлжлүүлнэ.",
  mg_err_model:"Таних загвар ачаалагдсангүй. Камергүй горимоор үргэлжлүүлнэ.",mg_pointer:"Хулгана эсвэл хуруугаараа зурна уу"});
@@ -1073,7 +1074,7 @@ Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW · SPELLS · TRY ON 
  mg_start:"Start",mg_nocam:"Try without camera",mg_clear:"Clear",mg_cta:"Order your project →",mg_cam_on:"Turn camera on",mg_cam_off:"Turn camera off",
  mg_load_cam:"Starting camera…",mg_load_model:"Loading tracking model…",mg_ready:"Ready! Raise your index finger ☝",mg_nohand:"Show your hand to the camera",
  mg_draw:"Drawing",mg_move:"Moving · pick a color",mg_clearing:"Clearing…",
- mg_fx1:"✦ Mandala",mg_fx2:"〰 Rune ribbon",mg_fx3:"⭕ Portal",mg_fx4:"👁 Eyes",mg_s5:"Hold both hands like a frame to summon the sigil",mg_s4:"Draw a circle with your finger to open a portal",mg_spell_ready:"Open your palm ✋",mg_spell_ptr:"Press and drag on the screen to cast",
+ mg_fx1:"✦ Mandala",mg_fx2:"〰 Rune ribbon",mg_fx3:"⭕ Portal",mg_fx4:"🔮 Summon",mg_s5:"Hold both hands like a frame to summon the sigil",mg_s6:"Summon: a figure floats above your palm; close then open your other hand to dissolve it into smoke and form the next",mg_s4:"Draw a circle with your finger to open a portal",mg_spell_ready:"Open your palm ✋",mg_spell_ptr:"Press and drag on the screen to cast",
  mg_wear_ready:"Ready! Show your shoulders and hips",mg_nobody:"Show your shoulders and hips to the camera",mg_wear_demo:"Showing a sample figure. Turn the camera on to fit it to you",
  mg_err_perm:"Camera permission was not granted. Continuing without the camera.",mg_err_cam:"No camera found. Continuing without the camera.",
  mg_err_model:"The tracking model could not be loaded. Continuing without the camera.",mg_pointer:"Draw with your mouse or finger"});
@@ -1129,7 +1130,7 @@ Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW · SPELLS · TRY ON 
   /* pointer: зурах горимд зураг зурна, ид шид горимд хүрээ + оч */
   function np(e){var r=stage.getBoundingClientRect();return [(e.clientX-r.left)/r.width,(e.clientY-r.top)/r.height];}
   cv.addEventListener("pointerdown",function(e){if(!help.hidden||MODE==="wear")return;e.preventDefault();try{cv.setPointerCapture(e.pointerId);}catch(x){}ptr=true;var p=np(e);
-    if(MODE==="spell"){pdown={x:p[0]*W,y:p[1]*H,t:performance.now()};trail.push({x:p[0]*W,y:p[1]*H,t:performance.now()});}
+    if(MODE==="spell"){tapQ=1;pdown={x:p[0]*W,y:p[1]*H,t:performance.now()};trail.push({x:p[0]*W,y:p[1]*H,t:performance.now()});}
     else{addPoint(p[0],p[1]);showCur(p[0],p[1],"draw");}});
   cv.addEventListener("pointermove",function(e){var p=np(e);
     if(MODE==="spell"){if(ptr){pdown={x:p[0]*W,y:p[1]*H,t:pdown?pdown.t:performance.now()};trail.push({x:p[0]*W,y:p[1]*H,t:performance.now()});if(trail.length>200)trail.shift();}return;}
@@ -1203,7 +1204,7 @@ Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW · SPELLS · TRY ON 
         var pts=lm.map(function(l){var p=mapPt(l.x,l.y);return [p[0]*W,p[1]*H];});
         function up(t,p){return lm[t].y<lm[p].y-.015;}
         var i=up(8,6),m=up(12,10),rg=up(16,14),pk=up(20,18);
-        return {pts:pts,palm:i&&m&&rg&&pk,point:i&&!m&&!rg&&!pk};
+        return {pts:pts,palm:i&&m&&rg&&pk,point:i&&!m&&!rg&&!pk,fist:!i&&!m&&!rg&&!pk};
       })};
       lastH.hands.forEach(function(h,k){if(h.point){trail.push({x:h.pts[8][0],y:h.pts[8][1],t:now});if(trail.length>200)trail.shift();}});
       if(!list.length)setStat("mg_nohand");else setStat("mg_spell_ready");
@@ -1397,33 +1398,6 @@ Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW · SPELLS · TRY ON 
     if(a>.3)spawn(p.x,p.y,rr,3,1.6);
     return true;
   }
-  /* алган дээрх нүд */
-  function drawEye(x,y,w,ang,t,seed,a){
-    var ph=(t+seed*1700)%3900,bl=ph<190?Math.sin(ph/190*Math.PI):0,open=1-bl*.97;
-    var h=w*.46,gx=Math.sin(t*.0011+seed)*w*.05+Math.sin(t*.0043+seed*3)*w*.012,gy=Math.cos(t*.0009+seed*2)*h*.06;
-    fx.save();fx.translate(x,y);fx.rotate(ang);fx.globalAlpha=a;
-    function almond(k){fx.beginPath();fx.moveTo(-w/2,0);fx.quadraticCurveTo(0,-h*k*1.05,w/2,0);fx.quadraticCurveTo(0,h*k*.95,-w/2,0);fx.closePath();}
-    /* арьсны сүүдэр */
-    fx.save();fx.shadowColor="rgba(40,10,5,.65)";fx.shadowBlur=w*.16;fx.fillStyle="rgba(60,25,15,.5)";almond(open*1.15);fx.fill();fx.restore();
-    almond(open);fx.save();fx.clip();
-    var sg=fx.createRadialGradient(0,0,w*.05,0,0,w*.55);sg.addColorStop(0,"#fbf6f0");sg.addColorStop(.7,"#eadcd2");sg.addColorStop(1,"#b98f86");
-    fx.fillStyle=sg;fx.fillRect(-w/2,-h,w,h*2);
-    fx.strokeStyle="rgba(180,50,50,.22)";fx.lineWidth=Math.max(.6,w*.006);
-    for(var v=0;v<7;v++){var s=v%2?1:-1,sx=(v<4?-1:1)*w*.46,vy=(v-3)*h*.12;fx.beginPath();fx.moveTo(sx,vy);fx.quadraticCurveTo(sx*.7,vy+s*h*.1,sx*.45,vy*.4);fx.stroke();}
-    var ir=h*.82;fx.translate(gx,gy);
-    var ig=fx.createRadialGradient(0,0,ir*.2,0,0,ir);ig.addColorStop(0,"#b9d3e2");ig.addColorStop(.55,"#6f93aa");ig.addColorStop(.9,"#2b4254");ig.addColorStop(1,"#142029");
-    fx.fillStyle=ig;fx.beginPath();fx.arc(0,0,ir,0,7);fx.fill();
-    fx.strokeStyle="rgba(255,255,255,.18)";fx.lineWidth=Math.max(.5,w*.004);
-    for(var f=0;f<28;f++){var fa=f*6.2832/28;fx.beginPath();fx.moveTo(Math.cos(fa)*ir*.38,Math.sin(fa)*ir*.38);fx.lineTo(Math.cos(fa)*ir*.92,Math.sin(fa)*ir*.92);fx.stroke();}
-    fx.fillStyle="#05080b";fx.beginPath();fx.arc(0,0,ir*(.36+.04*Math.sin(t*.002+seed)),0,7);fx.fill();
-    fx.fillStyle="rgba(255,255,255,.85)";fx.beginPath();fx.arc(-ir*.3,-ir*.32,ir*.13,0,7);fx.fill();
-    fx.translate(-gx,-gy);
-    var lg=fx.createLinearGradient(0,-h,0,h*.2);lg.addColorStop(0,"rgba(30,10,5,.6)");lg.addColorStop(.45,"rgba(30,10,5,0)");
-    fx.fillStyle=lg;fx.fillRect(-w/2,-h,w,h*2);
-    fx.restore();
-    almond(open);fx.strokeStyle="rgba(35,15,10,.8)";fx.lineWidth=Math.max(1.2,w*.02);fx.lineJoin="round";fx.stroke();
-    fx.restore();
-  }
   /* руны туузан */
   function drawRibbon(now,life){
     if(trail.length<2)return;
@@ -1505,22 +1479,98 @@ Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW · SPELLS · TRY ON 
     fx.restore();
     if(a>.3)spawn(f.x,f.y,R,2);
   }
+  /* дүрс дуудах: алган дээр бөөмсөөс бүтсэн дүрс, нөгөө гараа атгаад дэлгэвэл утаа болж хувирна */
+  var SHN=900,SHP=null,SHAPES=null,HS=[],tapQ=0;
+  function buildShapes(){
+    var seed=11;function rnd(){seed=(seed*16807)%2147483647;return seed/2147483647;}
+    function mk(fn){var a=[];for(var i=0;i<SHN;i++)a.push(fn(i));return a;}
+    var S=[];
+    S.push(mk(function(i){var u,v,th,R;
+      if(i<420){u=rnd();v=rnd()*6.2832;th=u*1.5708;R=.55*Math.sin(th)*(1+.06*Math.sin(v*8));
+        return {p:[R*Math.cos(v),.45+.5*Math.cos(th),R*Math.sin(v)],c:[Math.round(60+150*(1-u)),Math.round(190+55*(1-u)),255]};}
+      var s=i%14,t=rnd(),a=s/14*6.2832,r=.5*(1-.3*t);
+      return {p:[Math.cos(a)*r+Math.sin(t*9+s)*.07*t,.4-t*1.15,Math.sin(a)*r+Math.cos(t*9+s)*.07*t],c:[Math.round(60+40*(1-t)),Math.round(160+60*(1-t)),255]};}));
+    S.push(mk(function(i){var L=i%3,n=6+L*2,pet=Math.floor(rnd()*n),a=pet/n*6.2832+L*.3,u=rnd(),w=(rnd()-.5)*2*Math.sin(u*3.1416)*.17*(1+L*.15),len=.5+L*.18,rad=len*(.15+.85*u)*(1-.3*u*(1-L*.25)),
+        y=-.4+L*.06+(1-.12*L)*Math.pow(u,.9)*(1-.25*u);
+      return {p:[Math.cos(a)*rad-Math.sin(a)*w,y,Math.sin(a)*rad+Math.cos(a)*w],c:[255,Math.round(150+90*u),Math.round(60+110*u)]};}));
+    S.push(mk(function(i){
+      if(i>=800){var t=rnd();return {p:[Math.sin(t*3)*.03,-.95+t*.95,Math.cos(t*3)*.03],c:[60,170,90]};}
+      var f=i%14,t=rnd(),a=f/14*6.2832+Math.sin(f*2)*.1,rad=.12+.75*Math.pow(t,1.15),y=.05+.55*Math.sin(t*2.1)*(.75+.25*Math.cos(f*1.7))-.12*t;
+      var tip=t>.92;return {p:[Math.cos(a)*rad,y,Math.sin(a)*rad],c:tip?[255,150,150]:[235,Math.round(25+40*t),Math.round(45+30*t)]};}));
+    S.push(mk(function(i){
+      if(i<440){var y=1-2*(i+.5)/440,r=Math.sqrt(1-y*y),ph=i*2.39996,k=.7+.3*rnd();return {p:[.42*r*Math.cos(ph),.42*y,.42*r*Math.sin(ph)],c:[255,Math.round(190*k+30),Math.round(50*k)]};}
+      var q=(i-440)%2,tl=q?.6:-.5,a=rnd()*6.2832,R=.78+.03*rnd();
+      return {p:[R*Math.cos(a),R*Math.sin(a)*Math.sin(tl),R*Math.sin(a)*Math.cos(tl)],c:[Math.round(70+60*q),Math.round(110+30*q),255]};}));
+    return S;
+  }
+  function shapeInit(){
+    SHAPES=buildShapes();
+    SHP={idx:0,phase:"form",pt:0,x:[],y:[],z:[],vx:[],vy:[],vz:[],r:[],g:[],b:[],last:performance.now(),since:performance.now()};
+    for(var i=0;i<SHN;i++){var t=SHAPES[0][i];SHP.x[i]=(Math.random()-.5)*.3;SHP.y[i]=(Math.random()-.5)*.3;SHP.z[i]=(Math.random()-.5)*.3;SHP.vx[i]=SHP.vy[i]=SHP.vz[i]=0;SHP.r[i]=t.c[0];SHP.g[i]=t.c[1];SHP.b[i]=t.c[2];}
+  }
+  function shapeNext(now){
+    if(!SHP)shapeInit();
+    if(SHP.phase!=="form"||now-SHP.pt<500)return;
+    SHP.phase="dissolve";SHP.pt=now;
+    for(var i=0;i<SHN;i++){var m=Math.hypot(SHP.x[i],SHP.y[i],SHP.z[i])||1,s=.012+Math.random()*.03;
+      SHP.vx[i]=SHP.x[i]/m*s+(Math.random()-.5)*.03;SHP.vy[i]=SHP.y[i]/m*s+.012+(Math.random()-.5)*.03;SHP.vz[i]=SHP.z[i]/m*s+(Math.random()-.5)*.03;}
+    if(navigator.vibrate)try{navigator.vibrate(20);}catch(e){}
+  }
+  function shapeTrigger(now){
+    if(running&&lastH&&now-lastH.t<600)lastH.hands.forEach(function(h,k){
+      var s=HS[k]||(HS[k]={});
+      if(h.fist){if(!s.since||now-s.last>500)s.since=now;s.last=now;}
+      else if(h.palm&&s.since&&now-s.last<700&&s.last-s.since>120){shapeNext(now);s.since=0;}
+      else if(now-(s.last||0)>900)s.since=0;
+    });
+    if(tapQ){tapQ=0;shapeNext(now);}
+  }
+  function drawShape(now,ax,ay,U,fade){
+    if(!SHP)shapeInit();
+    var dt=Math.min(50,now-SHP.last);SHP.last=now;
+    var tg=SHAPES[SHP.idx],k=1-Math.pow(1-.085,dt/16),i;
+    if(SHP.phase==="dissolve"){
+      for(i=0;i<SHN;i++){SHP.vx[i]=SHP.vx[i]*.965+(Math.random()-.5)*.004;SHP.vy[i]=SHP.vy[i]*.965+.0015;SHP.vz[i]=SHP.vz[i]*.965+(Math.random()-.5)*.004;
+        SHP.x[i]+=SHP.vx[i]*dt/16;SHP.y[i]+=SHP.vy[i]*dt/16;SHP.z[i]+=SHP.vz[i]*dt/16;}
+      if(now-SHP.pt>560){SHP.idx=(SHP.idx+1)%SHAPES.length;SHP.phase="form";SHP.pt=now;}
+    }else{
+      for(i=0;i<SHN;i++){var t=tg[i];
+        SHP.x[i]+=(t.p[0]-SHP.x[i])*k+(Math.random()-.5)*.004;SHP.y[i]+=(t.p[1]-SHP.y[i])*k+(Math.random()-.5)*.004;SHP.z[i]+=(t.p[2]-SHP.z[i])*k+(Math.random()-.5)*.004;
+        SHP.r[i]+=(t.c[0]-SHP.r[i])*.08;SHP.g[i]+=(t.c[1]-SHP.g[i])*.08;SHP.b[i]+=(t.c[2]-SHP.b[i])*.08;}
+    }
+    var e=Math.min(1,(now-SHP.since)/600);e=1-Math.pow(1-e,3);
+    var ang=now*.0006,ca=Math.cos(ang),sa=Math.sin(ang),tl=.28,ct=Math.cos(tl),st=Math.sin(tl),bob=Math.sin(now*.002)*U*.04,sz=Math.max(1.4,U/46);
+    var cy=ay+bob,gc=tg[0].c;
+    fx.save();fx.globalCompositeOperation="lighter";
+    var gl=fx.createRadialGradient(ax,cy,0,ax,cy,U*1.2);gl.addColorStop(0,"rgba("+gc[0]+","+gc[1]+","+gc[2]+","+(.16*fade*e)+")");gl.addColorStop(1,"rgba("+gc[0]+","+gc[1]+","+gc[2]+",0)");
+    fx.fillStyle=gl;fx.beginPath();fx.arc(ax,cy,U*1.2,0,7);fx.fill();
+    fx.globalAlpha=Math.min(1,.9*fade*(SHP.phase==="dissolve"?.8:1));
+    for(i=0;i<SHN;i++){
+      var X=SHP.x[i]*e,Y=SHP.y[i]*e,Z=SHP.z[i]*e,x1=X*ca+Z*sa,z1=-X*sa+Z*ca,y2=Y*ct-z1*st,z2=Y*st+z1*ct,s=1/(1+z2*.35);
+      fx.fillStyle="rgb("+(SHP.r[i]|0)+","+(SHP.g[i]|0)+","+(SHP.b[i]|0)+")";
+      var q=sz*(.8+.7*s);fx.fillRect(ax+x1*U*s-q/2,cy-y2*U*s-q/2,q,q);
+    }
+    fx.restore();
+  }
   function drawSpell(now){
     var P=palmsNow(now),pm=Math.min(W,H);
     if(FX==="strange"){
       var fr=frameNow(now);
       if(fr)drawSigil(fr,now);else P.forEach(function(c){var e=Math.min(1,(now-c.since)/420);e=1-Math.pow(1-e,3);mandala(c.x,c.y,c.r*e,now,e*c.fade);spawn(c.x,c.y,c.r*e,2);});
       if(pdown){var e0=Math.min(1,(now-pdown.t)/420);e0=1-Math.pow(1-e0,3);mandala(pdown.x,pdown.y,pm*.2*e0,now,e0);spawn(pdown.x,pdown.y,pm*.2*e0,2);}
-    }else if(FX==="eyes"){
-      P.forEach(function(c){var e=Math.min(1,(now-c.since)/350);e=1-Math.pow(1-e,3);drawEye(c.x,c.y,c.w*(.4+.6*e),c.an,now,c.k+1,e*c.fade);});
-      if(pdown){var e1=Math.min(1,(now-pdown.t)/350);e1=1-Math.pow(1-e1,3);drawEye(pdown.x,pdown.y,pm*.34*(.4+.6*e1),0,now,1,e1);}
+    }else if(FX==="shape"){
+      shapeTrigger(now);
+      var anc=null;P.forEach(function(c){if(!anc||c.x<anc.x)anc=c;});
+      if(anc){var e2=Math.min(1,(now-anc.since)/350);drawShape(now,anc.x,anc.y-anc.r*1.05,anc.r*.7,anc.fade);}
+      else if(!running){drawShape(now,W/2,H*.56,pm*.2,1);}
+      else{SHP=null;}
     }
     if(FX==="strange"||FX==="portal")detectCircle(now);
     portals=portals.filter(function(p){return drawPortal(p,now);});
     var life=FX==="ribbon"?3000:1700;
     trail=trail.filter(function(p){return now-p.t<life;});
     if(FX==="ribbon")drawRibbon(now,life);
-    else if(FX!=="eyes"&&trail.length>1){var cl=colOf();fx.save();fx.globalCompositeOperation="lighter";fx.lineCap="round";fx.lineJoin="round";
+    else if(FX!=="shape"&&trail.length>1){var cl=colOf();fx.save();fx.globalCompositeOperation="lighter";fx.lineCap="round";fx.lineJoin="round";
       for(var i=1;i<trail.length;i++){var a=trail[i],b=trail[i-1];if(a.t-b.t>140)continue;var f=1-(now-a.t)/life;
         fx.strokeStyle="rgba("+cl[0]+","+cl[1]+","+cl[2]+","+(f*.95)+")";fx.shadowColor=FX==="portal"?"#22d3ff":"#ff7a00";fx.shadowBlur=12;fx.lineWidth=2+5*f;fx.beginPath();fx.moveTo(b.x,b.y);fx.lineTo(a.x,a.y);fx.stroke();}
       fx.restore();
