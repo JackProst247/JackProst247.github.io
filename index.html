@@ -1174,6 +1174,21 @@ Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW · SPELLS · TRY ON 
     setStat(MODE==="draw"?(running?"mg_ready":"mg_pointer"):MODE==="spell"?(running?"mg_spell_ready":"mg_spell_ptr"):MODE==="effect"?(running?"mg_ef_ready":"mg_ef_demo"):(running?"mg_wear_ready":"mg_wear_demo"));
   }
   function pointerMode(k){setStat(k||"");if(!k)modeHint();updCam();}
+  var handsReady=null;
+  function preloadHands(){
+    if(hands)return Promise.resolve();
+    if(handsReady)return handsReady;
+    handsReady=(async function(){
+      if(!window.Hands)await loadScript(HANDS_BASE+"hands.js");
+      var h=new window.Hands({locateFile:function(f){return HANDS_BASE+f;}});
+      h.onResults(onHands);
+      h.setOptions({maxNumHands:2,modelComplexity:0,minDetectionConfidence:.6,minTrackingConfidence:.5});
+      await h.initialize();
+      try{var wc=document.createElement("canvas");wc.width=96;wc.height=72;await h.send({image:wc});}catch(e){}
+      hands=h;
+    })().catch(function(){handsReady=null;});
+    return handsReady;
+  }
   async function ensureModel(){
     if(MODE==="wear"){
       if(pose)return;
@@ -1182,21 +1197,16 @@ Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW · SPELLS · TRY ON 
       p.setOptions({modelComplexity:0,smoothLandmarks:true,minDetectionConfidence:.5,minTrackingConfidence:.5});
       p.onResults(onPose);await withTimeout(p.initialize(),40000);pose=p;
     }else{
-      if(!hands){
-        if(!window.Hands)await withTimeout(loadScript(HANDS_BASE+"hands.js"),20000);
-        var h=new window.Hands({locateFile:function(f){return HANDS_BASE+f;}});
-        h.onResults(onHands);hands=h;
-        hands.setOptions({maxNumHands:1,modelComplexity:0,minDetectionConfidence:.6,minTrackingConfidence:.5});
-        await withTimeout(hands.initialize(),30000);
-      }
+      if(!hands){await withTimeout(preloadHands(),45000);if(!hands)throw new Error("model");}
       hands.setOptions({maxNumHands:(MODE==="spell"||MODE==="effect")?2:1,modelComplexity:0,minDetectionConfidence:.6,minTrackingConfidence:.5});
     }
   }
   async function startCamera(){
     if(stream||running)return;
+    if(MODE!=="wear")preloadHands();
     if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){pointerMode("mg_err_cam");return;}
     setStat("mg_load_cam");
-    try{stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"user",width:{ideal:960},height:{ideal:720}},audio:false});}
+    try{stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"user",width:{ideal:640},height:{ideal:480},frameRate:{ideal:30}},audio:false});}
     catch(e){stream=null;pointerMode(e&&e.name==="NotAllowedError"?"mg_err_perm":"mg_err_cam");return;}
     vid.srcObject=stream;try{await vid.play();}catch(e){}
     stage.classList.add("cam");updCam();setStat("mg_load_model");
@@ -1775,6 +1785,7 @@ Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW · SPELLS · TRY ON 
 
   /* нээх / хаах */
   function openMagic(from){
+    setTimeout(function(){if(MODE!=="wear")preloadHands();},500);
     opener=from||null;modal.hidden=false;document.documentElement.style.overflow="hidden";
     seen[MODE]=1;showHelpFor(MODE);help.hidden=false;setStat("");updCam();buildPal();resize();$("#mgstart").focus();
     if(!fxOn){fxOn=true;fxLoop();}
