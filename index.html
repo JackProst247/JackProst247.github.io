@@ -260,6 +260,8 @@ footer .script2{font-family:var(--script);writing-mode:vertical-lr;color:var(--g
 .mgcur{position:absolute;left:0;top:0;width:30px;height:30px;margin:-15px 0 0 -15px;border-radius:50%;border:2px solid var(--mgc,#ff3df0);pointer-events:none;box-shadow:0 0 16px var(--mgc,#ff3df0);transition:background .08s,transform 0s}
 .mgcur.draw{background:var(--mgc,#ff3df0)}
 .mgcur.move{border-style:dashed}
+.mgcur.erase{border-style:dashed;border-width:3px;background:rgba(255,255,255,.1)}
+.mgcur.grab{border-style:double;border-width:5px;background:rgba(255,255,255,.14)}
 .mgstat{position:absolute;left:12px;top:12px;background:rgba(3,6,26,.7);border:1px solid rgba(255,255,255,.16);border-radius:99px;padding:.3rem .8rem;max-width:calc(100% - 90px);text-transform:none;letter-spacing:.03em;font-size:.74rem}
 .mgpal{position:absolute;right:10px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;padding:10px 8px;background:rgba(3,6,26,.55);border:1px solid rgba(255,255,255,.14);border-radius:99px}
 .mgpal button{width:28px;height:28px;border-radius:50%;border:2px solid transparent;padding:0;cursor:pointer;background:var(--c);box-shadow:0 0 10px var(--c)}
@@ -514,6 +516,8 @@ footer .script2{font-family:var(--script);writing-mode:vertical-lr;color:var(--g
           <ul data-m="draw">
             <li><b aria-hidden="true">☝</b><span data-i18n="mg_1">Долоовор хуруугаа өргөж зур</span></li>
             <li><b aria-hidden="true">✌</b><span data-i18n="mg_2">Хоёр хуруу өргөвөл зөөнө, өнгө сонгоно</span></li>
+            <li><b aria-hidden="true">🤟</b><span data-i18n="mg_4">Гурван хуруу өргөвөл баллуурдана</span></li>
+            <li><b aria-hidden="true">🖐</b><span data-i18n="mg_5">Эрхий хуруутай гурван хуруу өргөвөл зургаа зөөнө</span></li>
             <li><b aria-hidden="true">✋</b><span data-i18n="mg_3">Алгаа 1 секунд барьвал цэвэрлэнэ</span></li>
           </ul>
           <ul data-m="spell">
@@ -1059,7 +1063,7 @@ Object.assign(T.mn,{mg_btn:"✦ Try the magic",mg_sub:"ХУРУУГААР ЗУР
  mg_priv:"Камерын дүрс таны төхөөрөмж дээр л боловсруулагдана, хаашаа ч илгээгдэхгүй.",
  mg_start:"Эхлэх",mg_nocam:"Камергүй туршах",mg_clear:"Арилгах",mg_cta:"Төслөө захиалах →",mg_cam_on:"Камер асаах",mg_cam_off:"Камер унтраах",
  mg_load_cam:"Камер асааж байна…",mg_load_model:"Таних загвар ачаалж байна…",mg_ready:"Бэлэн! Долоовор хуруугаа өргө ☝",mg_nohand:"Гараа камерт харуул",
- mg_draw:"Зурж байна",mg_move:"Зөөж байна · өнгө сонго",mg_clearing:"Арилгаж байна…",
+ mg_draw:"Зурж байна",mg_erase:"Баллуурдаж байна ◌",mg_grab:"Зураг зөөж байна ✊",mg_4:"Гурван хуруу өргөвөл баллуурдана",mg_5:"Эрхий хуруутай гурван хуруу өргөвөл зургаа зөөнө",mg_move:"Зөөж байна · өнгө сонго",mg_clearing:"Арилгаж байна…",
  mg_fx1:"✦ Мандала",mg_fx2:"〰 Руны туузан",mg_fx3:"⭕ Портал",mg_fx4:"🔮 Дүрс",mg_s5:"Хоёр гараа хүрээ шиг барьбал голд нь тэмдэг гарна",mg_s6:"\"Дүрс\": алган дээр дүрс гарна, нөгөө гараа атгаад дэлгэвэл утаа болж өөр дүрс болно",mg_s4:"Хуруугаараа тойрог зурвал портал нээгдэнэ",mg_spell_ready:"Алгаа дэлгэ ✋",mg_spell_ptr:"Дэлгэц дээр дарж, чирж ид шид үз",
  mg_wear_ready:"Бэлэн! Мөр, ууцаа харуул",mg_nobody:"Мөр, ууцаа камерт бүтэн харуул",mg_wear_demo:"Жишиг загвар дээр харуулж байна. Камер асаавал өөрт тань таарна",
  mg_err_perm:"Камерын зөвшөөрөл өгөөгүй байна. Камергүй горимоор үргэлжлүүлнэ.",mg_err_cam:"Камер олдсонгүй. Камергүй горимоор үргэлжлүүлнэ.",
@@ -1073,7 +1077,7 @@ Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW · SPELLS · TRY ON 
  mg_priv:"Camera video is processed on your device only and is never sent anywhere.",
  mg_start:"Start",mg_nocam:"Try without camera",mg_clear:"Clear",mg_cta:"Order your project →",mg_cam_on:"Turn camera on",mg_cam_off:"Turn camera off",
  mg_load_cam:"Starting camera…",mg_load_model:"Loading tracking model…",mg_ready:"Ready! Raise your index finger ☝",mg_nohand:"Show your hand to the camera",
- mg_draw:"Drawing",mg_move:"Moving · pick a color",mg_clearing:"Clearing…",
+ mg_draw:"Drawing",mg_erase:"Erasing ◌",mg_grab:"Moving drawing ✊",mg_4:"Raise three fingers to erase",mg_5:"Three fingers plus thumb to move your drawing",mg_move:"Moving · pick a color",mg_clearing:"Clearing…",
  mg_fx1:"✦ Mandala",mg_fx2:"〰 Rune ribbon",mg_fx3:"⭕ Portal",mg_fx4:"🔮 Summon",mg_s5:"Hold both hands like a frame to summon the sigil",mg_s6:"Summon: a figure floats above your palm; close then open your other hand to dissolve it into smoke and form the next",mg_s4:"Draw a circle with your finger to open a portal",mg_spell_ready:"Open your palm ✋",mg_spell_ptr:"Press and drag on the screen to cast",
  mg_wear_ready:"Ready! Show your shoulders and hips",mg_nobody:"Show your shoulders and hips to the camera",mg_wear_demo:"Showing a sample figure. Turn the camera on to fit it to you",
  mg_err_perm:"Camera permission was not granted. Continuing without the camera.",mg_err_cam:"No camera found. Continuing without the camera.",
@@ -1087,6 +1091,7 @@ Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW · SPELLS · TRY ON 
   var CLOTH=["#0c0c10","#101b4a","#f4f1ea","#c8302f","#2f8f5b","#e3a21a"];
   var MODE="draw",color=NEON[0],wearColor=CLOTH[0],garment="tee",pattern="cloud";
   var strokes=[],cs=null,stream=null,hands=null,pose=null,running=false,loopOn=false,busy=false,dpr=1,W=1,H=1,statKey="",opener=null;
+  var thumbOut=false,poseMode="",poseSince=0,em=null,gm=null,grabbing=false,gStart=null,gPrev=null,gOff=[0,0],mvc=document.createElement("canvas");
   var sm=null,palmT=0,palmCool=0,dwellIdx=-1,dwellT=0,ptr=false,seen={},fxOn=false;
   var lastH=null,lastP=null,trail=[],parts=[],palmSince={},pdown=null,gc=document.createElement("canvas");
 
@@ -1124,8 +1129,8 @@ Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW · SPELLS · TRY ON 
     cs.pts.push([x,y]);seg(cs.c,l,[x,y]);
   }
   function endStroke(){cs=null;}
-  function clearAll(){strokes=[];cs=null;trail=[];parts=[];redraw();}
-  function showCur(x,y,mode){cur.hidden=false;cur.className="mgcur"+(mode?" "+mode:"");cur.style.transform="translate("+(x*W)+"px,"+(y*H)+"px)";}
+  function clearAll(){grabbing=false;gOff=[0,0];strokes=[];cs=null;trail=[];parts=[];redraw();}
+  function showCur(x,y,mode,rad){cur.hidden=false;cur.className="mgcur"+(mode?" "+mode:"");if(rad){cur.style.width=cur.style.height=(rad*2)+"px";cur.style.margin=(-rad)+"px 0 0 "+(-rad)+"px";}else{cur.style.width=cur.style.height=cur.style.margin="";}cur.style.transform="translate("+(x*W)+"px,"+(y*H)+"px)";}
 
   /* pointer: зурах горимд зураг зурна, ид шид горимд хүрээ + оч */
   function np(e){var r=stage.getBoundingClientRect();return [(e.clientX-r.left)/r.width,(e.clientY-r.top)/r.height];}
@@ -1216,7 +1221,13 @@ Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW · SPELLS · TRY ON 
     sm=sm?[sm[0]+(raw[0]-sm[0])*.55,sm[1]+(raw[1]-sm[1])*.55]:raw;
     function up2(t,p){return lm[t].y<lm[p].y-.015;}
     var i=up2(8,6),m=up2(12,10),rg=up2(16,14),pk=up2(20,18);
-    var mode=(i&&!m&&!rg&&!pk)?"draw":(i&&m&&!rg&&!pk)?"move":(i&&m&&rg&&pk)?"palm":"idle";
+    var ar=(vid.videoWidth&&vid.videoHeight)?vid.videoWidth/vid.videoHeight:1.333;
+    function dd(p,q){return Math.hypot((lm[p].x-lm[q].x)*ar,lm[p].y-lm[q].y);}
+    var tr=dd(4,5)/(dd(5,17)||1);thumbOut=thumbOut?tr>.62:tr>.8;
+    var three=i&&m&&rg&&!pk;
+    var mode=(i&&!m&&!rg&&!pk)?"draw":(i&&m&&!rg&&!pk)?"move":(i&&m&&rg&&pk)?"palm":three?(thumbOut?"grab":"erase"):"idle";
+    if(mode!==poseMode){poseMode=mode;poseSince=now;}
+    if(mode!=="grab"&&grabbing)endGrab();
     if(mode==="palm"&&now>palmCool){
       endStroke();showCur(sm[0],sm[1],"");setStat("mg_clearing");
       if(!palmT)palmT=now;
@@ -1224,10 +1235,55 @@ Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW · SPELLS · TRY ON 
       return;
     }
     palmT=0;
+    if((mode==="erase"||mode==="grab")&&now-poseSince<180){endStroke();showCur(sm[0],sm[1],"");setStat("mg_ready");return;}
     if(mode==="draw"){addPoint(sm[0],sm[1]);showCur(sm[0],sm[1],"draw");setStat("mg_draw");dwellIdx=-1;clearDwell();}
     else if(mode==="move"){endStroke();showCur(sm[0],sm[1],"move");setStat("mg_move");paletteDwell(sm[0]*W,sm[1]*H,now);}
+    else if(mode==="erase"){
+      endStroke();dwellIdx=-1;clearDwell();
+      var e8=mapPt(lm[8].x,lm[8].y),e12=mapPt(lm[12].x,lm[12].y),e16=mapPt(lm[16].x,lm[16].y),ex=(e8[0]+e12[0]+e16[0])/3,ey=(e8[1]+e12[1]+e16[1])/3;
+      em=em?[em[0]+(ex-em[0])*.5,em[1]+(ey-em[1])*.5]:[ex,ey];
+      eraseAt(em[0],em[1],Math.min(W,H)*.11);showCur(em[0],em[1],"erase",Math.min(W,H)*.11);setStat("mg_erase");
+    }
+    else if(mode==="grab"){
+      endStroke();dwellIdx=-1;clearDwell();
+      var cp=[0,5,9,13,17].map(function(k){return mapPt(lm[k].x,lm[k].y);}),gx=0,gy=0;cp.forEach(function(q){gx+=q[0]/5;gy+=q[1]/5;});
+      gm=gm?[gm[0]+(gx-gm[0])*.6,gm[1]+(gy-gm[1])*.6]:[gx,gy];
+      if(!grabbing)startGrab(gm);else moveGrab(gm);
+      showCur(gm[0],gm[1],"grab");setStat("mg_grab");
+    }
     else{endStroke();showCur(sm[0],sm[1],"");setStat("mg_ready");dwellIdx=-1;clearDwell();}
   }
+  /* баллуур ба зураг зөөх */
+  function segD(p,a,b){var vx=b[0]-a[0],vy=b[1]-a[1],l=vx*vx+vy*vy,t=l?Math.max(0,Math.min(1,((p[0]-a[0])*vx+(p[1]-a[1])*vy)/l)):0;return Math.hypot(p[0]-(a[0]+vx*t),p[1]-(a[1]+vy*t));}
+  function eraseAt(nx,ny,rad){
+    var p=[nx*W,ny*H],changed=false,out=[];
+    strokes.forEach(function(s){
+      var pp=s.pts.map(function(q){return [q[0]*W,q[1]*H];}),runs=[],run=[];
+      for(var k=0;k<s.pts.length;k++){
+        var hit=Math.hypot(pp[k][0]-p[0],pp[k][1]-p[1])<rad;
+        if(hit){if(run.length)runs.push(run);run=[];continue;}
+        if(k>0&&run.length&&segD(p,pp[k-1],pp[k])<rad){runs.push(run);run=[];}
+        run.push(s.pts[k]);
+      }
+      if(run.length)runs.push(run);
+      if(runs.length===1&&runs[0].length===s.pts.length){out.push(s);return;}
+      changed=true;runs.forEach(function(r){out.push({c:s.c,pts:r});});
+    });
+    if(changed){strokes=out;cs=null;redraw();}
+  }
+  function startGrab(m){
+    if(!strokes.length)return;grabbing=true;gStart=[m[0],m[1]];gPrev=[m[0],m[1]];
+    mvc.width=cv.width;mvc.height=cv.height;mvc.getContext("2d").drawImage(cv,0,0);
+  }
+  function moveGrab(m){
+    if(!grabbing)return;var dx=m[0]-gPrev[0],dy=m[1]-gPrev[1];gPrev=[m[0],m[1]];
+    var x0=1,x1=0,y0=1,y1=0;strokes.forEach(function(s){s.pts.forEach(function(q){x0=Math.min(x0,q[0]);x1=Math.max(x1,q[0]);y0=Math.min(y0,q[1]);y1=Math.max(y1,q[1]);});});
+    if(x0+dx<-.04)dx=-.04-x0;if(x1+dx>1.04)dx=1.04-x1;if(y0+dy<-.04)dy=-.04-y0;if(y1+dy>1.04)dy=1.04-y1;
+    strokes.forEach(function(s){s.pts.forEach(function(q){q[0]+=dx;q[1]+=dy;});});
+    gOff[0]+=dx;gOff[1]+=dy;
+    cx.clearRect(0,0,cv.width,cv.height);cx.drawImage(mvc,gOff[0]*W*dpr,gOff[1]*H*dpr);
+  }
+  function endGrab(){if(!grabbing)return;grabbing=false;gm=null;gOff=[0,0];redraw();}
   function clearDwell(){Array.prototype.forEach.call(pal.children,function(b){b.classList.remove("dwell");});}
   function paletteDwell(px,py,now){
     var sr=stage.getBoundingClientRect(),hit=-1;
