@@ -501,6 +501,7 @@ footer .script2{font-family:var(--script);writing-mode:vertical-lr;color:var(--g
     <div class="mgtabs" role="tablist" id="mgtabs">
       <button type="button" role="tab" data-mode="draw" aria-selected="true" data-i18n="mg_t_draw">✎ Зурах</button>
       <button type="button" role="tab" data-mode="effect" aria-selected="false" data-i18n="mg_t_effect">🎞 Эффект</button>
+      <button type="button" role="tab" data-mode="fog" aria-selected="false" data-i18n="mg_t_fog">🌫 Манан</button>
       <button type="button" role="tab" data-mode="spell" aria-selected="false" data-i18n="mg_t_spell">✦ Ид шид</button>
       <button type="button" role="tab" data-mode="wear" aria-selected="false" data-i18n="mg_t_wear">👕 Хувцас турших</button>
     </div>
@@ -525,6 +526,11 @@ footer .script2{font-family:var(--script);writing-mode:vertical-lr;color:var(--g
             <li><b aria-hidden="true">🫰</b><span data-i18n="mg_e1">Хоёр гараараа L хэлбэр үүсгэж, 4 хурууны үзүүрээр хүрээ хий</span></li>
             <li><b aria-hidden="true">🎞</b><span data-i18n="mg_e2">Хүрээний дотор нь эффект гарна</span></li>
             <li><b aria-hidden="true">🤏</b><span data-i18n="mg_e3">Хүрээгээ нарийсгаад дахин тэлбэл эффект солигдоно</span></li>
+          </ul>
+          <ul data-m="fog">
+            <li><b aria-hidden="true">🤏</b><span data-i18n="mg_f1">Эрхий, долоовор хуруугаа чимхээд толин дээрх мананг арчиж зур</span></li>
+            <li><b aria-hidden="true">✋</b><span data-i18n="mg_f2">Алгаа дэлгэж арчвал том хэсэг цэвэрхэн болно</span></li>
+            <li><b aria-hidden="true">🌫</b><span data-i18n="mg_f3">Манан аажим буцаж хучина</span></li>
           </ul>
           <ul data-m="spell">
             <li><b aria-hidden="true">✋</b><span data-i18n="mg_s1">Алгаа дэлгэвэл ид шидийн хүрээ гарна</span></li>
@@ -1078,7 +1084,7 @@ Object.assign(T.mn,{mg_btn:"✦ Try the magic",mg_sub:"ХУРУУГААР ЗУР
  mg_priv:"Камерын дүрс таны төхөөрөмж дээр л боловсруулагдана, хаашаа ч илгээгдэхгүй.",
  mg_start:"Эхлэх",mg_nocam:"Камергүй туршах",mg_clear:"Арилгах",mg_cta:"Төслөө захиалах →",mg_cam_on:"Камер асаах",mg_cam_off:"Камер унтраах",
  mg_load_cam:"Камер асааж байна…",mg_load_model:"Таних загвар ачаалж байна…",mg_ready:"Бэлэн! Долоовор хуруугаа өргө ☝",mg_nohand:"Гараа камерт харуул",
- mg_draw:"Зурж байна",mg_t_effect:"🎞 Эффект",mg_ef1:"▦ Тор",mg_ef2:"🔥 Дулаан",mg_ef3:"⚡ Неон",mg_ef4:"❄ Мөс",mg_ef5:"▒ Глитч",mg_ef_ready:"Хоёр гараараа L хэлбэр үүсгэ ⌐ ¬",mg_ef_demo:"Жишээ: камер асаавал өөрийн дүрс дээр гарна",mg_ef_on:"Эффект идэвхтэй · хүрээгээ хумиад тэлбэл солигдоно",mg_ef_two:"Хоёр дахь гараа харуул",mg_e1:"Хоёр гараараа L хэлбэр үүсгэж, 4 хурууны үзүүрээр хүрээ хий",mg_e2:"Хүрээний дотор нь эффект гарна",mg_e3:"Хүрээгээ нарийсгаад дахин тэлбэл эффект солигдоно",mg_erase:"Баллуурдаж байна ◌",mg_grab:"Зураг зөөж байна ✊",mg_4:"Гурван хуруу өргөвөл баллуурдана",mg_5:"Эрхий хуруутай гурван хуруу өргөвөл зургаа зөөнө",mg_move:"Зөөж байна · өнгө сонго",mg_clearing:"Арилгаж байна…",
+ mg_draw:"Зурж байна",mg_t_fog:"🌫 Манан",mg_fg_ready:"Хуруугаа чимхээд арчиж зур 🤏",mg_fg_demo:"Хулгана эсвэл хуруугаараа арчаад үз",mg_fg_wipe:"Арчиж байна…",mg_f1:"Эрхий, долоовор хуруугаа чимхээд толин дээрх мананг арчиж зур",mg_f2:"Алгаа дэлгэж арчвал том хэсэг цэвэрхэн болно",mg_f3:"Манан аажим буцаж хучина",mg_t_effect:"🎞 Эффект",mg_ef1:"▦ Тор",mg_ef2:"🔥 Дулаан",mg_ef3:"⚡ Неон",mg_ef4:"❄ Мөс",mg_ef5:"▒ Глитч",mg_ef_ready:"Хоёр гараараа L хэлбэр үүсгэ ⌐ ¬",mg_ef_demo:"Жишээ: камер асаавал өөрийн дүрс дээр гарна",mg_ef_on:"Эффект идэвхтэй · хүрээгээ хумиад тэлбэл солигдоно",mg_ef_two:"Хоёр дахь гараа харуул",mg_e1:"Хоёр гараараа L хэлбэр үүсгэж, 4 хурууны үзүүрээр хүрээ хий",mg_e2:"Хүрээний дотор нь эффект гарна",mg_e3:"Хүрээгээ нарийсгаад дахин тэлбэл эффект солигдоно",mg_erase:"Баллуурдаж байна ◌",mg_grab:"Зураг зөөж байна ✊",mg_4:"Гурван хуруу өргөвөл баллуурдана",mg_5:"Эрхий хуруутай гурван хуруу өргөвөл зургаа зөөнө",mg_move:"Зөөж байна · өнгө сонго",mg_clearing:"Арилгаж байна…",
  mg_fx1:"✦ Мандала",mg_fx2:"〰 Руны туузан",mg_fx3:"⭕ Портал",mg_fx4:"🔮 Дүрс",mg_s5:"Хоёр гараа хүрээ шиг барьбал голд нь тэмдэг гарна",mg_s6:"\"Дүрс\": алган дээр дүрс гарна, нөгөө гараа атгаад дэлгэвэл утаа болж өөр дүрс болно",mg_s4:"Хуруугаараа тойрог зурвал портал нээгдэнэ",mg_spell_ready:"Алгаа дэлгэ ✋",mg_spell_ptr:"Дэлгэц дээр дарж, чирж ид шид үз",
  mg_wear_ready:"Бэлэн! Мөр, ууцаа харуул",mg_nobody:"Мөр, ууцаа камерт бүтэн харуул",mg_wear_demo:"Жишиг загвар дээр харуулж байна. Камер асаавал өөрт тань таарна",
  mg_err_perm:"Камерын зөвшөөрөл өгөөгүй байна. Камергүй горимоор үргэлжлүүлнэ.",mg_err_cam:"Камер олдсонгүй. Камергүй горимоор үргэлжлүүлнэ.",
@@ -1092,7 +1098,7 @@ Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW · SPELLS · TRY ON 
  mg_priv:"Camera video is processed on your device only and is never sent anywhere.",
  mg_start:"Start",mg_nocam:"Try without camera",mg_clear:"Clear",mg_cta:"Order your project →",mg_cam_on:"Turn camera on",mg_cam_off:"Turn camera off",
  mg_load_cam:"Starting camera…",mg_load_model:"Loading tracking model…",mg_ready:"Ready! Raise your index finger ☝",mg_nohand:"Show your hand to the camera",
- mg_draw:"Drawing",mg_t_effect:"🎞 Effect",mg_ef1:"▦ Grid",mg_ef2:"🔥 Thermal",mg_ef3:"⚡ Neon",mg_ef4:"❄ Frost",mg_ef5:"▒ Glitch",mg_ef_ready:"Make an L shape with both hands",mg_ef_demo:"Demo: turn on the camera to see it on yourself",mg_ef_on:"Effect on · pinch the frame shut and open it to switch",mg_ef_two:"Show your second hand",mg_e1:"Make an L with each hand and frame with your 4 fingertips",mg_e2:"The effect appears inside the frame",mg_e3:"Close the frame to a line and open it again to switch effect",mg_erase:"Erasing ◌",mg_grab:"Moving drawing ✊",mg_4:"Raise three fingers to erase",mg_5:"Three fingers plus thumb to move your drawing",mg_move:"Moving · pick a color",mg_clearing:"Clearing…",
+ mg_draw:"Drawing",mg_t_fog:"🌫 Fog",mg_fg_ready:"Pinch and wipe the fog 🤏",mg_fg_demo:"Drag with mouse or finger to wipe",mg_fg_wipe:"Wiping…",mg_f1:"Pinch thumb and index finger to draw on the foggy mirror",mg_f2:"Wipe with an open palm to clear a large area",mg_f3:"The fog slowly returns",mg_t_effect:"🎞 Effect",mg_ef1:"▦ Grid",mg_ef2:"🔥 Thermal",mg_ef3:"⚡ Neon",mg_ef4:"❄ Frost",mg_ef5:"▒ Glitch",mg_ef_ready:"Make an L shape with both hands",mg_ef_demo:"Demo: turn on the camera to see it on yourself",mg_ef_on:"Effect on · pinch the frame shut and open it to switch",mg_ef_two:"Show your second hand",mg_e1:"Make an L with each hand and frame with your 4 fingertips",mg_e2:"The effect appears inside the frame",mg_e3:"Close the frame to a line and open it again to switch effect",mg_erase:"Erasing ◌",mg_grab:"Moving drawing ✊",mg_4:"Raise three fingers to erase",mg_5:"Three fingers plus thumb to move your drawing",mg_move:"Moving · pick a color",mg_clearing:"Clearing…",
  mg_fx1:"✦ Mandala",mg_fx2:"〰 Rune ribbon",mg_fx3:"⭕ Portal",mg_fx4:"🔮 Summon",mg_s5:"Hold both hands like a frame to summon the sigil",mg_s6:"Summon: a figure floats above your palm; close then open your other hand to dissolve it into smoke and form the next",mg_s4:"Draw a circle with your finger to open a portal",mg_spell_ready:"Open your palm ✋",mg_spell_ptr:"Press and drag on the screen to cast",
  mg_wear_ready:"Ready! Show your shoulders and hips",mg_nobody:"Show your shoulders and hips to the camera",mg_wear_demo:"Showing a sample figure. Turn the camera on to fit it to you",
  mg_err_perm:"Camera permission was not granted. Continuing without the camera.",mg_err_cam:"No camera found. Continuing without the camera.",
@@ -1144,15 +1150,18 @@ Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW · SPELLS · TRY ON 
     cs.pts.push([x,y]);seg(cs.c,l,[x,y]);
   }
   function endStroke(){cs=null;}
-  function clearAll(){grabbing=false;gOff=[0,0];strokes=[];cs=null;trail=[];parts=[];redraw();}
+  function clearAll(){fogReset();grabbing=false;gOff=[0,0];strokes=[];cs=null;trail=[];parts=[];redraw();}
   function showCur(x,y,mode,rad){cur.hidden=false;cur.className="mgcur"+(mode?" "+mode:"");if(rad){cur.style.width=cur.style.height=(rad*2)+"px";cur.style.margin=(-rad)+"px 0 0 "+(-rad)+"px";}else{cur.style.width=cur.style.height=cur.style.margin="";}cur.style.transform="translate("+(x*W)+"px,"+(y*H)+"px)";}
 
   /* pointer: зурах горимд зураг зурна, ид шид горимд хүрээ + оч */
   function np(e){var r=stage.getBoundingClientRect();return [(e.clientX-r.left)/r.width,(e.clientY-r.top)/r.height];}
-  cv.addEventListener("pointerdown",function(e){if(!help.hidden||MODE==="wear")return;e.preventDefault();try{cv.setPointerCapture(e.pointerId);}catch(x){}ptr=true;var p=np(e);
-    if(MODE==="spell"){tapQ=1;pdown={x:p[0]*W,y:p[1]*H,t:performance.now()};trail.push({x:p[0]*W,y:p[1]*H,t:performance.now()});}
+  cv.addEventListener("pointerdown",function(e){if(!help.hidden||MODE==="wear"||MODE==="effect")return;e.preventDefault();try{cv.setPointerCapture(e.pointerId);}catch(x){}ptr=true;var p=np(e);
+    if(MODE==="fog"){fogAdd(p[0]*W,p[1]*H,Math.min(W,H)*.09,"m");}
+    else if(MODE==="spell"){tapQ=1;pdown={x:p[0]*W,y:p[1]*H,t:performance.now()};trail.push({x:p[0]*W,y:p[1]*H,t:performance.now()});}
     else{addPoint(p[0],p[1]);showCur(p[0],p[1],"draw");}});
   cv.addEventListener("pointermove",function(e){var p=np(e);
+    if(MODE==="fog"){if(ptr)fogAdd(p[0]*W,p[1]*H,Math.min(W,H)*.09,"m");return;}
+    if(MODE==="effect")return;
     if(MODE==="spell"){if(ptr){pdown={x:p[0]*W,y:p[1]*H,t:pdown?pdown.t:performance.now()};trail.push({x:p[0]*W,y:p[1]*H,t:performance.now()});if(trail.length>200)trail.shift();}return;}
     if(ptr){addPoint(p[0],p[1]);showCur(p[0],p[1],"draw");}else if(!running&&help.hidden&&e.pointerType==="mouse"&&MODE==="draw")showCur(p[0],p[1],"");});
   function pup(){ptr=false;pdown=null;endStroke();if(!running)cur.hidden=true;}
@@ -1171,7 +1180,7 @@ Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW · SPELLS · TRY ON 
     cur.hidden=true;updCam();
   }
   function modeHint(){
-    setStat(MODE==="draw"?(running?"mg_ready":"mg_pointer"):MODE==="spell"?(running?"mg_spell_ready":"mg_spell_ptr"):MODE==="effect"?(running?"mg_ef_ready":"mg_ef_demo"):(running?"mg_wear_ready":"mg_wear_demo"));
+    setStat(MODE==="draw"?(running?"mg_ready":"mg_pointer"):MODE==="spell"?(running?"mg_spell_ready":"mg_spell_ptr"):MODE==="effect"?(running?"mg_ef_ready":"mg_ef_demo"):MODE==="fog"?(running?"mg_fg_ready":"mg_fg_demo"):(running?"mg_wear_ready":"mg_wear_demo"));
   }
   function pointerMode(k){setStat(k||"");if(!k)modeHint();updCam();}
   var inC=document.createElement("canvas"),inX=inC.getContext("2d"),infMs=60,pv={};
@@ -1234,6 +1243,18 @@ Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW · SPELLS · TRY ON 
     if(!running||MODE==="wear")return;
     var list=r.multiHandLandmarks||[];
     var now=performance.now();
+    if(MODE==="fog"){
+      var fl=list[0];if(!fl){setStat("mg_nohand");return;}
+      var ar2=(vid.videoWidth&&vid.videoHeight)?vid.videoWidth/vid.videoHeight:1.333;
+      function d2(p,q){return Math.hypot((fl[p].x-fl[q].x)*ar2,fl[p].y-fl[q].y);}
+      var ratio=d2(4,8)/(d2(0,9)||1);fogPinch=fogPinch?ratio<.5:ratio<.38;
+      var fu=function(t,p){return fl[t].y<fl[p].y-.015;};
+      var fpalm=fu(8,6)&&fu(12,10)&&fu(16,14)&&fu(20,18)&&!fogPinch;
+      if(fogPinch){var a4=mapPt(fl[4].x,fl[4].y),a8=mapPt(fl[8].x,fl[8].y),mp=lead("fp",[(a4[0]+a8[0])/2,(a4[1]+a8[1])/2],now);fogAdd(mp[0]*W,mp[1]*H,Math.min(W,H)*.055,"p");setStat("mg_fg_wipe");}
+      else if(fpalm){var pc=[0,5,9,13,17].map(function(k){return mapPt(fl[k].x,fl[k].y);}),px0=0,py0=0;pc.forEach(function(q){px0+=q[0]/5;py0+=q[1]/5;});var pl=lead("fh",[px0,py0],now);fogAdd(pl[0]*W,pl[1]*H,Math.min(W,H)*.2,"h");setStat("mg_fg_wipe");}
+      else setStat("mg_fg_ready");
+      return;
+    }
     if(MODE==="effect"){
       lastE={t:now,hands:list.slice(0,2).map(function(lm,hk){var a=lead("et"+hk,mapPt(lm[4].x,lm[4].y),now),b=lead("ei"+hk,mapPt(lm[8].x,lm[8].y),now);return {t:[a[0]*W,a[1]*H],i:[b[0]*W,b[1]*H]};})};
       setStat(list.length>=2?"mg_ef_on":list.length?"mg_ef_two":"mg_nohand");return;
@@ -1754,11 +1775,44 @@ Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW · SPELLS · TRY ON 
     fx.fillStyle="#fff";q.forEach(function(p){fx.beginPath();fx.arc(p[0],p[1],4,0,7);fx.fill();});fx.restore();
   }
   function syncEfChips(){Array.prototype.forEach.call($("#mgefg").children,function(x){x.setAttribute("aria-pressed",x.dataset.ef===EF?"true":"false");});}
+  /* МАНАН ТОЛЬ: толь манантаж, чимхсэн хуруугаар арчиж зурна */
+  var fogC=document.createElement("canvas"),fogM=document.createElement("canvas"),fogT=document.createElement("canvas"),fogN=null,fogPrev=null,fogQ=[],fogSince=0,lastF=null,fogPinch=false,fogFr=0;
+  function fogNoise(){
+    var c=document.createElement("canvas");c.width=c.height=200;var g=c.getContext("2d");
+    for(var i=0;i<260;i++){g.fillStyle="rgba(255,255,255,"+(.05+Math.random()*.16)+")";g.beginPath();g.arc(Math.random()*200,Math.random()*200,.6+Math.random()*2.2,0,7);g.fill();}
+    for(var k=0;k<14;k++){var x=Math.random()*200,y=Math.random()*120;g.strokeStyle="rgba(255,255,255,.07)";g.lineWidth=1.2;g.beginPath();g.moveTo(x,y);g.lineTo(x+(Math.random()-.5)*6,y+30+Math.random()*60);g.stroke();}
+    return c;
+  }
+  function fogReset(){var g=fogM.getContext("2d");g.clearRect(0,0,fogM.width,fogM.height);fogPrev=null;fogQ=[];}
+  function fogAdd(x,y,w,k){fogQ.push({x:x,y:y,w:w,k:k,t:performance.now()});if(fogQ.length>60)fogQ.shift();}
+  function drawFog(now){
+    var w=Math.max(2,Math.round(W)),h=Math.max(2,Math.round(H));
+    if(fogC.width!==w||fogC.height!==h){fogC.width=w;fogC.height=h;fogM.width=Math.max(2,Math.round(w/2));fogM.height=Math.max(2,Math.round(h/2));fogPrev=null;}
+    if(!fogN)fogN=fogNoise();if(!fogSince)fogSince=now;
+    var live=running&&vid.videoWidth,tw=Math.max(8,Math.round(W/14)),th=Math.max(8,Math.round(H/14));
+    fogT.width=tw;fogT.height=th;var tg=fogT.getContext("2d"),ds=null;
+    if(live){var vw=vid.videoWidth,vh=vid.videoHeight,s=Math.max(tw/vw,th/vh);tg.save();tg.translate(tw,0);tg.scale(-1,1);tg.drawImage(vid,(tw-vw*s)/2,(th-vh*s)/2,vw*s,vh*s);tg.restore();}
+    else{ds=demoScene(now);fx.drawImage(ds,0,0,W,H);tg.drawImage(ds,0,0,tw,th);}
+    var g=fogC.getContext("2d");g.globalCompositeOperation="source-over";g.globalAlpha=1;g.clearRect(0,0,w,h);g.imageSmoothingEnabled=true;g.drawImage(fogT,0,0,w,h);
+    g.fillStyle="rgba(232,238,244,.58)";g.fillRect(0,0,w,h);
+    g.globalAlpha=.55;g.fillStyle=g.createPattern(fogN,"repeat");g.fillRect(0,0,w,h);g.globalAlpha=1;
+    var mg=fogM.getContext("2d"),mw=fogM.width,mh=fogM.height;
+    if((fogFr++&1)===0){mg.globalCompositeOperation="destination-out";mg.fillStyle="rgba(0,0,0,.045)";mg.fillRect(0,0,mw,mh);}
+    mg.globalCompositeOperation="source-over";mg.lineCap="round";mg.lineJoin="round";mg.strokeStyle="#000";mg.fillStyle="#000";mg.shadowColor="#000";mg.shadowBlur=5;
+    fogQ.forEach(function(q){
+      var x=q.x*mw/W,y=q.y*mh/H,lw=q.w*mw/W;mg.lineWidth=lw;
+      if(fogPrev&&fogPrev.k===q.k&&q.t-fogPrev.t<260){mg.beginPath();mg.moveTo(fogPrev.x,fogPrev.y);mg.lineTo(x,y);mg.stroke();}
+      else{mg.beginPath();mg.arc(x,y,lw/2,0,7);mg.fill();}
+      fogPrev={x:x,y:y,t:q.t,k:q.k};});
+    fogQ=[];mg.shadowBlur=0;
+    g.globalCompositeOperation="destination-out";g.drawImage(fogM,0,0,w,h);g.globalCompositeOperation="source-over";
+    fx.save();fx.globalAlpha=Math.min(1,(now-fogSince)/500);fx.drawImage(fogC,0,0,W,H);fx.restore();
+  }
   function fxLoop(){
     if(modal.hidden){fxOn=false;return;}requestAnimationFrame(fxLoop);
     fx.setTransform(dpr,0,0,dpr,0,0);fx.clearRect(0,0,W,H);
     var now=performance.now();
-    if(MODE==="spell")drawSpell(now);else if(MODE==="wear")drawWear(now);else if(MODE==="effect")drawEffect(now);
+    if(MODE==="spell")drawSpell(now);else if(MODE==="wear")drawWear(now);else if(MODE==="effect")drawEffect(now);else if(MODE==="fog")drawFog(now);
   }
 
   function snapshot(){
