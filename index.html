@@ -124,8 +124,20 @@ section{padding-block:clamp(3rem,7vw,5.5rem)}
 /* works */
 .works{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,270px),1fr));gap:1rem}
 .work{border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--surface);display:flex;flex-direction:column;min-width:0;transition:transform .2s}
-.work:hover{transform:translateY(-4px)}
-@media (prefers-reduced-motion:reduce){.work{transition:none}.work:hover{transform:none}}
+.work:hover,.work:focus-visible{transform:translateY(-4px)}
+.thumb img.cover{transition:transform .6s cubic-bezier(.2,.7,.2,1),filter .6s ease,opacity .6s ease}
+.thumb img.cover.pre{filter:blur(18px);transform:scale(1.08);opacity:.2}
+.work:hover .thumb img.cover,.work:focus-visible .thumb img.cover{transform:scale(1.06)}
+.thumb b{transition:transform .35s ease}
+.work:hover .thumb b,.work:focus-visible .thumb b{transform:translateY(-4px)}
+.work .go{transition:transform .25s ease}
+.work:hover .go,.work:focus-visible .go{transform:translateX(4px)}
+.work:active{transform:scale(.985)}
+.wfilter{display:flex;gap:.5rem;flex-wrap:wrap;margin:0 0 1.2rem}
+.work.fout{display:none}
+@keyframes wfin{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.work.fin{animation:wfin .4s ease both}
+@media (prefers-reduced-motion:reduce){.work,.thumb img.cover,.thumb b,.work .go{transition:none}.work:hover,.work:focus-visible{transform:none}.work:hover .thumb img.cover{transform:none}.work.fin{animation:none}.thumb img.cover.pre{transform:none}}
 .thumb{aspect-ratio:4/3;max-width:100%;position:relative;display:flex;align-items:flex-end;padding:1rem 1.1rem;overflow:hidden;background:var(--c1);color:var(--ink)}
 .thumb b{font-family:var(--display);font-weight:900;font-size:clamp(1.15rem,2.2vw,1.5rem);line-height:1.05;letter-spacing:-.03em;position:relative;z-index:1;text-wrap:balance}
 .thumb::before{content:"";position:absolute;width:62%;aspect-ratio:1;border-radius:50%;right:-14%;top:-18%;background:var(--c2);opacity:.95}
@@ -153,6 +165,9 @@ button.work{font:inherit;color:inherit;text-align:left;padding:0;cursor:pointer;
 .mclose{flex:none;width:2.4rem;height:2.4rem;padding:0;font-size:1rem;line-height:1}
 .mstage{position:relative;flex:1 1 auto;min-height:260px;background:var(--bg);display:flex;align-items:center;justify-content:center;overflow:hidden;touch-action:pan-y}
 .mstage img{max-width:100%;max-height:62vh;object-fit:contain;display:block}
+@keyframes mfade{from{opacity:0;transform:scale(.985)}to{opacity:1;transform:none}}
+.mstage img.swap{animation:mfade .28s ease both}
+@media (prefers-reduced-motion:reduce){.mstage img.swap{animation:none}}
 .msoon{width:100%;min-height:260px;padding:2rem 1.4rem;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;text-align:center;font-weight:700}
 .msoon small{font-weight:400;opacity:.85;max-width:38ch}
 .mnav{position:absolute;top:50%;transform:translateY(-50%);width:2.8rem;height:2.8rem;border-radius:50%;border:0;background:rgba(5,9,28,.65);color:#fff;font-size:1.6rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center}
@@ -393,6 +408,7 @@ footer .script2{font-family:var(--script);writing-mode:vertical-lr;color:var(--g
       <div><div class="orn mini" aria-hidden="true"></div><h2 data-i18n="w_h">Сүүлийн ажлууд</h2></div>
       <p data-i18n="w_p">Зочид буудал, барилга, эрүүл мэнд, сургалт, үйлдвэрлэл зэрэг салбарын төслүүд.</p>
     </div>
+    <div class="wfilter" id="wfilter" role="group" aria-label="filter"></div>
     <div class="works" id="works-grid"></div>
     <div class="more">
       <a class="btn ghost small" href="https://www.behance.net/jakjjak" target="_blank" rel="noopener" data-i18n="w_more">Behance дээр бүгдийг үзэх ↗</a>
@@ -709,7 +725,7 @@ s2t:"Веб сайт",s2d:"Танилцуулга, лэндинг, компан�
 s3t:"Чатбот",s3d:"Асуултад хариулж, захиалга авч, лид цуглуулдаг автомат туслах.",
 s4t:"Маркетингийн дизайн",s4d:"Сошиал пост, сурталчилгааны баннер, кампанит ажлын визуал, сошиал гайдлайн.",
 s5t:"Хэвлэл",s5d:"Брошур, меню, постер, каталог. Хэвлэхэд бэлэн файлаар.",
-w_h:"Сүүлийн ажлууд",w_p:"Зочид буудал, барилга, эрүүл мэнд, сургалт, үйлдвэрлэл зэрэг салбарын төслүүд.",w_more:"Behance дээр бүгдийг үзэх ↗",
+w_h:"Сүүлийн ажлууд",w_p:"Зочид буудал, барилга, эрүүл мэнд, сургалт, үйлдвэрлэл зэрэг салбарын төслүүд.",w_more:"Behance дээр бүгдийг үзэх ↗",f_all:"Бүгд",f_brand:"Брэнд",f_web:"Веб",f_print:"Хэвлэл",f_design:"Дизайн",
 p_h:"Захиалгаас хүлээлгэн өгөх хүртэл",
 p1t:"Брийф",p1d:"Та хэрэгцээгээ доорх маягтаар илгээнэ. Би асуулт тодруулж, хугацаа үнийг тохирно.",
 p2t:"Концепт",p2d:"Чиглэл, өнгө, жишээ дэлгэцүүдийг санал болгоно. Та сонгоно.",
@@ -740,7 +756,7 @@ s2t:"Website",s2d:"Company sites and landing pages, from Figma to a live, mobile
 s3t:"Chatbot",s3d:"An automatic assistant that answers questions, takes orders and collects leads.",
 s4t:"Marketing design",s4d:"Social posts, ad banners, campaign visuals and social media guidelines.",
 s5t:"Print",s5d:"Brochures, menus, posters and catalogs, delivered print-ready.",
-w_h:"Recent work",w_p:"Projects across hospitality, real estate, health, education and manufacturing.",w_more:"See everything on Behance ↗",
+w_h:"Recent work",w_p:"Projects across hospitality, real estate, health, education and manufacturing.",w_more:"See everything on Behance ↗",f_all:"All",f_brand:"Brand",f_web:"Web",f_print:"Print",f_design:"Design",
 p_h:"From order to delivery",
 p1t:"Brief",p1d:"You send what you need through the form below. I ask follow-ups and we agree on timing and price.",
 p2t:"Concept",p2d:"I propose a direction, colors and sample screens. You choose.",
@@ -786,8 +802,28 @@ var $=function(s){return document.querySelector(s)};
 
 var coverOK={};
 function tryImg(src,ok,fail){var im=new Image();im.onload=function(){ok(im.src)};im.onerror=function(){if(fail)fail()};im.src=src;}
+var FGRP={multi:["brand","web"],web:["web"],brand:["brand"],brandsoc:["brand"],print:["print"],guide:["brand"],design:["design"]};
+var curF="all";
+function renderFilters(){
+  var f=$("#wfilter");f.innerHTML="";
+  ["all","brand","web","print","design"].forEach(function(k){
+    var b=document.createElement("button");b.type="button";b.className="chip";
+    b.setAttribute("aria-pressed",k===curF?"true":"false");b.textContent=T[lang]["f_"+k];
+    b.addEventListener("click",function(){curF=k;applyFilter(true);renderFilters();});
+    f.appendChild(b);
+  });
+}
+function applyFilter(anim){
+  Array.prototype.forEach.call($("#works-grid").children,function(el,i){
+    var w=WORKS[i],ok=curF==="all"||FGRP[w.t].indexOf(curF)>-1;
+    el.classList.toggle("fout",!ok);el.classList.remove("fin");
+    if(ok&&anim){void el.offsetWidth;el.classList.add("fin");}
+  });
+}
 function setCover(th,src){
-  var im=document.createElement("img");im.className="cover";im.alt="";im.loading="lazy";im.src=src;
+  var im=document.createElement("img");im.className="cover pre";im.alt="";im.loading="lazy";
+  im.onload=im.onerror=function(){requestAnimationFrame(function(){im.classList.remove("pre");});};
+  im.src=src;if(im.complete)im.onload();
   th.insertBefore(im,th.firstChild);th.classList.add("has-img");
 }
 function renderWorks(){
@@ -807,6 +843,7 @@ function renderWorks(){
     if(cv)setCover(th,cv);
     else if(cv===undefined)tryImg("works/"+w.slug+(w.cats?"/"+w.cats[0].k:"")+"/1.jpg",function(src){coverOK[w.slug]=src;setCover(th,src);},function(){coverOK[w.slug]=false;});
   });
+  renderFilters();applyFilter(false);
 }
 function renderTicker(){
   var w=T[lang].tick,h="";
@@ -946,7 +983,8 @@ function showImg(){
   }
   var isVid=!!(cat&&cat.video);
   if(isVid){vid.hidden=false;if(vid.getAttribute("src")!==L[G.i])vid.src=L[G.i];}
-  else{img.hidden=false;img.src=L[G.i];img.alt=G.w.n+" "+(G.i+1);}
+  else{img.hidden=false;if(img.getAttribute("src")!==L[G.i]){img.classList.remove("swap");void img.offsetWidth;img.classList.add("swap");}img.src=L[G.i];img.alt=G.w.n+" "+(G.i+1);
+    if(multi)[1,-1].forEach(function(d){var n=new Image();n.src=L[(G.i+d+L.length)%L.length];});}
   $("#mcount").hidden=!multi;$("#mcount").textContent=(G.i+1)+" / "+L.length;
   $("#mprev").hidden=!multi;$("#mnext").hidden=!multi;
   var th=$("#mthumbs");
