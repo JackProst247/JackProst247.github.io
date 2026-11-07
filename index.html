@@ -150,6 +150,8 @@ section{padding-block:clamp(3rem,7vw,5.5rem)}
 /* work cards are buttons; clicking opens the gallery */
 button.work{font:inherit;color:inherit;text-align:left;padding:0;cursor:pointer;width:100%}
 .thumb img.cover{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 30%}
+.thumb img.cover.fit{object-fit:contain;object-position:50% 50%}
+.thumb.has-fit b,.thumb.has-fit::after{display:none}
 .thumb.has-img::before{display:none}
 .thumb.has-img::after{height:62%;background:linear-gradient(to top,rgba(5,9,28,.78),transparent)}
 .thumb.has-img b{color:#fff}
@@ -780,7 +782,7 @@ tags:{multi:"Multi-discipline",web:"Web design",brand:"Brand · print · social"
 };
 
 var WORKS=[
- {n:"Luxwood Group",slug:"luxwood",t:"multi",cats:[{k:"poster",mn:"Постер дизайн",en:"Poster design"},{k:"video",mn:"Видео дизайн",en:"Video design",video:true},{k:"guideline",mn:"Guideline",en:"Guideline"},{k:"web",mn:"Веб дизайн",en:"Web design"},{k:"chatbot",mn:"Чат бот",en:"Chatbot"},{k:"finance",mn:"Санхүү бүртгэлийн автоматжуулалт",en:"Finance bookkeeping automation",locked:true}],c1:"#1d1712",c2:"#b8935a",ink:"#f1e3c6"},
+ {n:"Luxwood Group",slug:"luxwood",t:"multi",fit:"contain",cats:[{k:"poster",mn:"Постер дизайн",en:"Poster design"},{k:"video",mn:"Видео дизайн",en:"Video design",video:true},{k:"guideline",mn:"Guideline",en:"Guideline"},{k:"web",mn:"Веб дизайн",en:"Web design"},{k:"chatbot",mn:"Чат бот",en:"Chatbot"},{k:"finance",mn:"Санхүү бүртгэлийн автоматжуулалт",en:"Finance bookkeeping automation",locked:true}],c1:"#0c2a22",c2:"#b8935a",ink:"#f1e3c6"},
  {n:"Bugat Lodge",slug:"bugat-lodge",t:"brand",c1:"#0e1d3a",c2:"#c4a25a",ink:"#f3ead4"},
  {n:"Derma Solution",slug:"derma-solution",t:"brandsoc",c1:"#0f766e",c2:"#f5a623",ink:"#ffffff"},
  {n:"Miners Villa",slug:"miners-villa",t:"print",c1:"#7a1f1a",c2:"#e9a800",ink:"#fff3d6"},
@@ -820,11 +822,11 @@ function applyFilter(anim){
     if(ok&&anim){void el.offsetWidth;el.classList.add("fin");}
   });
 }
-function setCover(th,src){
-  var im=document.createElement("img");im.className="cover pre";im.alt="";im.loading="lazy";
+function setCover(th,src,fit){
+  var im=document.createElement("img");im.className="cover pre"+(fit?" fit":"");im.alt="";im.loading="lazy";
   im.onload=im.onerror=function(){requestAnimationFrame(function(){im.classList.remove("pre");});};
   im.src=src;if(im.complete)im.onload();
-  th.insertBefore(im,th.firstChild);th.classList.add("has-img");
+  th.insertBefore(im,th.firstChild);th.classList.add("has-img");if(fit)th.classList.add("has-fit");
 }
 function renderWorks(){
   var g=$("#works-grid");g.innerHTML="";
@@ -840,8 +842,8 @@ function renderWorks(){
     m.appendChild(a);m.appendChild(tg);el.appendChild(th);el.appendChild(m);g.appendChild(el);
     el.addEventListener("click",function(){openWork(idx,el);});
     var cv=coverOK[w.slug];
-    if(cv)setCover(th,cv);
-    else if(cv===undefined)tryImg("works/"+w.slug+(w.cats?"/"+w.cats[0].k:"")+"/1.jpg",function(src){coverOK[w.slug]=src;setCover(th,src);},function(){coverOK[w.slug]=false;});
+    if(cv)setCover(th,cv,w.fit);
+    else if(cv===undefined)tryImg("works/"+w.slug+(w.cats?"/"+w.cats[0].k:"")+"/1.jpg",function(src){coverOK[w.slug]=src;setCover(th,src,w.fit);},function(){coverOK[w.slug]=false;});
   });
   renderFilters();applyFilter(false);
 }
