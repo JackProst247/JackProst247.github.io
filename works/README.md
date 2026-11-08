@@ -23,7 +23,6 @@
 | Luxwood Group | works/luxwood/ (дээрх чиглэл бүрээр) |
 | Bugat Lodge | works/bugat-lodge/ |
 | Derma Solution | works/derma-solution/ |
-| Miners Villa | works/miners-villa/ |
 | Social guideline | works/social-guideline/ |
 | Цэлмэг интернэйшнл | works/tselmeg-international/ |
 | Цэлмэг дижитал сургууль | works/tselmeg-digital-school/ |
