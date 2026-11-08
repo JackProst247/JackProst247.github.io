@@ -178,6 +178,9 @@ button.work{font:inherit;color:inherit;text-align:left;padding:0;cursor:pointer;
 .mcount{position:absolute;right:.8rem;bottom:.6rem;background:rgba(5,9,28,.65);color:#fff;border-radius:99px;padding:.15rem .6rem}
 .mthumbs{display:flex;gap:.5rem;padding:.7rem 1.2rem;overflow-x:auto;border-top:1px solid var(--line)}
 .mthumbs:empty{display:none}
+.mlinks{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;padding:20px;max-width:560px}
+.mlinks a{padding:10px 16px;border:1px solid currentColor;border-radius:999px;color:inherit;text-decoration:none;font-weight:600;font-size:14px}
+.mlinks a:hover{background:rgba(255,255,255,.15)}
 .mthumbs button{flex:none;width:72px;height:54px;padding:0;border:2px solid transparent;border-radius:8px;overflow:hidden;background:var(--bg);cursor:pointer}
 .mthumbs button[aria-current="true"]{border-color:var(--accent)}
 .mthumbs img{width:100%;height:100%;object-fit:cover;display:block}
@@ -801,7 +804,8 @@ var WORKS=[
  {n:"Modun C7 Pro",slug:"modun-c7-pro",t:"design",c1:"#14213d",c2:"#fca311",ink:"#ffffff"},
  {n:"E-monos",slug:"e-monos",t:"design",c1:"#f7b7c8",c2:"#6a8caf",ink:"#3a2a33"},
  {n:"COSÉ Cosmetics",slug:"cose-cosmetics",t:"design",c1:"#2a1f22",c2:"#e8c3b0",ink:"#f7ebe4"},
- {n:"Бусад ажлууд",slug:"other",t:"design",c1:"#222b3a",c2:"#9aa7bd",ink:"#ffffff"}
+ {n:"Бусад ажлууд",slug:"other",t:"design",c1:"#222b3a",c2:"#9aa7bd",ink:"#ffffff"},
+ {n:"Branding",slug:"branding",t:"brand",c1:"#1b1b1f",c2:"#e9a800",ink:"#ffffff",links:[{n:"Montech URNUL",u:"https://drive.google.com/file/d/1KtCncg9Pjx1MecK9KGePkHeUBu3ycuSC/view"},{n:"GGI LLC",u:"https://drive.google.com/file/d/1_4XwuQSZYYwxBzvo9PnL7abbHGKafjez/view"},{n:"Smart Plus",u:"https://drive.google.com/file/d/1j0e4W2AZVgKgO7RlplRvkN6SfG4CMuCZ/view"},{n:"Medical Branding",u:"https://drive.google.com/file/d/1JPBbkSwh9wY86H1oltSN2QI4P9OmZUG_/view"},{n:"Medical Logo idea",u:"https://drive.google.com/file/d/1hkZchCA5yi8SGkG8B-f-j0C3mrjWjpUZ/view"},{n:"Постер ideas",u:"https://drive.google.com/file/d/11Qlc6okn4BhoGnDZkIKbYOpqRXdZESaA/view"}]}
 ];
 
 var lang="mn";
@@ -986,6 +990,11 @@ function showImg(){
   if(G.locked){renderLock();lock.hidden=false;$("#mthumbs").innerHTML="";return;}
   if(!L.length){
     soon.hidden=false;soon.style.background=G.w.c1;soon.style.color=G.w.ink;soon.innerHTML="";
+    if(G.w.links&&!G.loading){
+      var lw=document.createElement("div");lw.className="mlinks";
+      G.w.links.forEach(function(l){var a=document.createElement("a");a.href=l.u;a.target="_blank";a.rel="noopener";a.textContent=l.n+" ↗";lw.appendChild(a);});
+      soon.appendChild(lw);$("#mthumbs").innerHTML="";return;
+    }
     var s1=document.createElement("span");s1.textContent=G.loading?"…":((cat?cat[lang]+" · ":"")+t.m_soon);
     soon.appendChild(s1);$("#mthumbs").innerHTML="";return;
   }
