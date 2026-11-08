@@ -1030,7 +1030,7 @@ function probeAll(base,video){
     var list=[],n=1;
     function done(){G.cache[key]=list;res(list);}
     (function next(){
-      if(n>40)return done();
+      if(n>100)return done();
       if(video)headOK(base+"/"+n+".mp4",function(src){list.push(src);n++;next();},done);
       else tryImg(base+"/"+n+".jpg",function(src){list.push(src);n++;next();},done);
     })();
