@@ -160,6 +160,28 @@ button.work{font:inherit;color:inherit;text-align:left;padding:0;cursor:pointer;
 /* gallery modal */
 .modal{position:fixed;inset:0;z-index:100;background:rgba(5,9,28,.88);display:flex;align-items:center;justify-content:center;
   padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+
+.abpanel{background:var(--surface);color:var(--fg);border:1px solid var(--line);border-radius:22px;width:min(760px,100%);max-height:100%;display:flex;flex-direction:column;overflow:hidden}
+.abbody{overflow:auto;padding:1.4rem 1.4rem 1.6rem;display:grid;gap:1.4rem}
+.abhero{display:flex;gap:1.1rem;align-items:center}
+.abmono{flex:none;width:4.6rem;height:4.6rem;border-radius:50%;display:grid;place-items:center;font-family:"Instrument Serif",Georgia,serif;font-style:italic;font-size:1.9rem;color:#fff;background:linear-gradient(135deg,var(--accent),var(--blue))}
+.abhero h3{font-size:clamp(1.3rem,3.4vw,1.9rem);line-height:1.1}
+.abhero p{margin:.25rem 0 0;color:var(--muted);font-size:.95rem}
+.abbio{margin:0;line-height:1.65;font-size:1rem}
+.abstats{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem}
+.abstats div{border:1px solid var(--line);border-radius:14px;padding:.8rem .6rem;text-align:center}
+.abstats b{display:block;font-size:1.5rem;color:var(--accent)}
+.abstats span{font-size:.78rem;color:var(--muted)}
+.abh{margin:0 0 .6rem;font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.abtools{display:flex;flex-wrap:wrap;gap:.45rem}
+.abtools span{border:1px solid var(--line);border-radius:999px;padding:.3rem .75rem;font-size:.85rem}
+.abtl{list-style:none;margin:0;padding:0;display:grid;gap:.15rem;border-left:2px solid var(--line)}
+.abtl li{position:relative;padding:.5rem 0 .5rem 1.1rem;display:grid;grid-template-columns:7.2rem 1fr;gap:.6rem;font-size:.93rem}
+.abtl li::before{content:"";position:absolute;left:-.4rem;top:.95rem;width:.7rem;height:.7rem;border-radius:50%;background:var(--accent);border:2px solid var(--surface)}
+.abtl time{color:var(--muted);font-size:.82rem;font-variant-numeric:tabular-nums;padding-top:.08rem}
+.abtl small{display:block;color:var(--muted);font-size:.82rem}
+.abact{display:flex;flex-wrap:wrap;gap:.6rem}
+@media (max-width:520px){.abtl li{grid-template-columns:1fr;gap:.1rem}.abhero{flex-direction:column;align-items:flex-start}}
 .mpanel{background:var(--surface);color:var(--fg);border:1px solid var(--line);border-radius:22px;width:min(1040px,100%);max-height:100%;display:flex;flex-direction:column;overflow:hidden}
 .mhead{display:flex;justify-content:space-between;gap:1rem;align-items:flex-start;padding:1rem 1.2rem;border-bottom:1px solid var(--line)}
 .mhead > div{min-width:0}
@@ -363,6 +385,7 @@ footer .script2{font-family:var(--script);writing-mode:vertical-lr;color:var(--g
       <a href="#services" data-i18n="nav1">Үйлчилгээ</a>
       <a href="#works" data-i18n="nav2">Ажлууд</a>
       <a href="#process" data-i18n="nav3">Явц</a>
+      <a href="#about" id="aboutnav" data-i18n="ab_nav">Миний тухай</a>
     </nav>
     <div class="tools">
       <button class="chip" id="lang" type="button" aria-label="Language">EN</button>
@@ -383,8 +406,9 @@ footer .script2{font-family:var(--script);writing-mode:vertical-lr;color:var(--g
       <div class="cta">
         <a class="btn gold" href="#order" data-i18n="cta1">Захиалга өгөх →</a>
         <a class="btn ghost" href="#works" data-i18n="cta2">Ажлуудыг үзэх</a>
+        <button class="btn ghost" id="aboutopen" type="button" data-i18n="ab_btn">Миний тухай</button>
         <button class="btn magic" id="mgopen" type="button" data-i18n="mg_btn">✦ Try the magic</button>
-        <button class="btn magic" id="labopen" type="button" hidden data-i18n="fl_btn">👗 AI Fashion Lab</button>
+        <button class="btn magic" id="labopen" type="button" data-i18n="fl_btn">👗 AI Fashion Lab</button>
       </div>
     </div>
     <div class="orn" aria-hidden="true"></div>
@@ -691,6 +715,44 @@ footer .script2{font-family:var(--script);writing-mode:vertical-lr;color:var(--g
   </div>
 </div>
 
+<div class="modal" id="about" hidden role="dialog" aria-modal="true" aria-labelledby="abtitle">
+  <div class="abpanel">
+    <div class="mhead">
+      <div><h3 id="abtitle" data-i18n="ab_nav">Миний тухай</h3><div class="mono" data-i18n="ab_tag">ГРАФИК ДИЗАЙН · МАРКЕТИНГ</div></div>
+      <button class="chip mclose" id="abclose" type="button" aria-label="Close">✕</button>
+    </div>
+    <div class="abbody">
+      <div class="abhero">
+        <div class="abmono" aria-hidden="true">JB</div>
+        <div><h3>Б. Жавхланбаяр · JayBee</h3><p data-i18n="ab_role">График дизайнер · Маркетер · Мэдээллийн технологийн оюутан</p></div>
+      </div>
+      <p class="abbio" data-i18n="ab_bio">2021 оноос хойш график дизайн, маркетингийн салбарт ажиллаж байна. Брэндийг тод харагдуулж, харааны хувьд татагдахуйц шийдэл гаргахыг зорьдог. Лого, брэндбүүк, сошиал контент, видео, UI/UX дизайныг нэг гараас хийнэ.</p>
+      <div class="abstats">
+        <div><b>2021</b><span data-i18n="ab_s1">оноос хойш</span></div>
+        <div><b>20+</b><span data-i18n="ab_s2">брэнд, төсөл</span></div>
+        <div><b>5</b><span data-i18n="ab_s3">хүний баг удирдсан</span></div>
+      </div>
+      <div><h4 class="abh" data-i18n="ab_tools">Хэрэгсэл</h4>
+        <div class="abtools"><span>Photoshop</span><span>Illustrator</span><span>InDesign</span><span>CorelDRAW</span><span>After Effects</span><span>Filmora</span><span>Figma</span></div></div>
+      <div><h4 class="abh" data-i18n="ab_exp">Туршлага</h4>
+        <ul class="abtl">
+          <li><time>2025 – 2026</time><div>Натурал Текстайл Групп<small data-i18n="ab_e8">Борлуулалт, маркетинг · Landmark Hotel, Bugat Lodge</small></div></li>
+          <li><time>2024 – 2025</time><div>Хөгжил Трейд ХХК<small data-i18n="ab_e7">Маркетингийн менежер</small></div></li>
+          <li><time>2024</time><div>IWFCI × UNICEF Mongolia<small data-i18n="ab_e6">Хандивын гала: сошиал, тайзны видео, хэвлэл</small></div></li>
+          <li><time>2023 – 2024</time><div>Практикал даатгал<small data-i18n="ab_e5">Брэндинг, 20 жилийн ойн маркетинг төлөвлөгөө</small></div></li>
+          <li><time>2022 – 2025</time><div>Цэлмэг Дижитал Сургууль<small data-i18n="ab_e4">График дизайнер</small></div></li>
+          <li><time>2022 – 2023</time><div>Эхлэл брэнд · Modun C7<small data-i18n="ab_e3">Маркетинг ба дизайн, Эхлэл групп ReBrand</small></div></li>
+          <li><time>2022</time><div>Мэркадо ХХК<small data-i18n="ab_e2">Манка, SunSea, E-Monos, Smart Plus</small></div></li>
+          <li><time>2021 – 2022</time><div>SecLab LLC<small data-i18n="ab_e1">График дизайнер · ZesCoin</small></div></li>
+          <li><time>2023 – <span data-i18n="ab_now">одоо</span></time><div>JBMC<small data-i18n="ab_e0">Хувийн маркетингийн зөвлөх студи</small></div></li>
+        </ul></div>
+      <div class="abact">
+        <a class="btn gold small" id="abcta" href="#order" data-i18n="mg_cta">Төслөө захиалах →</a>
+        <a class="btn ghost small" href="https://www.behance.net/jakjjak" target="_blank" rel="noopener" data-i18n="m_behance">Behance дээр үзэх ↗</a>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="modal" id="modal" hidden role="dialog" aria-modal="true" aria-labelledby="mtitle">
   <div class="mpanel">
     <div class="mhead">
@@ -2310,5 +2372,18 @@ Object.assign(T.en,{fl_btn:"👗 AI Fashion Lab",fl_sub:"AR try-on · free · ru
 })();
 
 applyLang();
+Object.assign(T.mn,{ab_nav:"Миний тухай",ab_btn:"👤 Миний тухай",ab_tag:"ГРАФИК ДИЗАЙН · МАРКЕТИНГ",ab_role:"График дизайнер · Маркетер · Мэдээллийн технологийн оюутан",ab_bio:"2021 оноос хойш график дизайн, маркетингийн салбарт ажиллаж байна. Брэндийг тод харагдуулж, харааны хувьд татагдахуйц шийдэл гаргахыг зорьдог. Лого, брэндбүүк, сошиал контент, видео, UI/UX дизайныг нэг гараас хийнэ.",ab_s1:"оноос хойш",ab_s2:"брэнд, төсөл",ab_s3:"хүний баг удирдсан",ab_tools:"Хэрэгсэл",ab_exp:"Туршлага",ab_now:"одоо",ab_e8:"Борлуулалт, маркетинг · Landmark Hotel, Bugat Lodge",ab_e7:"Маркетингийн менежер",ab_e6:"Хандивын гала: сошиал, тайзны видео, хэвлэл",ab_e5:"Брэндинг, 20 жилийн ойн маркетинг төлөвлөгөө",ab_e4:"График дизайнер",ab_e3:"Маркетинг ба дизайн, Эхлэл групп ReBrand",ab_e2:"Манка, SunSea, E-Monos, Smart Plus",ab_e1:"График дизайнер · ZesCoin",ab_e0:"Хувийн маркетингийн зөвлөх студи"});
+Object.assign(T.en,{ab_nav:"About me",ab_btn:"👤 About me",ab_tag:"GRAPHIC DESIGN · MARKETING",ab_role:"Graphic designer · Marketer · IT student",ab_bio:"Working in graphic design and marketing since 2021. I help brands stand out with visually engaging solutions: logos, brandbooks, social content, video and UI/UX design, all from one pair of hands.",ab_s1:"since",ab_s2:"brands & projects",ab_s3:"person team led",ab_tools:"Tools",ab_exp:"Experience",ab_now:"present",ab_e8:"Sales & marketing · Landmark Hotel, Bugat Lodge",ab_e7:"Marketing manager",ab_e6:"Charity gala: social, stage video, print",ab_e5:"Branding, 20th anniversary marketing plan",ab_e4:"Graphic designer",ab_e3:"Marketing & design, Ehlel Group ReBrand",ab_e2:"Manka, SunSea, E-Monos, Smart Plus",ab_e1:"Graphic designer · ZesCoin",ab_e0:"Private marketing consulting studio"});
+applyLang();
+(function(){
+  var m=$("#about"),op=null;
+  function open(from){op=from||null;m.hidden=false;document.documentElement.style.overflow="hidden";$("#abclose").focus();}
+  function close(){m.hidden=true;document.documentElement.style.overflow="";if(op&&op.focus)op.focus();}
+  ["#aboutopen","#aboutnav"].forEach(function(q){$(q).addEventListener("click",function(e){e.preventDefault();open(this);});});
+  $("#abclose").addEventListener("click",close);
+  $("#abcta").addEventListener("click",close);
+  m.addEventListener("click",function(e){if(e.target===m)close();});
+  document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!m.hidden)close();});
+})();
 </script>
 </body></html>
