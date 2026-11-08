@@ -39,5 +39,6 @@
 | Modun C7 Pro | works/modun-c7-pro/ |
 | E-monos | works/e-monos/ |
 | COSÉ Cosmetics | works/cose-cosmetics/ |
+| Бусад ажлууд (ажлын зар, Smooth Skin) | works/other/ |
 
 Зөвлөмж: JPG, өргөн нь 1500px хүртэл, нэг зураг 500KB-аас бага.
