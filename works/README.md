@@ -20,6 +20,7 @@
 
 | Төсөл | Хавтас |
 |---|---|
+| Luxwood Group | works/luxwood/ (дээрх чиглэл бүрээр) |
 | Bugat Lodge | works/bugat-lodge/ |
 | Derma Solution | works/derma-solution/ |
 | Miners Villa | works/miners-villa/ |
@@ -36,7 +37,7 @@
 | Zescoin | works/zescoin/ |
 | Манка | works/manka/ |
 | SunSea | works/sunsea/ |
-| Modun C7 Pro | works/modun-ehlet/ |
+| Modun C7 Pro | works/modun-c7-pro/ |
 | Baby U | works/baby-u/ |
 | COSÉ Cosmetics | works/cose-cosmetics/ |
 
