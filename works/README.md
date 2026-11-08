@@ -33,5 +33,11 @@
 | Jackery Brand | works/jackery/ |
 | Seclab LLC | works/seclab/ |
 | Landmark Hotel | works/landmark-hotel/ |
+| Zescoin | works/zescoin/ |
+| Манка | works/manka/ |
+| SunSea | works/sunsea/ |
+| Modun C7 Pro | works/modun-ehlet/ |
+| Baby U | works/baby-u/ |
+| COSÉ Cosmetics | works/cose-cosmetics/ |
 
 Зөвлөмж: JPG, өргөн нь 1500px хүртэл, нэг зураг 500KB-аас бага.
