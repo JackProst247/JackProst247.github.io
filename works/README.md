@@ -40,6 +40,6 @@
 | E-monos | works/e-monos/ |
 | COSÉ Cosmetics | works/cose-cosmetics/ |
 | Branding (Drive дээрх brandbook PDF-ийн холбоос) | index.html дахь WORKS → branding.links |
-| Бусад ажлууд (ажлын зар, Smooth Skin) | works/other/ |
+| Бусад ажлууд (ажлын зар, Smooth Skin) | works/other/design/ (зураг), видео нь Facebook линк |
 
 Зөвлөмж: JPG, өргөн нь 1500px хүртэл, нэг зураг 500KB-аас бага.
