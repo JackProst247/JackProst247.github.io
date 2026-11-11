@@ -193,7 +193,7 @@ button.work{font:inherit;color:inherit;text-align:left;padding:0;cursor:pointer;
 .mstage img.swap{animation:mfade .28s ease both}
 @media (prefers-reduced-motion:reduce){.mstage img.swap{animation:none}}
 .msoon{width:100%;min-height:260px;padding:2rem 1.4rem;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;text-align:center;font-weight:700}
-.fbgrid{display:flex;flex-direction:column;gap:12px;align-items:center;width:100%;max-width:520px}.fbgrid .fbn{font-weight:400;font-size:12px;opacity:.8;max-width:44ch}.fbgrid .fbi{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:100%}.fbgrid button{padding:12px 8px;border:1px solid currentColor;border-radius:12px;background:transparent;color:inherit;font:inherit;font-weight:600;font-size:14px;cursor:pointer}.fbgrid button:hover{background:rgba(255,255,255,.15)}.fbgrid iframe{width:100%;height:480px;border:0;border-radius:12px;background:#000}.fbgrid a{color:inherit;font-weight:600;font-size:13px}
+.fbgrid{display:flex;flex-direction:column;gap:12px;align-items:center;width:100%;max-width:520px}.fbgrid .fbn{font-weight:400;font-size:12px;opacity:.8;max-width:44ch}.fbgrid .fbi{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:100%}.fbgrid button{padding:12px 8px;border:1px solid currentColor;border-radius:12px;background:transparent;color:inherit;font:inherit;font-weight:600;font-size:14px;cursor:pointer}.fbgrid button:hover{background:rgba(255,255,255,.15)}.fbgrid iframe{width:100%;height:480px;border:0;border-radius:12px;background:#000}.fbgrid a{color:inherit;font-weight:600;font-size:13px}.fbgrid .fbl{display:block;padding:12px 8px;border:1px solid currentColor;border-radius:12px;text-align:center;text-decoration:none;font-size:14px}.fbgrid .fbl:hover{background:rgba(255,255,255,.15)}
 .msoon small{font-weight:400;opacity:.85;max-width:38ch}
 .mnav{position:absolute;top:50%;transform:translateY(-50%);width:2.8rem;height:2.8rem;border-radius:50%;border:0;background:rgba(5,9,28,.65);color:#fff;font-size:1.6rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center}
 .mnav:hover{background:var(--accent);color:var(--accent-fg)}
@@ -1063,11 +1063,15 @@ function showImg(){
     }
     if(cat&&cat.fb&&!G.loading){
       var fg=document.createElement("div");fg.className="fbgrid";
-      var fn=document.createElement("div");fn.className="fbn";fn.textContent=lang==="mn"?"Видеог дарж нээхэд Facebook-ийн тоглуулагч ачаалагдана (Facebook-ийн нууцлалын бодлого үйлчилнэ).":"Tapping a video loads Facebook's player (Facebook's privacy policy applies).";
+      var fn=document.createElement("div");fn.className="fbn";fn.textContent=lang==="mn"?"Видеог Facebook дээр нээнэ (Facebook-ийн нууцлалын бодлого үйлчилнэ).":"Videos open on Facebook (Facebook's privacy policy applies).";
       var gi=document.createElement("div");gi.className="fbi";
       var pl=document.createElement("div");pl.style.width="100%";
       cat.fb.forEach(function(u,k){
-        var b=document.createElement("button");b.type="button";b.textContent="▶ "+(lang==="mn"?"Видео ":"Video ")+(k+1);
+        var lbl="▶ "+(lang==="mn"?"Видео ":"Video ")+(k+1);
+        if(/facebook\.com\/share\//.test(u)||/fb\.watch\//.test(u)){
+          var ea=document.createElement("a");ea.href=u;ea.target="_blank";ea.rel="noopener";ea.className="fbl";ea.textContent=lbl+" ↗";gi.appendChild(ea);return;
+        }
+        var b=document.createElement("button");b.type="button";b.textContent=lbl;
         b.addEventListener("click",function(){
           pl.innerHTML="";
           var f=document.createElement("iframe");f.src="https://www.facebook.com/plugins/video.php?show_text=false&width=500&href="+encodeURIComponent(u);
