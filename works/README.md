@@ -41,5 +41,6 @@
 | COSÉ Cosmetics | works/cose-cosmetics/ |
 | Branding (Drive дээрх brandbook PDF-ийн холбоос) | index.html дахь WORKS → branding.links |
 | Бусад ажлууд (ажлын зар, Smooth Skin) | works/other/ |
+| UNICEF | works/unicef/photo/ (зураг 1.jpg, 2.jpg…), видео нь Facebook линк |
 
 Зөвлөмж: JPG, өргөн нь 1500px хүртэл, нэг зураг 500KB-аас бага.
