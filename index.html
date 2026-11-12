@@ -330,6 +330,8 @@ footer .script2{font-family:var(--script);writing-mode:vertical-lr;color:var(--g
 .mgstage canvas#mgfx{pointer-events:none;cursor:default}
 .mgwear{display:grid;gap:.5rem;padding:.8rem 1.2rem 0}
 .mgrow{display:flex;gap:.5rem;flex-wrap:wrap}
+.mginp,.mgsel{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);color:inherit;border-radius:10px;padding:.45rem .7rem;font:inherit;font-size:.85rem;min-width:0}
+.mginp{flex:1 1 220px}.mgsel{max-width:100%}.mgsel option{color:#111}
 .mgpanel .chip[aria-pressed="true"]{background:#22e6ff;color:#05091c;border-color:#22e6ff}
 .mgcard ul[hidden]{display:none}
 .btn.magic{background:linear-gradient(90deg,#ff3df0,#22e6ff);color:#05091c;border:0}
@@ -550,6 +552,7 @@ footer .script2{font-family:var(--script);writing-mode:vertical-lr;color:var(--g
       <button type="button" role="tab" data-mode="effect" aria-selected="false" data-i18n="mg_t_effect">🎞 Эффект</button>
       <button type="button" role="tab" data-mode="fog" aria-selected="false" data-i18n="mg_t_fog">🌫 Манан</button>
       <button type="button" role="tab" data-mode="spell" aria-selected="false" data-i18n="mg_t_spell">✦ Ид шид</button>
+      <button type="button" role="tab" data-mode="letter" aria-selected="false" data-i18n="mg_t_letter">💌 Захидал</button>
       <button type="button" role="tab" data-mode="wear" aria-selected="false" data-i18n="mg_t_wear">👕 Хувцас турших</button>
     </div>
     <div class="mgstage" id="mgstage">
@@ -568,6 +571,11 @@ footer .script2{font-family:var(--script);writing-mode:vertical-lr;color:var(--g
             <li><b aria-hidden="true">🤟</b><span data-i18n="mg_4">Гурван хуруу өргөвөл баллуурдана</span></li>
             <li><b aria-hidden="true">🖐</b><span data-i18n="mg_5">Эрхий хуруутай гурван хуруу өргөвөл зургаа зөөнө</span></li>
             <li><b aria-hidden="true">✋</b><span data-i18n="mg_3">Алгаа 1 секунд барьвал цэвэрлэнэ</span></li>
+          </ul>
+          <ul data-m="letter">
+            <li><b aria-hidden="true">🖐</b><span data-i18n="ml_1">Гараа дэлгэхэд хуруу бүр дээр үг гарна</span></li>
+            <li><b aria-hidden="true">🙌</b><span data-i18n="ml_2">Хоёр гараа бүтэн дэлгэвэл захидал өөрөө уншигдана</span></li>
+            <li><b aria-hidden="true">🔊</b><span data-i18n="ml_3">Хэл, эмэгтэй/эрэгтэй хоолойгоо доороос сонго</span></li>
           </ul>
           <ul data-m="effect">
             <li><b aria-hidden="true">🫰</b><span data-i18n="mg_e1">Хоёр гараараа L хэлбэр үүсгэж, 4 хурууны үзүүрээр хүрээ хий</span></li>
@@ -599,6 +607,17 @@ footer .script2{font-family:var(--script);writing-mode:vertical-lr;color:var(--g
           </div>
         </div>
       </div>
+    </div>
+    <div class="mgwear" id="mgltsel" hidden>
+      <div class="mgrow"><input class="mginp" id="mgltxt" type="text" maxlength="90" autocomplete="off" data-i18n-ph="ml_ph" aria-label="Message"></div>
+      <div class="mgrow" id="mgltg" role="group">
+        <select class="mgsel" id="mgllang" aria-label="Language"></select>
+        <button class="chip" type="button" data-vg="f" aria-pressed="true" data-i18n="ml_f">♀ Эмэгтэй</button>
+        <button class="chip" type="button" data-vg="m" aria-pressed="false" data-i18n="ml_m">♂ Эрэгтэй</button>
+        <select class="mgsel" id="mgvoice" aria-label="Voice"></select>
+        <button class="chip" type="button" id="mgspeak" data-i18n="ml_speak">🔊 Унших</button>
+      </div>
+      <p class="mono" id="mgvnote" style="margin:0;font-size:.7rem;opacity:.8"></p>
     </div>
     <div class="mgwear" id="mgefsel" hidden>
       <div class="mgrow" id="mgefg" role="group">
@@ -1252,6 +1271,15 @@ Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW · SPELLS · TRY ON 
  mg_err_perm:"Camera permission was not granted. Continuing without the camera.",mg_err_cam:"No camera found. Continuing without the camera.",
  mg_err_model:"The tracking model could not be loaded. Continuing without the camera.",mg_pointer:"Draw with your mouse or finger"});
 
+Object.assign(T.mn,{mg_t_letter:"💌 Захидал",ml_1:"Гараа дэлгэхэд хуруу бүр дээр үг гарна",ml_2:"Хоёр гараа бүтэн дэлгэвэл захидал өөрөө уншигдана",ml_3:"Хэл, эмэгтэй/эрэгтэй хоолойгоо доороос сонго",
+ ml_ph:"Захидлаа бич (10 хүртэл үг)",ml_f:"♀ Эмэгтэй",ml_m:"♂ Эрэгтэй",ml_speak:"🔊 Унших",ml_ready:"Хоёр гараа дэлгэ 🙌",ml_demo:"Камер асаавал үг хуруу бүр дээр гарна",
+ ml_auto:"Автомат хоолой",ml_priv:"Камерын дүрс төхөөрөмж дээрээ л үлдэнэ. Хоолойг хөтчийн үнэгүй Web Speech уншина; ☁ тэмдэгтэй хоолой бичсэн текстийг хөтчийн үйлдвэрлэгчийн серверт илгээж болно.",
+ ml_novoice:"Энэ төхөөрөмж дээр сонгосон хэлний хоолой суугаагүй байна. Төхөөрөмжийнхөө Speech / Text-to-speech тохиргооноос хэл нэмж болно.",ml_pitch:"Эмэгтэй/эрэгтэй хоолой тодорхойгүй тул авиаг өөрчилж уншина.",ml_nosupport:"Энэ хөтөч дуу хоолой уншихыг дэмжихгүй байна."});
+Object.assign(T.en,{mg_t_letter:"💌 Letter",ml_1:"Open your hand and words appear on your fingers",ml_2:"Open both hands fully and the letter is read aloud",ml_3:"Pick a language and a female/male voice below",
+ ml_ph:"Write your letter (up to 10 words)",ml_f:"♀ Female",ml_m:"♂ Male",ml_speak:"🔊 Read aloud",ml_ready:"Open both hands 🙌",ml_demo:"Turn the camera on to see words on your fingers",
+ ml_auto:"Automatic voice",ml_priv:"Camera video stays on your device. Speech uses your browser's free Web Speech; voices marked ☁ may send the typed text to the browser vendor's server.",
+ ml_novoice:"No voice for this language is installed on this device. You can add one in your device's Speech / Text-to-speech settings.",ml_pitch:"Female/male voice is unknown, so the pitch is shifted instead.",ml_nosupport:"This browser does not support speech."});
+
 (function(){
   var modal=$("#magic"),stage=$("#mgstage"),vid=$("#mgvid"),cv=$("#mgcv"),cx=cv.getContext("2d"),fxc=$("#mgfx"),fx=fxc.getContext("2d"),cur=$("#mgcur"),statEl=$("#mgstat"),help=$("#mghelp"),pal=$("#mgpal"),camBtn=$("#mgcam"),wearBar=$("#mgwear");
   var BASE="https://cdn.jsdelivr.net/npm/@mediapipe/";
@@ -1303,13 +1331,13 @@ Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW · SPELLS · TRY ON 
 
   /* pointer: зурах горимд зураг зурна, ид шид горимд хүрээ + оч */
   function np(e){var r=stage.getBoundingClientRect();return [(e.clientX-r.left)/r.width,(e.clientY-r.top)/r.height];}
-  cv.addEventListener("pointerdown",function(e){if(!help.hidden||MODE==="wear"||MODE==="effect")return;e.preventDefault();try{cv.setPointerCapture(e.pointerId);}catch(x){}ptr=true;var p=np(e);
+  cv.addEventListener("pointerdown",function(e){if(!help.hidden||MODE==="wear"||MODE==="effect"||MODE==="letter")return;e.preventDefault();try{cv.setPointerCapture(e.pointerId);}catch(x){}ptr=true;var p=np(e);
     if(MODE==="fog"){fogAdd(p[0]*W,p[1]*H,Math.min(W,H)*.09,"m");}
     else if(MODE==="spell"){tapQ=1;pdown={x:p[0]*W,y:p[1]*H,t:performance.now()};trail.push({x:p[0]*W,y:p[1]*H,t:performance.now()});}
     else{addPoint(p[0],p[1]);showCur(p[0],p[1],"draw");}});
   cv.addEventListener("pointermove",function(e){var p=np(e);
     if(MODE==="fog"){if(ptr)fogAdd(p[0]*W,p[1]*H,Math.min(W,H)*.09,"m");return;}
-    if(MODE==="effect")return;
+    if(MODE==="effect"||MODE==="letter")return;
     if(MODE==="spell"){if(ptr){pdown={x:p[0]*W,y:p[1]*H,t:pdown?pdown.t:performance.now()};trail.push({x:p[0]*W,y:p[1]*H,t:performance.now()});if(trail.length>200)trail.shift();}return;}
     if(ptr){addPoint(p[0],p[1]);showCur(p[0],p[1],"draw");}else if(!running&&help.hidden&&e.pointerType==="mouse"&&MODE==="draw")showCur(p[0],p[1],"");});
   function pup(){ptr=false;pdown=null;endStroke();if(!running)cur.hidden=true;}
@@ -1328,7 +1356,7 @@ Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW · SPELLS · TRY ON 
     cur.hidden=true;updCam();
   }
   function modeHint(){
-    setStat(MODE==="draw"?(running?"mg_ready":"mg_pointer"):MODE==="spell"?(running?"mg_spell_ready":"mg_spell_ptr"):MODE==="effect"?(running?"mg_ef_ready":"mg_ef_demo"):MODE==="fog"?(running?"mg_fg_ready":"mg_fg_demo"):(running?"mg_wear_ready":"mg_wear_demo"));
+    setStat(MODE==="draw"?(running?"mg_ready":"mg_pointer"):MODE==="spell"?(running?"mg_spell_ready":"mg_spell_ptr"):MODE==="effect"?(running?"mg_ef_ready":"mg_ef_demo"):MODE==="fog"?(running?"mg_fg_ready":"mg_fg_demo"):MODE==="letter"?(running?"ml_ready":"ml_demo"):(running?"mg_wear_ready":"mg_wear_demo"));
   }
   function pointerMode(k){setStat(k||"");if(!k)modeHint();updCam();}
   var inC=document.createElement("canvas"),inX=inC.getContext("2d"),infMs=60,pv={};
@@ -1358,7 +1386,7 @@ Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW · SPELLS · TRY ON 
       p.onResults(onPose);await withTimeout(p.initialize(),40000);pose=p;
     }else{
       if(!hands){await withTimeout(preloadHands(),45000);if(!hands)throw new Error("model");}
-      hands.setOptions({maxNumHands:(MODE==="spell"||MODE==="effect")?2:1,modelComplexity:0,minDetectionConfidence:.6,minTrackingConfidence:.5});
+      hands.setOptions({maxNumHands:(MODE==="spell"||MODE==="effect"||MODE==="letter")?2:1,modelComplexity:0,minDetectionConfidence:.6,minTrackingConfidence:.5});
     }
   }
   async function startCamera(){
@@ -1402,6 +1430,15 @@ Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW · SPELLS · TRY ON 
       else if(fpalm){var pc=[0,5,9,13,17].map(function(k){return mapPt(fl[k].x,fl[k].y);}),px0=0,py0=0;pc.forEach(function(q){px0+=q[0]/5;py0+=q[1]/5;});var pl=lead("fh",[px0,py0],now);fogAdd(pl[0]*W,pl[1]*H,Math.min(W,H)*.2,"h");setStat("mg_fg_wipe");}
       else setStat("mg_fg_ready");
       return;
+    }
+    if(MODE==="letter"){
+      lastL={t:now,hands:list.slice(0,2).map(function(lm){
+        var pts=lm.map(function(l){var q=mapPt(l.x,l.y);return [q[0]*W,q[1]*H];});
+        function u(t,pp){return lm[t].y<lm[pp].y-.015;}
+        var th=Math.hypot(lm[4].x-lm[17].x,lm[4].y-lm[17].y)>Math.hypot(lm[3].x-lm[17].x,lm[3].y-lm[17].y)*1.05;
+        return {pts:pts,up:[th,u(8,6),u(12,10),u(16,14),u(20,18)]};
+      })};
+      setStat(list.length?"ml_ready":"mg_nohand");return;
     }
     if(MODE==="effect"){
       lastE={t:now,hands:list.slice(0,2).map(function(lm,hk){var a=lead("et"+hk,mapPt(lm[4].x,lm[4].y),now),b=lead("ei"+hk,mapPt(lm[8].x,lm[8].y),now);return {t:[a[0]*W,a[1]*H],i:[b[0]*W,b[1]*H]};})};
@@ -1956,11 +1993,115 @@ Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW · SPELLS · TRY ON 
     g.globalCompositeOperation="destination-out";g.drawImage(fogM,0,0,w,h);g.globalCompositeOperation="source-over";
     fx.save();fx.globalAlpha=Math.min(1,(now-fogSince)/500);fx.drawImage(fogC,0,0,W,H);fx.restore();
   }
+
+  /* ---- Захидал: гар таних + хөтчийн үнэгүй хоолой (Web Speech) ---- */
+  var lastL=null;
+  var LT={lang:(lang==="mn"?"mn-MN":"en-US"),g:"f",uri:"",edited:false,words:[],shown:{},hearts:[],spoken:false,lastSpeak:-1e9,ready:false};
+  var LANGS=[["mn-MN","Монгол","Би чамд маш их хайртай"],["en-US","English","I love you so much"],["ru-RU","Русский","Я так сильно тебя люблю"],["ko-KR","한국어","정말 많이 사랑해"],["ja-JP","日本語","とても愛してる"],["zh-CN","中文","我好爱你"],["es-ES","Español","Te quiero mucho"],["fr-FR","Français","Je t'aime tellement"],["de-DE","Deutsch","Ich liebe dich so sehr"],["pt-BR","Português","Eu te amo muito"],["it-IT","Italiano","Ti amo tanto"],["tr-TR","Türkçe","Seni çok seviyorum"],["hi-IN","हिन्दी","मैं तुमसे बहुत प्यार करता हूँ"],["ar-SA","العربية","أحبك كثيرا"]];
+  var FEM=/\bfemale\b|woman|samantha|victoria|karen|moira|tessa|fiona|zira|aria|jenny|hazel|susan|heera|yuna|heami|sun-?hi|kyoko|haruka|ayumi|nanami|xiaoxiao|xiaoyi|yaoyao|huihui|hanhan|tingting|sinji|meijia|paulina|monica|helena|laura|sabina|lucia|elena|irina|svetlana|katya|milena|alice|amelie|julie|hortense|denise|audrey|marie|anna|petra|hedda|katja|yelda|filiz|zosia|joana|francisca|luciana|raquel|carmen|elsa|yesui|emma|libby|sonia|natasha|clara|amy|emily|salli|joanna|ivy|zhiyu|lekha|kalpana|zariyah|salma|hamed.?f/i;
+  var MAL=/\bmale\b|daniel|alex\b|fred|david|mark\b|george|james|guy\b|ryan|thomas|jorge|diego|pablo|juan|enrique|yuri|pavel|maxim|ichiro|otoya|takumi|keita|injoon|kangkang|yunyang|yunxi|yunjian|danny|bataa|henri|claude|mathieu|stefan|conrad|ahmed|hamed|naayf|hemant|madhur|cem|ahmet|jaime|oliver/i;
+  function ltHasSpeech(){return typeof window.speechSynthesis!=="undefined"&&typeof window.SpeechSynthesisUtterance!=="undefined";}
+  function ltVoices(){return ltHasSpeech()?speechSynthesis.getVoices():[];}
+  function ltVoicesFor(code){var p=code.slice(0,2).toLowerCase();return ltVoices().filter(function(v){return v.lang&&v.lang.replace("_","-").toLowerCase().indexOf(p)===0;});}
+  function ltGender(v){if(/\bfemale\b/i.test(v.name))return "f";if(/\bmale\b/i.test(v.name))return "m";if(FEM.test(v.name))return "f";if(MAL.test(v.name))return "m";return "";}
+  function ltPick(){
+    var list=ltVoicesFor(LT.lang),v=null,pitch=1,note="";
+    if(LT.uri){v=list.filter(function(x){return x.voiceURI===LT.uri;})[0]||null;}
+    if(!v){
+      var m=list.filter(function(x){return ltGender(x)===LT.g;});
+      v=m.filter(function(x){return x.localService;})[0]||m[0]||null;
+      if(!v){v=list.filter(function(x){return x.localService;})[0]||list[0]||null;if(v)pitch=LT.g==="f"?1.3:.75;}
+    }
+    if(v&&!LT.uri&&pitch!==1)note="ml_pitch";
+    if(!list.length)note="ml_novoice";
+    return {v:v,pitch:pitch,note:note};
+  }
+  function ltWords(t){
+    t=(t||"").trim();if(!t)return [];var w=[];
+    if(/\s/.test(t))w=t.split(/\s+/);
+    else if(window.Intl&&Intl.Segmenter){try{Array.from(new Intl.Segmenter(LT.lang,{granularity:"word"}).segment(t)).forEach(function(x){if(x.isWordLike)w.push(x.segment);});}catch(e){}}
+    if(!w.length)w=t.match(/.{1,2}/g)||[];
+    return w.slice(0,10);
+  }
+  function ltUpd(){LT.words=ltWords($("#mgltxt").value);LT.shown={};LT.spoken=false;}
+  function ltFillVoices(){
+    var sel=$("#mgvoice"),cur=LT.uri,list=ltVoicesFor(LT.lang);
+    sel.innerHTML="";var o=document.createElement("option");o.value="";o.textContent=T[lang].ml_auto;sel.appendChild(o);
+    list.forEach(function(v){var x=document.createElement("option"),g=ltGender(v);x.value=v.voiceURI;x.textContent=(g==="f"?"♀ ":g==="m"?"♂ ":"")+v.name+(v.localService?"":" ☁");sel.appendChild(x);});
+    sel.value=list.some(function(v){return v.voiceURI===cur;})?cur:"";LT.uri=sel.value;ltNote();
+  }
+  function ltNote(){
+    var n=$("#mgvnote");if(!ltHasSpeech()){n.textContent=T[lang].ml_nosupport;return;}
+    var k=ltPick().note;n.textContent=(k?T[lang][k]+" ":"")+T[lang].ml_priv;
+  }
+  function ltSpeak(){
+    if(!ltHasSpeech()){ltNote();return;}
+    var t=$("#mgltxt").value.trim();if(!t)return;
+    try{speechSynthesis.cancel();}catch(e){}
+    var u=new SpeechSynthesisUtterance(t),pk=ltPick();u.lang=LT.lang;if(pk.v){u.voice=pk.v;u.lang=pk.v.lang;}u.pitch=pk.pitch;u.rate=.95;
+    LT.lastSpeak=performance.now();speechSynthesis.speak(u);ltNote();
+  }
+  function ltStop(){try{if(ltHasSpeech())speechSynthesis.cancel();}catch(e){}}
+  function ltInit(){
+    if(!LT.ready){
+      LT.ready=true;var sl=$("#mgllang");
+      LANGS.forEach(function(L){var o=document.createElement("option");o.value=L[0];o.textContent=L[1];sl.appendChild(o);});
+      sl.value=LT.lang;
+      $("#mgltxt").value=LANGS.filter(function(L){return L[0]===LT.lang;})[0][2];
+      sl.addEventListener("change",function(){LT.lang=sl.value;LT.uri="";if(!LT.edited)$("#mgltxt").value=LANGS.filter(function(L){return L[0]===LT.lang;})[0][2];ltUpd();ltFillVoices();});
+      $("#mgltxt").addEventListener("input",function(){LT.edited=true;ltUpd();});
+      $("#mgltg").addEventListener("click",function(e){var b=e.target.closest("button[data-vg]");if(!b)return;LT.g=b.dataset.vg;LT.uri="";Array.prototype.forEach.call($("#mgltg").querySelectorAll("button[data-vg]"),function(x){x.setAttribute("aria-pressed",x===b?"true":"false");});$("#mgvoice").value="";ltNote();});
+      $("#mgvoice").addEventListener("change",function(){LT.uri=this.value;ltNote();});
+      $("#mgspeak").addEventListener("click",ltSpeak);
+      if(ltHasSpeech()){try{speechSynthesis.addEventListener("voiceschanged",function(){if(MODE==="letter")ltFillVoices();});}catch(e){}}
+    }
+    ltUpd();ltFillVoices();
+  }
+  var LCOL=["#ff9ec7","#9fd8ff","#b6f2c2","#ffe59a","#d7b8ff"],LTIPS=[4,8,12,16,20];
+  var LCONN=[[0,1],[1,2],[2,3],[3,4],[0,5],[5,6],[6,7],[7,8],[5,9],[9,10],[10,11],[11,12],[9,13],[13,14],[14,15],[15,16],[13,17],[17,18],[18,19],[19,20],[0,17]];
+  function ltPill(txt,x,y,col,sc,al){
+    var fs=Math.max(13,Math.min(22,W*.034));fx.save();fx.globalAlpha=al;fx.translate(x,y);fx.scale(sc,sc);
+    fx.font="700 "+fs+"px system-ui,sans-serif";var w=fx.measureText(txt).width+fs*1.1,h=fs*1.7;
+    fx.shadowColor=col;fx.shadowBlur=14;fx.fillStyle="rgba(8,10,34,.72)";fx.strokeStyle=col;fx.lineWidth=1.6;
+    fx.beginPath();if(fx.roundRect)fx.roundRect(-w/2,-h/2,w,h,h/2);else fx.rect(-w/2,-h/2,w,h);fx.fill();fx.stroke();
+    fx.shadowBlur=0;fx.fillStyle="#fff";fx.textAlign="center";fx.textBaseline="middle";fx.fillText(txt,0,1);fx.restore();
+  }
+  function drawLetter(now){
+    var words=LT.words,n=words.length,vis=0,hl=(running&&lastL&&now-lastL.t<300)?lastL.hands:null;
+    if(!running){
+      words.forEach(function(w,i){var x=W*(.1+.8*(n>1?i/(n-1):.5)),y=H*.5+Math.sin(now/600+i)*H*.04;ltPill(w,x,y,LCOL[i%5],1,1);});
+      return;
+    }
+    if(hl){
+      var order=hl.map(function(h,i){return {h:h,i:i};}).sort(function(a,b){return a.h.pts[0][0]-b.h.pts[0][0];});
+      var half=hl.length>1?Math.ceil(n/2):Math.min(n,5);
+      order.forEach(function(o,rank){
+        var h=o.h,pts=h.pts;
+        fx.save();fx.strokeStyle="rgba(255,255,255,.55)";fx.lineWidth=1.6;fx.beginPath();LCONN.forEach(function(c){fx.moveTo(pts[c[0]][0],pts[c[0]][1]);fx.lineTo(pts[c[1]][0],pts[c[1]][1]);});fx.stroke();
+        fx.fillStyle="rgba(255,255,255,.85)";pts.forEach(function(q){fx.beginPath();fx.arc(q[0],q[1],2.4,0,6.3);fx.fill();});fx.restore();
+        var idx=[0,1,2,3,4].sort(function(a,b){return pts[LTIPS[a]][0]-pts[LTIPS[b]][0];});
+        idx.forEach(function(f,r){
+          var wi=rank===0?r:half+r,lim=rank===0?half:n;if(wi>=lim||wi>=n)return;
+          var tip=pts[LTIPS[f]],key=rank+"_"+f;
+          if(!h.up[f]){delete LT.shown[key];return;}
+          if(!LT.shown[key]){LT.shown[key]=now;if(LT.hearts.length<40)LT.hearts.push({x:tip[0],y:tip[1]-30,t:now,v:-.04-Math.random()*.04,dx:(Math.random()-.5)*.03});}
+          var k=Math.min(1,(now-LT.shown[key])/260),ease=1-Math.pow(1-k,3);
+          fx.save();fx.fillStyle=LCOL[wi%5];fx.shadowColor=LCOL[wi%5];fx.shadowBlur=12;fx.beginPath();fx.arc(tip[0],tip[1],5,0,6.3);fx.fill();fx.restore();
+          ltPill(words[wi],tip[0],tip[1]-34-(1-ease)*12,LCOL[wi%5],.6+.4*ease,ease);vis++;
+        });
+      });
+    }
+    var all=n>0&&vis>=n;
+    if(all&&!LT.spoken&&now-LT.lastSpeak>8000){LT.spoken=true;ltSpeak();for(var j=0;j<14;j++)LT.hearts.push({x:W*(.2+Math.random()*.6),y:H*(.5+Math.random()*.4),t:now,v:-.05-Math.random()*.06,dx:(Math.random()-.5)*.04});}
+    if(!all&&vis<Math.max(1,n-2))LT.spoken=false;
+    LT.hearts=LT.hearts.filter(function(h){return now-h.t<1800;});
+    LT.hearts.forEach(function(h){var a=1-(now-h.t)/1800;fx.save();fx.globalAlpha=Math.max(0,a);fx.fillStyle="#ff6fa8";fx.font="700 "+(16+8*a)+"px system-ui,sans-serif";fx.textAlign="center";fx.fillText("♥",h.x+h.dx*(now-h.t),h.y+h.v*(now-h.t));fx.restore();});
+  }
   function fxLoop(){
     if(modal.hidden){fxOn=false;return;}requestAnimationFrame(fxLoop);
     fx.setTransform(dpr,0,0,dpr,0,0);fx.clearRect(0,0,W,H);
     var now=performance.now();
-    if(MODE==="spell")drawSpell(now);else if(MODE==="wear")drawWear(now);else if(MODE==="effect")drawEffect(now);else if(MODE==="fog")drawFog(now);
+    if(MODE==="spell")drawSpell(now);else if(MODE==="wear")drawWear(now);else if(MODE==="effect")drawEffect(now);else if(MODE==="fog")drawFog(now);else if(MODE==="letter")drawLetter(now);
   }
 
   function snapshot(){
@@ -1977,7 +2118,7 @@ Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW · SPELLS · TRY ON 
     if(m===MODE)return;
     MODE=m;endStroke();ptr=false;pdown=null;cur.hidden=true;fx.clearRect(0,0,fxc.width,fxc.height);
     Array.prototype.forEach.call($("#mgtabs").children,function(b){b.setAttribute("aria-selected",b.dataset.mode===m?"true":"false");});
-    wearBar.hidden=m!=="wear";$("#mgfxsel").hidden=m!=="spell";$("#mgefsel").hidden=m!=="effect";$("#mgclear").hidden=m==="wear";
+    wearBar.hidden=m!=="wear";$("#mgfxsel").hidden=m!=="spell";$("#mgefsel").hidden=m!=="effect";$("#mgclear").hidden=m==="wear"||m==="letter";$("#mgltsel").hidden=m!=="letter";if(m==="letter")ltInit();else ltStop();
     cv.style.cursor=m==="wear"?"default":"crosshair";
     buildPal();resize();showHelpFor(m);
     if(!seen[m]){seen[m]=1;help.hidden=false;setStat("");}else modeHint();
@@ -1998,7 +2139,7 @@ Object.assign(T.en,{mg_btn:"✦ Try the magic",mg_sub:"DRAW · SPELLS · TRY ON 
     if(!fxOn){fxOn=true;fxLoop();}
   }
   function closeMagic(){
-    stopCamera();ptr=false;pdown=null;endStroke();modal.hidden=true;document.documentElement.style.overflow="";
+    stopCamera();ltStop();ptr=false;pdown=null;endStroke();modal.hidden=true;document.documentElement.style.overflow="";
     if(opener&&opener.focus)opener.focus();
   }
   $("#mgopen").addEventListener("click",function(){openMagic(this);});
