@@ -617,6 +617,9 @@ footer .script2{font-family:var(--script);writing-mode:vertical-lr;color:var(--g
         <select class="mgsel" id="mgvoice" aria-label="Voice"></select>
         <button class="chip" type="button" id="mgspeak" data-i18n="ml_speak">🔊 Унших</button>
       </div>
+      <div class="mgrow" id="mgwrow" role="group" aria-label="Words">
+        <button class="chip" type="button" data-fi="0"></button><button class="chip" type="button" data-fi="1"></button><button class="chip" type="button" data-fi="2"></button><button class="chip" type="button" data-fi="3"></button>
+      </div>
       <p class="mono" id="mgvnote" style="margin:0;font-size:.7rem;opacity:.8"></p>
     </div>
     <div class="mgwear" id="mgefsel" hidden>
@@ -1280,6 +1283,11 @@ Object.assign(T.en,{mg_t_letter:"💌 Letter",ml_1:"Open your hand and words app
  ml_auto:"Automatic voice",ml_priv:"Camera video stays on your device. Speech uses your browser's free Web Speech; voices marked ☁ may send the typed text to the browser vendor's server.",
  ml_novoice:"No voice for this language is installed on this device. You can add one in your device's Speech / Text-to-speech settings.",ml_pitch:"Female/male voice is unknown, so the pitch is shifted instead.",ml_nosupport:"This browser does not support speech."});
 
+Object.assign(T.mn,{ml_1:"Эрхий хуруугаараа чигчий хуруунд хүрвэл «Би», ядам хуруунд «чамд», дунд хуруунд «хайртай» гэнэ",ml_2:"Эрхий хуруугаараа долоовор хуруундаа хүрвэл зүрхэн эффект гарна",ml_3:"Нөгөө гараа дэлгэвэл захидал, цэцэг гарна. Хэл, эмэгтэй/эрэгтэй хоолойгоо доороос сонго",
+ ml_ph:"Захидлын текст (нөгөө гар дээр гарна)",ml_ready:"Эрхий хуруугаа бусад хуруунд хүргэ 🤏",ml_demo:"Камергүй бол доорх товчоор туршина",ml_fn:"чигчий|ядам|дунд|долоовор",ml_other:"Нөгөө гараа харуул: захидал, цэцэг гарна"});
+Object.assign(T.en,{ml_1:"Touch thumb to pinky to say “I”, ring finger “you”, middle finger “love”",ml_2:"Touch thumb to index finger for a heart effect",ml_3:"Open your other hand for a letter and flowers. Pick language and voice below",
+ ml_ph:"Letter text (shown above your other hand)",ml_ready:"Touch your thumb to your other fingers 🤏",ml_demo:"No camera? Try the buttons below",ml_fn:"pinky|ring|middle|index",ml_other:"Show your other hand: a letter and flowers appear"});
+
 (function(){
   var modal=$("#magic"),stage=$("#mgstage"),vid=$("#mgvid"),cv=$("#mgcv"),cx=cv.getContext("2d"),fxc=$("#mgfx"),fx=fxc.getContext("2d"),cur=$("#mgcur"),statEl=$("#mgstat"),help=$("#mghelp"),pal=$("#mgpal"),camBtn=$("#mgcam"),wearBar=$("#mgwear");
   var BASE="https://cdn.jsdelivr.net/npm/@mediapipe/";
@@ -1432,12 +1440,15 @@ Object.assign(T.en,{mg_t_letter:"💌 Letter",ml_1:"Open your hand and words app
       return;
     }
     if(MODE==="letter"){
-      lastL={t:now,hands:list.slice(0,2).map(function(lm){
+      var ar3=(vid.videoWidth&&vid.videoHeight)?vid.videoWidth/vid.videoHeight:1.333;
+      var hs=list.slice(0,2).map(function(lm){
         var pts=lm.map(function(l){var q=mapPt(l.x,l.y);return [q[0]*W,q[1]*H];});
+        var sz=Math.hypot((lm[0].x-lm[9].x)*ar3,lm[0].y-lm[9].y)||1;
+        function dd(t){return Math.hypot((lm[4].x-lm[t].x)*ar3,lm[4].y-lm[t].y)/sz;}
         function u(t,pp){return lm[t].y<lm[pp].y-.015;}
-        var th=Math.hypot(lm[4].x-lm[17].x,lm[4].y-lm[17].y)>Math.hypot(lm[3].x-lm[17].x,lm[3].y-lm[17].y)*1.05;
-        return {pts:pts,up:[th,u(8,6),u(12,10),u(16,14),u(20,18)]};
-      })};
+        return {pts:pts,sz:Math.hypot(pts[0][0]-pts[9][0],pts[0][1]-pts[9][1]),d:[dd(20),dd(16),dd(12),dd(8)],open:u(8,6)&&u(12,10)&&u(16,14)&&u(20,18)};
+      });
+      lastL={t:now,hands:hs};ltUpdate(hs,now);
       setStat(list.length?"ml_ready":"mg_nohand");return;
     }
     if(MODE==="effect"){
@@ -1994,12 +2005,13 @@ Object.assign(T.en,{mg_t_letter:"💌 Letter",ml_1:"Open your hand and words app
     fx.save();fx.globalAlpha=Math.min(1,(now-fogSince)/500);fx.drawImage(fogC,0,0,W,H);fx.restore();
   }
 
-  /* ---- Захидал: гар таних + хөтчийн үнэгүй хоолой (Web Speech) ---- */
+  /* ---- Захидал: хуруу хүрэлцэхэд үг хэлнэ, зүрх, цэцэг (Web Speech, үнэгүй) ---- */
   var lastL=null;
-  var LT={lang:(lang==="mn"?"mn-MN":"en-US"),g:"f",uri:"",edited:false,words:[],shown:{},hearts:[],spoken:false,lastSpeak:-1e9,ready:false};
-  var LANGS=[["mn-MN","Монгол","Би чамд маш их хайртай"],["en-US","English","I love you so much"],["ru-RU","Русский","Я так сильно тебя люблю"],["ko-KR","한국어","정말 많이 사랑해"],["ja-JP","日本語","とても愛してる"],["zh-CN","中文","我好爱你"],["es-ES","Español","Te quiero mucho"],["fr-FR","Français","Je t'aime tellement"],["de-DE","Deutsch","Ich liebe dich so sehr"],["pt-BR","Português","Eu te amo muito"],["it-IT","Italiano","Ti amo tanto"],["tr-TR","Türkçe","Seni çok seviyorum"],["hi-IN","हिन्दी","मैं तुमसे बहुत प्यार करता हूँ"],["ar-SA","العربية","أحبك كثيرا"],["fil-PH","Tagalog (Filipino)","Mahal na mahal kita"]];
-  var FEM=/\bfemale\b|woman|samantha|victoria|karen|moira|tessa|fiona|zira|aria|jenny|hazel|susan|heera|yuna|heami|sun-?hi|kyoko|haruka|ayumi|nanami|xiaoxiao|xiaoyi|yaoyao|huihui|hanhan|tingting|sinji|meijia|paulina|monica|helena|laura|sabina|lucia|elena|irina|svetlana|katya|milena|alice|amelie|julie|hortense|denise|audrey|marie|anna|petra|hedda|katja|yelda|filiz|zosia|joana|francisca|luciana|raquel|carmen|elsa|yesui|emma|libby|sonia|natasha|clara|amy|emily|salli|joanna|ivy|zhiyu|lekha|kalpana|zariyah|salma|hamed.?f/i;
-  var MAL=/\bmale\b|daniel|alex\b|fred|david|mark\b|george|james|guy\b|ryan|thomas|jorge|diego|pablo|juan|enrique|yuri|pavel|maxim|ichiro|otoya|takumi|keita|injoon|kangkang|yunyang|yunxi|yunjian|danny|bataa|henri|claude|mathieu|stefan|conrad|ahmed|hamed|naayf|hemant|madhur|cem|ahmet|jaime|oliver/i;
+  var LT={lang:(lang==="mn"?"mn-MN":"en-US"),g:"f",uri:"",edited:false,text:"",ready:false,tf:-1,seq:[],pops:[],hearts:[],petals:[],heartUntil:0,heartAt:null,sealT:0,bloom:0,lastSpawn:0,lastFire:0};
+  var LANGS=[["mn-MN","Монгол","Би чамд хайртай",["Би","чамд","хайртай"]],["en-US","English","I love you so much",["I","you","love"]],["ru-RU","Русский","Я так сильно тебя люблю",["Я","тебя","люблю"]],["ko-KR","한국어","정말 많이 사랑해",["나는","너를","사랑해"]],["ja-JP","日本語","とても愛してる",["私は","あなたを","愛してる"]],["zh-CN","中文","我好爱你",["我","你","爱"]],["es-ES","Español","Te quiero mucho",["Yo","te","quiero"]],["fr-FR","Français","Je t'aime tellement",["Je","toi","aime"]],["de-DE","Deutsch","Ich liebe dich so sehr",["Ich","dich","liebe"]],["pt-BR","Português","Eu te amo muito",["Eu","você","amo"]],["it-IT","Italiano","Ti amo tanto",["Io","te","amo"]],["tr-TR","Türkçe","Seni çok seviyorum",["Ben","seni","seviyorum"]],["hi-IN","हिन्दी","मैं तुमसे बहुत प्यार करता हूँ",["मैं","तुम्हें","प्यार"]],["ar-SA","العربية","أحبك كثيرا",["أنا","أنت","أحب"]],["fil-PH","Tagalog (Filipino)","Mahal na mahal kita",["Ako","ikaw","mahal"]]];
+  var FEM=/\bfemale\b|woman|samantha|victoria|karen|moira|tessa|fiona|zira|aria|jenny|hazel|susan|heera|yuna|heami|sun-?hi|kyoko|haruka|ayumi|nanami|xiaoxiao|xiaoyi|yaoyao|huihui|hanhan|tingting|sinji|meijia|paulina|monica|helena|laura|sabina|lucia|elena|irina|svetlana|katya|milena|alice|amelie|julie|hortense|denise|audrey|marie|anna|petra|hedda|katja|yelda|filiz|zosia|joana|francisca|luciana|raquel|carmen|elsa|yesui|emma|libby|sonia|natasha|clara|amy|emily|salli|joanna|ivy|zhiyu|lekha|kalpana|zariyah|salma|blessica|rosa/i;
+  var MAL=/\bmale\b|daniel|alex\b|fred|david|mark\b|george|james|guy\b|ryan|thomas|jorge|diego|pablo|juan|enrique|yuri|pavel|maxim|ichiro|otoya|takumi|keita|injoon|kangkang|yunyang|yunxi|yunjian|danny|bataa|henri|claude|mathieu|stefan|conrad|ahmed|hamed|naayf|hemant|madhur|cem|ahmet|jaime|oliver|angelo/i;
+  function ltL(){return LANGS.filter(function(L){return L[0]===LT.lang;})[0]||LANGS[1];}
   function ltHasSpeech(){return typeof window.speechSynthesis!=="undefined"&&typeof window.SpeechSynthesisUtterance!=="undefined";}
   function ltVoices(){return ltHasSpeech()?speechSynthesis.getVoices():[];}
   function ltVoicesFor(code){var p=code.split("-")[0].toLowerCase(),alt=p==="fil"?"tl":"";return ltVoices().filter(function(v){if(!v.lang)return false;var l=v.lang.replace("_","-").toLowerCase().split("-")[0];return l===p||(alt&&l===alt);});}
@@ -2016,14 +2028,6 @@ Object.assign(T.en,{mg_t_letter:"💌 Letter",ml_1:"Open your hand and words app
     if(!list.length)note="ml_novoice";
     return {v:v,pitch:pitch,note:note};
   }
-  function ltWords(t){
-    t=(t||"").trim();if(!t)return [];var w=[];
-    if(/\s/.test(t))w=t.split(/\s+/);
-    else if(window.Intl&&Intl.Segmenter){try{Array.from(new Intl.Segmenter(LT.lang,{granularity:"word"}).segment(t)).forEach(function(x){if(x.isWordLike)w.push(x.segment);});}catch(e){}}
-    if(!w.length)w=t.match(/.{1,2}/g)||[];
-    return w.slice(0,10);
-  }
-  function ltUpd(){LT.words=ltWords($("#mgltxt").value);LT.shown={};LT.spoken=false;}
   function ltFillVoices(){
     var sel=$("#mgvoice"),cur=LT.uri,list=ltVoicesFor(LT.lang);
     sel.innerHTML="";var o=document.createElement("option");o.value="";o.textContent=T[lang].ml_auto;sel.appendChild(o);
@@ -2034,68 +2038,120 @@ Object.assign(T.en,{mg_t_letter:"💌 Letter",ml_1:"Open your hand and words app
     var n=$("#mgvnote");if(!ltHasSpeech()){n.textContent=T[lang].ml_nosupport;return;}
     var k=ltPick().note;n.textContent=(k?T[lang][k]+" ":"")+T[lang].ml_priv;
   }
-  function ltSpeak(){
-    if(!ltHasSpeech()){ltNote();return;}
-    var t=$("#mgltxt").value.trim();if(!t)return;
+  function ltSay(t){
+    if(!ltHasSpeech()||!t){return;}
     try{speechSynthesis.cancel();}catch(e){}
     var u=new SpeechSynthesisUtterance(t),pk=ltPick();u.lang=LT.lang;if(pk.v){u.voice=pk.v;u.lang=pk.v.lang;}u.pitch=pk.pitch;u.rate=.95;
-    LT.lastSpeak=performance.now();speechSynthesis.speak(u);ltNote();
+    speechSynthesis.speak(u);
   }
   function ltStop(){try{if(ltHasSpeech())speechSynthesis.cancel();}catch(e){}}
+  function ltChips(){
+    var w=ltL()[3],c=$("#mgwrow").children;
+    c[0].textContent="🤙 "+w[0];c[1].textContent="💍 "+w[1];c[2].textContent="🖕 "+w[2];c[3].textContent="☝ ♥";
+  }
   function ltInit(){
     if(!LT.ready){
       LT.ready=true;var sl=$("#mgllang");
       LANGS.forEach(function(L){var o=document.createElement("option");o.value=L[0];o.textContent=L[1];sl.appendChild(o);});
-      sl.value=LT.lang;
-      $("#mgltxt").value=LANGS.filter(function(L){return L[0]===LT.lang;})[0][2];
-      sl.addEventListener("change",function(){LT.lang=sl.value;LT.uri="";if(!LT.edited)$("#mgltxt").value=LANGS.filter(function(L){return L[0]===LT.lang;})[0][2];ltUpd();ltFillVoices();});
-      $("#mgltxt").addEventListener("input",function(){LT.edited=true;ltUpd();});
+      sl.value=LT.lang;$("#mgltxt").value=ltL()[2];
+      sl.addEventListener("change",function(){LT.lang=sl.value;LT.uri="";if(!LT.edited)$("#mgltxt").value=ltL()[2];LT.text=$("#mgltxt").value;ltChips();ltFillVoices();});
+      $("#mgltxt").addEventListener("input",function(){LT.edited=true;LT.text=this.value;});
       $("#mgltg").addEventListener("click",function(e){var b=e.target.closest("button[data-vg]");if(!b)return;LT.g=b.dataset.vg;LT.uri="";Array.prototype.forEach.call($("#mgltg").querySelectorAll("button[data-vg]"),function(x){x.setAttribute("aria-pressed",x===b?"true":"false");});$("#mgvoice").value="";ltNote();});
       $("#mgvoice").addEventListener("change",function(){LT.uri=this.value;ltNote();});
-      $("#mgspeak").addEventListener("click",ltSpeak);
+      $("#mgspeak").addEventListener("click",function(){ltSay($("#mgltxt").value.trim());});
+      $("#mgwrow").addEventListener("click",function(e){var b=e.target.closest("button[data-fi]");if(!b)return;var fi=+b.dataset.fi;ltFire(fi,[W*(.22+.18*fi),H*.45],performance.now());});
       if(ltHasSpeech()){try{speechSynthesis.addEventListener("voiceschanged",function(){if(MODE==="letter")ltFillVoices();});}catch(e){}}
     }
-    ltUpd();ltFillVoices();
+    LT.text=$("#mgltxt").value;ltChips();ltFillVoices();
   }
-  var LCOL=["#ff9ec7","#9fd8ff","#b6f2c2","#ffe59a","#d7b8ff"],LTIPS=[4,8,12,16,20];
-  var LCONN=[[0,1],[1,2],[2,3],[3,4],[0,5],[5,6],[6,7],[7,8],[5,9],[9,10],[10,11],[11,12],[9,13],[13,14],[14,15],[15,16],[13,17],[17,18],[18,19],[19,20],[0,17]];
-  function ltPill(txt,x,y,col,sc,al){
-    var fs=Math.max(13,Math.min(22,W*.034));fx.save();fx.globalAlpha=al;fx.translate(x,y);fx.scale(sc,sc);
-    fx.font="700 "+fs+"px system-ui,sans-serif";var w=fx.measureText(txt).width+fs*1.1,h=fs*1.7;
-    fx.shadowColor=col;fx.shadowBlur=14;fx.fillStyle="rgba(8,10,34,.72)";fx.strokeStyle=col;fx.lineWidth=1.6;
+  var LCOL=["#ff9ec7","#9fd8ff","#ffe59a","#ff6fa8"];
+  function ltBurst(x,y,n,now){for(var i=0;i<n&&LT.hearts.length<70;i++)LT.hearts.push({x:x,y:y,t:now,vx:(Math.random()-.5)*.12,vy:-.05-Math.random()*.1,s:14+Math.random()*16});}
+  function ltFire(fi,at,now){
+    if(now-LT.lastFire<350)return;LT.lastFire=now;
+    if(fi===3){LT.heartUntil=now+2600;LT.heartAt=at;ltBurst(at[0],at[1],14,now);return;}
+    var w=ltL()[3][fi];ltSay(w);
+    LT.pops.push({t:now,x:at[0],y:at[1],txt:w,c:LCOL[fi]});if(LT.pops.length>6)LT.pops.shift();
+    ltBurst(at[0],at[1],4,now);
+    LT.seq.push({fi:fi,t:now});LT.seq=LT.seq.filter(function(q){return now-q.t<10000;}).slice(-3);
+    if(LT.seq.length===3&&LT.seq[0].fi===0&&LT.seq[1].fi===1&&LT.seq[2].fi===2){LT.sealT=now;LT.seq=[];ltBurst(W*.5,H*.55,26,now);}
+  }
+  function ltUpdate(hs,now){
+    if(!hs.length){LT.tf=-1;return;}
+    var gi=0;if(hs.length>1){var m0=Math.min.apply(null,hs[0].d),m1=Math.min.apply(null,hs[1].d);gi=m1<m0?1:0;}
+    LT.gi=gi;var g=hs[gi],best=-1,bd=9;
+    g.d.forEach(function(v,k){if(v<bd){bd=v;best=k;}});
+    var thr=LT.tf>=0?.42:.3;
+    if(bd<thr){if(best!==LT.tf){LT.tf=best;var tp=g.pts[[20,16,12,8][best]];ltFire(best,[tp[0],tp[1]],now);}}else LT.tf=-1;
+  }
+  function ltFlower(x,y,r,col,rot,al){
+    fx.save();fx.translate(x,y);fx.rotate(rot);fx.globalAlpha=al;fx.fillStyle=col;
+    for(var i=0;i<5;i++){fx.beginPath();fx.ellipse(0,-r*.62,r*.4,r*.62,0,0,6.3);fx.fill();fx.rotate(1.2566);}
+    fx.fillStyle="#ffd54a";fx.beginPath();fx.arc(0,0,r*.3,0,6.3);fx.fill();fx.restore();
+  }
+  function ltPill(txt,x,y,col,sc,al,big){
+    var fs=Math.max(big?20:13,Math.min(big?34:22,W*(big?.055:.034)));fx.save();fx.globalAlpha=al;fx.translate(x,y);fx.scale(sc,sc);
+    fx.font="700 "+fs+"px system-ui,sans-serif";var w=fx.measureText(txt).width+fs*1.2,h=fs*1.8;
+    fx.shadowColor=col;fx.shadowBlur=16;fx.fillStyle="rgba(8,10,34,.75)";fx.strokeStyle=col;fx.lineWidth=2;
     fx.beginPath();if(fx.roundRect)fx.roundRect(-w/2,-h/2,w,h,h/2);else fx.rect(-w/2,-h/2,w,h);fx.fill();fx.stroke();
     fx.shadowBlur=0;fx.fillStyle="#fff";fx.textAlign="center";fx.textBaseline="middle";fx.fillText(txt,0,1);fx.restore();
   }
+  function ltCard(cx,cy,cw,now,seal){
+    var txt=(LT.text||"").trim()||"♥",fs=Math.max(12,Math.min(18,cw/10));
+    fx.save();fx.font="italic 600 "+fs+"px Georgia,serif";
+    var words=txt.split(/\s+/),lines=[],cur="";
+    words.forEach(function(w){var t=cur?cur+" "+w:w;if(fx.measureText(t).width>cw-fs*2&&cur){lines.push(cur);cur=w;}else cur=t;});if(cur)lines.push(cur);
+    var lh=fs*1.45,ch=lines.length*lh+fs*3.2,rot=Math.sin(now/900)*.04;
+    fx.translate(Math.min(W-cw/2-4,Math.max(cw/2+4,cx)),Math.max(ch/2+4,cy-ch/2));fx.rotate(rot);
+    fx.shadowColor="rgba(255,120,170,.55)";fx.shadowBlur=22;fx.fillStyle="#fff6ea";
+    fx.beginPath();if(fx.roundRect)fx.roundRect(-cw/2,-ch/2,cw,ch,10);else fx.rect(-cw/2,-ch/2,cw,ch);fx.fill();fx.shadowBlur=0;
+    fx.strokeStyle="rgba(214,120,150,.5)";fx.lineWidth=1.2;fx.beginPath();fx.moveTo(-cw/2,-ch/2+fs*1.6);fx.lineTo(0,-ch/2+fs*0.2+fs*0.9);fx.lineTo(cw/2,-ch/2+fs*1.6);fx.stroke();
+    fx.fillStyle="#6b2d45";fx.textAlign="center";fx.textBaseline="middle";
+    lines.forEach(function(l,i){fx.fillText(l,0,-ch/2+fs*2.6+i*lh);});
+    var pulse=seal&&now-seal<2500?1+.25*Math.sin((now-seal)/120):1;
+    fx.fillStyle="#e0405f";fx.beginPath();fx.arc(0,-ch/2+fs*1.1,fs*.62*pulse,0,6.3);fx.fill();fx.fillStyle="#fff";fx.font="700 "+(fs*.9)+"px system-ui,sans-serif";fx.fillText("♥",0,-ch/2+fs*1.15);
+    fx.restore();
+  }
   function drawLetter(now){
-    var words=LT.words,n=words.length,vis=0,hl=(running&&lastL&&now-lastL.t<300)?lastL.hands:null;
-    if(!running){
-      words.forEach(function(w,i){var x=W*(.1+.8*(n>1?i/(n-1):.5)),y=H*.5+Math.sin(now/600+i)*H*.04;ltPill(w,x,y,LCOL[i%5],1,1);});
-      return;
-    }
+    var hl=(running&&lastL&&now-lastL.t<350)?lastL.hands:null,i;
+    var legendW=ltL()[3],fn=(T[lang].ml_fn||"").split("|");
+    /* гар: араг ба хүрэлт */
     if(hl){
-      var order=hl.map(function(h,i){return {h:h,i:i};}).sort(function(a,b){return a.h.pts[0][0]-b.h.pts[0][0];});
-      var half=hl.length>1?Math.ceil(n/2):Math.min(n,5);
-      order.forEach(function(o,rank){
-        var h=o.h,pts=h.pts;
-        fx.save();fx.strokeStyle="rgba(255,255,255,.55)";fx.lineWidth=1.6;fx.beginPath();LCONN.forEach(function(c){fx.moveTo(pts[c[0]][0],pts[c[0]][1]);fx.lineTo(pts[c[1]][0],pts[c[1]][1]);});fx.stroke();
-        fx.fillStyle="rgba(255,255,255,.85)";pts.forEach(function(q){fx.beginPath();fx.arc(q[0],q[1],2.4,0,6.3);fx.fill();});fx.restore();
-        var idx=[0,1,2,3,4].sort(function(a,b){return pts[LTIPS[a]][0]-pts[LTIPS[b]][0];});
-        idx.forEach(function(f,r){
-          var wi=rank===0?r:half+r,lim=rank===0?half:n;if(wi>=lim||wi>=n)return;
-          var tip=pts[LTIPS[f]],key=rank+"_"+f;
-          if(!h.up[f]){delete LT.shown[key];return;}
-          if(!LT.shown[key]){LT.shown[key]=now;if(LT.hearts.length<40)LT.hearts.push({x:tip[0],y:tip[1]-30,t:now,v:-.04-Math.random()*.04,dx:(Math.random()-.5)*.03});}
-          var k=Math.min(1,(now-LT.shown[key])/260),ease=1-Math.pow(1-k,3);
-          fx.save();fx.fillStyle=LCOL[wi%5];fx.shadowColor=LCOL[wi%5];fx.shadowBlur=12;fx.beginPath();fx.arc(tip[0],tip[1],5,0,6.3);fx.fill();fx.restore();
-          ltPill(words[wi],tip[0],tip[1]-34-(1-ease)*12,LCOL[wi%5],.6+.4*ease,ease);vis++;
-        });
+      var gi=Math.min(LT.gi||0,hl.length-1),others=hl.filter(function(h,k){return k!==gi;}),lh=others[0];
+      hl.forEach(function(h,k){
+        fx.save();fx.strokeStyle=k===gi?"rgba(255,255,255,.55)":"rgba(255,255,255,.3)";fx.lineWidth=1.5;fx.beginPath();
+        [[0,1],[1,2],[2,3],[3,4],[0,5],[5,6],[6,7],[7,8],[5,9],[9,10],[10,11],[11,12],[9,13],[13,14],[14,15],[15,16],[13,17],[17,18],[18,19],[19,20],[0,17]].forEach(function(c){fx.moveTo(h.pts[c[0]][0],h.pts[c[0]][1]);fx.lineTo(h.pts[c[1]][0],h.pts[c[1]][1]);});fx.stroke();
+        fx.fillStyle="rgba(255,255,255,.8)";h.pts.forEach(function(q){fx.beginPath();fx.arc(q[0],q[1],2.2,0,6.3);fx.fill();});fx.restore();
       });
+      var g=hl[gi];
+      [20,16,12,8].forEach(function(t,k){var q=g.pts[t],on=LT.tf===k;fx.save();fx.fillStyle=LCOL[k];fx.shadowColor=LCOL[k];fx.shadowBlur=on?24:8;fx.beginPath();fx.arc(q[0],q[1],on?9:5,0,6.3);fx.fill();fx.restore();});
+      if(now<LT.heartUntil){
+        var a=g.pts[4],b=g.pts[8],mx=(a[0]+b[0])/2,my=(a[1]+b[1])/2,k2=Math.min(1,(LT.heartUntil-now)/600);
+        fx.save();fx.globalAlpha=k2;fx.fillStyle="#ff4f8b";fx.shadowColor="#ff4f8b";fx.shadowBlur=30;fx.font="700 "+(46+10*Math.sin(now/110))+"px system-ui,sans-serif";fx.textAlign="center";fx.textBaseline="middle";fx.fillText("♥",mx,my-30);fx.restore();
+        if(now-LT.lastSpawn>90){LT.lastSpawn=now;ltBurst(mx,my-20,2,now);}
+      }
+      /* нөгөө гар: захидал + цэцэг */
+      if(lh){
+        var px=lh.pts[9][0],py=lh.pts[9][1],cw=Math.min(W*.46,Math.max(150,lh.sz*3.2));
+        LT.bloom=lh.open?Math.min(1,LT.bloom+.04):Math.max(0,LT.bloom-.06);
+        ltCard(px,Math.min.apply(null,[4,8,12,16,20].map(function(t){return lh.pts[t][1];}))-34,cw,now,LT.sealT);
+        if(LT.bloom>0){[4,8,12,16,20].forEach(function(t,k){var q=lh.pts[t],ease=1-Math.pow(1-LT.bloom,3),cols=["#ff9ec7","#ffd1e3","#ff6fa8","#ffc2d9","#f783b4"];ltFlower(q[0],q[1]-8,(14+lh.sz*.1)*ease,cols[k],now/900+k,ease);});}
+        if(lh.open&&now-LT.lastSpawn>140&&LT.petals.length<40){LT.lastSpawn=now;LT.petals.push({x:px+(Math.random()-.5)*lh.sz*2.4,y:py-lh.sz*1.6,t:now,vx:(Math.random()-.5)*.03,vy:.03+Math.random()*.03,r:4+Math.random()*5,c:Math.random()<.5?"#ffb6d0":"#ff8fb8"});}
+      }else{fx.save();fx.fillStyle="rgba(255,255,255,.75)";fx.font="600 "+Math.max(12,W*.026)+"px system-ui,sans-serif";fx.textAlign="center";fx.fillText(T[lang].ml_other,W/2,H*.12);fx.restore();}
+    }else if(!running){
+      ltCard(W*.5,H*.5+Math.sin(now/700)*6,Math.min(W*.5,260),now,LT.sealT);
+      for(i=0;i<6;i++){ltFlower(W*(.12+.15*i),H*.86+Math.sin(now/600+i)*6,16,["#ff9ec7","#ffd1e3","#ff6fa8"][i%3],now/1000+i,1);}
+      if(now-LT.lastSpawn>220&&LT.petals.length<30){LT.lastSpawn=now;LT.petals.push({x:Math.random()*W,y:-10,t:now,vx:(Math.random()-.5)*.03,vy:.03+Math.random()*.03,r:4+Math.random()*5,c:"#ffb6d0"});}
     }
-    var all=n>0&&vis>=n;
-    if(all&&!LT.spoken&&now-LT.lastSpeak>8000){LT.spoken=true;ltSpeak();for(var j=0;j<14;j++)LT.hearts.push({x:W*(.2+Math.random()*.6),y:H*(.5+Math.random()*.4),t:now,v:-.05-Math.random()*.06,dx:(Math.random()-.5)*.04});}
-    if(!all&&vis<Math.max(1,n-2))LT.spoken=false;
+    /* үг, зүрх, дэлбээ */
+    LT.pops=LT.pops.filter(function(p){return now-p.t<1700;});
+    LT.pops.forEach(function(p){var k=Math.min(1,(now-p.t)/200),ease=1-Math.pow(1-k,3),al=Math.min(1,(1700-(now-p.t))/400);ltPill(p.txt,p.x,p.y-50-ease*26,p.c,.5+.5*ease,al,true);});
     LT.hearts=LT.hearts.filter(function(h){return now-h.t<1800;});
-    LT.hearts.forEach(function(h){var a=1-(now-h.t)/1800;fx.save();fx.globalAlpha=Math.max(0,a);fx.fillStyle="#ff6fa8";fx.font="700 "+(16+8*a)+"px system-ui,sans-serif";fx.textAlign="center";fx.fillText("♥",h.x+h.dx*(now-h.t),h.y+h.v*(now-h.t));fx.restore();});
+    LT.hearts.forEach(function(h){var a=1-(now-h.t)/1800,dt=now-h.t;fx.save();fx.globalAlpha=Math.max(0,a);fx.fillStyle="#ff6fa8";fx.font="700 "+(h.s*(.6+.4*a))+"px system-ui,sans-serif";fx.textAlign="center";fx.fillText("♥",h.x+h.vx*dt,h.y+h.vy*dt);fx.restore();});
+    LT.petals=LT.petals.filter(function(p){return now-p.t<5000&&p.y<H+20;});
+    LT.petals.forEach(function(p){var dt=now-p.t;fx.save();fx.globalAlpha=.85;fx.fillStyle=p.c;fx.translate(p.x+p.vx*dt+Math.sin(dt/400)*10,p.y+p.vy*dt);fx.rotate(dt/500);fx.beginPath();fx.ellipse(0,0,p.r,p.r*.55,0,0,6.3);fx.fill();fx.restore();});
+    /* заавар */
+    fx.save();fx.fillStyle="rgba(255,255,255,.8)";fx.font="600 "+Math.max(11,Math.min(14,W*.024))+"px system-ui,sans-serif";fx.textAlign="center";fx.textBaseline="bottom";
+    fx.fillText((fn[0]||"")+" = "+legendW[0]+"  ·  "+(fn[1]||"")+" = "+legendW[1]+"  ·  "+(fn[2]||"")+" = "+legendW[2]+"  ·  "+(fn[3]||"")+" = ♥",W/2,H-8);fx.restore();
   }
   function fxLoop(){
     if(modal.hidden){fxOn=false;return;}requestAnimationFrame(fxLoop);
