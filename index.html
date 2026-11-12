@@ -1288,6 +1288,9 @@ Object.assign(T.mn,{ml_1:"Эрхий хуруугаараа чигчий хур�
 Object.assign(T.en,{ml_1:"Touch thumb to pinky to say “I”, ring finger “you”, middle finger “love”",ml_2:"Touch thumb to index finger for a heart effect",ml_3:"Open your other hand for a letter and flowers. Pick language and voice below",
  ml_ph:"Letter text (shown above your other hand)",ml_ready:"Touch your thumb to your other fingers 🤏",ml_demo:"No camera? Try the buttons below",ml_fn:"pinky|ring|middle|index",ml_other:"Show your other hand: a letter and flowers appear"});
 
+Object.assign(T.mn,{ml_novoice:"Энэ төхөөрөмж дээр сонгосон хэлний хоолой суугаагүй тул дуугаргахгүй (буруу хоолойоор үсэглэж уншихаас сэргийлсэн). Өөрийн хоолойн бичлэг нэмж болно.",ml_approx:"Энэ хэлний хоолой суугаагүй тул ойролцоо хоолойгоор (Орос/Испани) уншиж байна, дуудлага бүрэн зөв биш.",ml_rec:"Бичлэгтэй жинхэнэ хоолой ашиглаж байна."});
+Object.assign(T.en,{ml_novoice:"No voice for this language is installed on this device, so it stays silent (instead of spelling the words out with the wrong voice). A recorded voice can be added.",ml_approx:"No voice for this language is installed, so a similar-sounding voice (Russian/Spanish) is used; pronunciation is only approximate.",ml_rec:"Using a recorded natural voice."});
+
 (function(){
   var modal=$("#magic"),stage=$("#mgstage"),vid=$("#mgvid"),cv=$("#mgcv"),cx=cv.getContext("2d"),fxc=$("#mgfx"),fx=fxc.getContext("2d"),cur=$("#mgcur"),statEl=$("#mgstat"),help=$("#mghelp"),pal=$("#mgpal"),camBtn=$("#mgcam"),wearBar=$("#mgwear");
   var BASE="https://cdn.jsdelivr.net/npm/@mediapipe/";
@@ -2007,7 +2010,7 @@ Object.assign(T.en,{ml_1:"Touch thumb to pinky to say “I”, ring finger “yo
 
   /* ---- Захидал: хуруу хүрэлцэхэд үг хэлнэ, зүрх, цэцэг (Web Speech, үнэгүй) ---- */
   var lastL=null;
-  var LT={lang:(lang==="mn"?"mn-MN":"en-US"),g:"f",uri:"",edited:false,text:"",ready:false,tf:-1,seq:[],pops:[],hearts:[],petals:[],heartUntil:0,heartAt:null,sealT:0,bloom:0,lastSpawn:0,lastFire:0};
+  var LT={lang:(lang==="mn"?"mn-MN":"en-US"),g:"f",uri:"",edited:false,text:"",ready:false,tf:-1,seq:[],pops:[],hearts:[],petals:[],heartUntil:0,heartAt:null,clips:null,audio:null,sealT:0,bloom:0,lastSpawn:0,lastFire:0};
   var LANGS=[["mn-MN","Монгол","Би чамд хайртай",["Би","чамд","хайртай"]],["en-US","English","I love you so much",["I","you","love"]],["ru-RU","Русский","Я так сильно тебя люблю",["Я","тебя","люблю"]],["ko-KR","한국어","정말 많이 사랑해",["나는","너를","사랑해"]],["ja-JP","日本語","とても愛してる",["私は","あなたを","愛してる"]],["zh-CN","中文","我好爱你",["我","你","爱"]],["es-ES","Español","Te quiero mucho",["Yo","te","quiero"]],["fr-FR","Français","Je t'aime tellement",["Je","toi","aime"]],["de-DE","Deutsch","Ich liebe dich so sehr",["Ich","dich","liebe"]],["pt-BR","Português","Eu te amo muito",["Eu","você","amo"]],["it-IT","Italiano","Ti amo tanto",["Io","te","amo"]],["tr-TR","Türkçe","Seni çok seviyorum",["Ben","seni","seviyorum"]],["hi-IN","हिन्दी","मैं तुमसे बहुत प्यार करता हूँ",["मैं","तुम्हें","प्यार"]],["ar-SA","العربية","أحبك كثيرا",["أنا","أنت","أحب"]],["fil-PH","Tagalog (Filipino)","Mahal na mahal kita",["Ako","ikaw","mahal"]]];
   var FEM=/\bfemale\b|woman|samantha|victoria|karen|moira|tessa|fiona|zira|aria|jenny|hazel|susan|heera|yuna|heami|sun-?hi|kyoko|haruka|ayumi|nanami|xiaoxiao|xiaoyi|yaoyao|huihui|hanhan|tingting|sinji|meijia|paulina|monica|helena|laura|sabina|lucia|elena|irina|svetlana|katya|milena|alice|amelie|julie|hortense|denise|audrey|marie|anna|petra|hedda|katja|yelda|filiz|zosia|joana|francisca|luciana|raquel|carmen|elsa|yesui|emma|libby|sonia|natasha|clara|amy|emily|salli|joanna|ivy|zhiyu|lekha|kalpana|zariyah|salma|blessica|rosa/i;
   var MAL=/\bmale\b|daniel|alex\b|fred|david|mark\b|george|james|guy\b|ryan|thomas|jorge|diego|pablo|juan|enrique|yuri|pavel|maxim|ichiro|otoya|takumi|keita|injoon|kangkang|yunyang|yunxi|yunjian|danny|bataa|henri|claude|mathieu|stefan|conrad|ahmed|hamed|naayf|hemant|madhur|cem|ahmet|jaime|oliver|angelo/i;
@@ -2016,35 +2019,47 @@ Object.assign(T.en,{ml_1:"Touch thumb to pinky to say “I”, ring finger “yo
   function ltVoices(){return ltHasSpeech()?speechSynthesis.getVoices():[];}
   function ltVoicesFor(code){var p=code.split("-")[0].toLowerCase(),alt=p==="fil"?"tl":"";return ltVoices().filter(function(v){if(!v.lang)return false;var l=v.lang.replace("_","-").toLowerCase().split("-")[0];return l===p||(alt&&l===alt);});}
   function ltGender(v){if(/\bfemale\b/i.test(v.name))return "f";if(/\bmale\b/i.test(v.name))return "m";if(FEM.test(v.name))return "f";if(MAL.test(v.name))return "m";return "";}
+  var FB={"mn-MN":"ru-RU","fil-PH":"es-ES"};
+  function ltList(){var l=ltVoicesFor(LT.lang),ap=false;if(!l.length&&FB[LT.lang]){l=ltVoicesFor(FB[LT.lang]);ap=l.length>0;}return {list:l,approx:ap};}
   function ltPick(){
-    var list=ltVoicesFor(LT.lang),v=null,pitch=1,note="";
+    var r=ltList(),list=r.list,v=null,pitch=1,note="";
     if(LT.uri){v=list.filter(function(x){return x.voiceURI===LT.uri;})[0]||null;}
     if(!v){
       var m=list.filter(function(x){return ltGender(x)===LT.g;});
       v=m.filter(function(x){return x.localService;})[0]||m[0]||null;
       if(!v){v=list.filter(function(x){return x.localService;})[0]||list[0]||null;if(v)pitch=LT.g==="f"?1.3:.75;}
     }
-    if(v&&!LT.uri&&pitch!==1)note="ml_pitch";
-    if(!list.length)note="ml_novoice";
-    return {v:v,pitch:pitch,note:note};
+    if(!list.length)note="ml_novoice";else if(r.approx)note="ml_approx";else if(v&&!LT.uri&&pitch!==1)note="ml_pitch";
+    return {v:v,pitch:pitch,note:note,approx:r.approx,none:!list.length};
+  }
+  function ltClip(key){
+    var c=LT.clips&&LT.clips[LT.lang];if(!c)return "";
+    var o=LT.g==="f"?"m":"f";return (c[LT.g]&&c[LT.g][key])||(c[o]&&c[o][key])||"";
   }
   function ltFillVoices(){
-    var sel=$("#mgvoice"),cur=LT.uri,list=ltVoicesFor(LT.lang);
+    var sel=$("#mgvoice"),cur=LT.uri,list=ltList().list;
     sel.innerHTML="";var o=document.createElement("option");o.value="";o.textContent=T[lang].ml_auto;sel.appendChild(o);
     list.forEach(function(v){var x=document.createElement("option"),g=ltGender(v);x.value=v.voiceURI;x.textContent=(g==="f"?"♀ ":g==="m"?"♂ ":"")+v.name+(v.localService?"":" ☁");sel.appendChild(x);});
     sel.value=list.some(function(v){return v.voiceURI===cur;})?cur:"";LT.uri=sel.value;ltNote();
   }
   function ltNote(){
-    var n=$("#mgvnote");if(!ltHasSpeech()){n.textContent=T[lang].ml_nosupport;return;}
+    var n=$("#mgvnote"),has=LT.clips&&LT.clips[LT.lang];
+    if(has){n.textContent=T[lang].ml_rec+" "+T[lang].ml_priv;return;}
+    if(!ltHasSpeech()){n.textContent=T[lang].ml_nosupport;return;}
     var k=ltPick().note;n.textContent=(k?T[lang][k]+" ":"")+T[lang].ml_priv;
   }
-  function ltSay(t){
-    if(!ltHasSpeech()||!t){return;}
-    try{speechSynthesis.cancel();}catch(e){}
-    var u=new SpeechSynthesisUtterance(t),pk=ltPick();u.lang=LT.lang;if(pk.v){u.voice=pk.v;u.lang=pk.v.lang;}u.pitch=pk.pitch;u.rate=.95;
+  function ltSay(t,key){
+    if(!t)return;
+    var c=key!==undefined?ltClip(key):"";
+    if(c){try{if(LT.audio)LT.audio.pause();if(ltHasSpeech())speechSynthesis.cancel();LT.audio=new Audio(c);LT.audio.play().catch(function(){});}catch(e){}return;}
+    if(!ltHasSpeech())return;
+    var pk=ltPick();if(pk.none){ltNote();return;}
+    try{speechSynthesis.cancel();if(LT.audio)LT.audio.pause();}catch(e){}
+    if(pk.approx&&LT.lang==="mn-MN")t=t.replace(/ө/g,"о").replace(/Ө/g,"О").replace(/ү/g,"у").replace(/Ү/g,"У");
+    var u=new SpeechSynthesisUtterance(t);u.lang=LT.lang;if(pk.v){u.voice=pk.v;u.lang=pk.v.lang;}u.pitch=pk.pitch;u.rate=.95;
     speechSynthesis.speak(u);
   }
-  function ltStop(){try{if(ltHasSpeech())speechSynthesis.cancel();}catch(e){}}
+  function ltStop(){try{if(ltHasSpeech())speechSynthesis.cancel();if(LT.audio)LT.audio.pause();}catch(e){}}
   function ltChips(){
     var w=ltL()[3],c=$("#mgwrow").children;
     c[0].textContent="🤙 "+w[0];c[1].textContent="💍 "+w[1];c[2].textContent="🖕 "+w[2];c[3].textContent="☝ ♥";
@@ -2058,10 +2073,11 @@ Object.assign(T.en,{ml_1:"Touch thumb to pinky to say “I”, ring finger “yo
       $("#mgltxt").addEventListener("input",function(){LT.edited=true;LT.text=this.value;});
       $("#mgltg").addEventListener("click",function(e){var b=e.target.closest("button[data-vg]");if(!b)return;LT.g=b.dataset.vg;LT.uri="";Array.prototype.forEach.call($("#mgltg").querySelectorAll("button[data-vg]"),function(x){x.setAttribute("aria-pressed",x===b?"true":"false");});$("#mgvoice").value="";ltNote();});
       $("#mgvoice").addEventListener("change",function(){LT.uri=this.value;ltNote();});
-      $("#mgspeak").addEventListener("click",function(){ltSay($("#mgltxt").value.trim());});
+      $("#mgspeak").addEventListener("click",function(){var tx=$("#mgltxt").value.trim();ltSay(tx,(!LT.edited||tx===ltL()[2])?"L":undefined);});
       $("#mgwrow").addEventListener("click",function(e){var b=e.target.closest("button[data-fi]");if(!b)return;var fi=+b.dataset.fi;ltFire(fi,[W*(.22+.18*fi),H*.45],performance.now());});
       if(ltHasSpeech()){try{speechSynthesis.addEventListener("voiceschanged",function(){if(MODE==="letter")ltFillVoices();});}catch(e){}}
     }
+    if(LT.clips===null){LT.clips={};try{fetch("voice/index.json",{cache:"no-cache"}).then(function(r){return r.ok?r.json():{};}).then(function(j){LT.clips=j||{};ltNote();}).catch(function(){});}catch(e){}}
     LT.text=$("#mgltxt").value;ltChips();ltFillVoices();
   }
   var LCOL=["#ff9ec7","#9fd8ff","#ffe59a","#ff6fa8"];
@@ -2069,7 +2085,7 @@ Object.assign(T.en,{ml_1:"Touch thumb to pinky to say “I”, ring finger “yo
   function ltFire(fi,at,now){
     if(now-LT.lastFire<350)return;LT.lastFire=now;
     if(fi===3){LT.heartUntil=now+2600;LT.heartAt=at;ltBurst(at[0],at[1],14,now);return;}
-    var w=ltL()[3][fi];ltSay(w);
+    var w=ltL()[3][fi];ltSay(w,String(fi));
     LT.pops.push({t:now,x:at[0],y:at[1],txt:w,c:LCOL[fi]});if(LT.pops.length>6)LT.pops.shift();
     ltBurst(at[0],at[1],4,now);
     LT.seq.push({fi:fi,t:now});LT.seq=LT.seq.filter(function(q){return now-q.t<10000;}).slice(-3);
