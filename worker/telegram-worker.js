@@ -1,5 +1,7 @@
 // Cloudflare Worker: (1) захиалгын брийфийг Telegram групп руу дамжуулна, (2) демо чатботод AI хариулт өгнө.
 // Variables and Secrets: BOT_TOKEN (Secret), CHAT_ID, ALLOWED_ORIGIN (жишээ: https://jackprost247.github.io)
+// Тоглоомын онооны самбар (game/): Settings → Bindings → Add → KV namespace, Variable name нь "SCORES" байна.
+//   KV холбоогүй бол самбар зөвхөн тоглогчийн төхөөрөмж дээр хадгалагдана.
 // Чатботын AI-д дараахын НЭГИЙГ тохируулна:
 //   A) ANTHROPIC_API_KEY (Secret)  — Claude ашиглана (чанар сайн, монгол хэлийг сайн ойлгоно, төлбөртэй)
 //   B) Settings → Bindings → Add → Workers AI, нэрийг нь "AI" гэж өгнө (үнэгүй хязгаартай, монгол хэлний чанар доогуур)
@@ -14,6 +16,19 @@ const SYSTEM = `Чи «Demo Кафе» нэртэй зохиомол кафен�
 Захиалга авахдаа юу, хэдийг нь тодруулж, нэр, утасны дугаар асуу; эцэст нь захиалгыг нэгтгэж давтан хэл ба «энэ бол туршилт, бодит захиалга үүсэхгүй» гэж сана.
 Хэрэв мэдээлэл дээр байхгүй зүйл асуувал зохиож бүү хариул, «оператортой холбож өгөх боломжтой» гэж хэл.
 Чатбот, веб, дизайн захиалах талаар асувал JayBee-тэй сайтын захиалгын хэсгээр холбогдохыг зөвлө.`;
+
+
+// ---- Онооны самбар ----
+const rankKey = (e) => ((e.done ? 100 : 0) + e.level) * 1e6 + (999999 - Math.min(e.deaths, 999999));
+const cleanName = (s) => String(s || "").replace(/[\u0000-\u001f<>]/g, "").replace(/\s+/g, " ").trim().slice(0, 16);
+async function readBoard(env) {
+  try {
+    const raw = await env.SCORES.get("board");
+    const a = raw ? JSON.parse(raw) : [];
+    return Array.isArray(a) ? a : [];
+  } catch { return []; }
+}
+const sortBoard = (a) => a.sort((x, y) => rankKey(y) - rankKey(x) || (x.t || 0) - (y.t || 0));
 
 export default {
   async fetch(req, env) {
@@ -56,6 +71,28 @@ export default {
         }
         return text ? reply({ ok: true, text: text.trim() }) : reply({ ok: false }, 502);
       } catch { return reply({ ok: false }, 502); }
+    }
+
+    // ---- Онооны самбар: {board:1} уншина, {score:{name,level,deaths,done}} хадгална ----
+    if (data.board || data.score) {
+      if (!env.SCORES) return reply({ ok: false, reason: "no-kv" });
+      let list = await readBoard(env);
+      if (data.score) {
+        const sc = data.score;
+        const name = cleanName(sc.name);
+        const level = Math.max(1, Math.min(9, sc.level | 0));
+        const deaths = Math.max(0, Math.min(999999, sc.deaths | 0));
+        const done = !!sc.done && level === 9;
+        if (name.length < 2) return reply({ ok: false }, 400);
+        const entry = { name, level, deaths, done, t: Date.now() };
+        const k = name.toLowerCase();
+        const i = list.findIndex((e) => String(e.name).toLowerCase() === k);
+        if (i < 0) list.push(entry);
+        else if (rankKey(entry) > rankKey(list[i])) list[i] = entry;
+        list = sortBoard(list).slice(0, 100);
+        await env.SCORES.put("board", JSON.stringify(list));
+      }
+      return reply({ ok: true, top: sortBoard(list).slice(0, 10) });
     }
 
     // ---- Захиалгын брийф → Telegram ----

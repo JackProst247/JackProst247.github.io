@@ -1,4 +1,14 @@
-<!doctype html><html lang="mn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>[hidden]{display:none!important}body{padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)}</style>
+<!doctype html><html lang="mn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>[hidden]{display:none!important}body{padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)}.gamecard{background:linear-gradient(160deg,var(--sky),var(--sky2));color:var(--on-sky);border-radius:22px;padding:clamp(1.4rem,4vw,2.4rem);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2rem;align-items:center;position:relative;overflow:hidden}
+.gamecard .mono{color:var(--on-sky-mute)}
+.gamecard h3{font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;margin:.4rem 0 .7rem}
+.gamecard h3 em{font-style:normal;color:var(--gold)}
+.gamecard p{margin:.4rem 0;color:var(--on-sky-mute);max-width:56ch}
+.gamecard p.gcalm{color:#8ff0c8}
+.gcta{display:flex;gap:1rem;align-items:center;flex-wrap:wrap;margin-top:1.1rem}
+.gcups{display:flex;gap:.6rem;align-items:flex-end}
+.gcups svg{width:clamp(46px,9vw,78px);height:auto}
+@media(max-width:760px){.gamecard{grid-template-columns:1fr}.gcups{order:-1}}
+</style>
 <title>JayBee Studio</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -389,6 +399,7 @@ footer .script2{font-family:var(--script);writing-mode:vertical-lr;color:var(--g
       <a href="#services" data-i18n="nav1">Үйлчилгээ</a>
       <a href="#works" data-i18n="nav2">Ажлууд</a>
       <a href="#process" data-i18n="nav3">Явц</a>
+      <a href="#game" data-i18n="nav_game">Тоглоом</a>
       <a href="#about" id="aboutnav" data-i18n="ab_nav">Миний тухай</a>
     </nav>
     <div class="tools">
@@ -433,6 +444,26 @@ footer .script2{font-family:var(--script);writing-mode:vertical-lr;color:var(--g
       <article id="chatcard"><div class="orn" aria-hidden="true"></div><h3 data-i18n="s3t">Чатбот</h3><p data-i18n="s3d">Асуултад хариулж, захиалга авч, лид цуглуулдаг автомат туслах.</p><button class="chip" type="button" data-demochat data-i18n="cb_try">Туршиж үзэх →</button></article>
       <article><div class="orn" aria-hidden="true"></div><h3 data-i18n="s4t">Маркетингийн дизайн</h3><p data-i18n="s4d">Сошиал пост, сурталчилгааны баннер, кампанит ажлын визуал, сошиал гайдлайн.</p></article>
       <article><div class="orn" aria-hidden="true"></div><h3 data-i18n="s5t">Хэвлэл</h3><p data-i18n="s5d">Брошур, меню, постер, каталог. Хэвлэхэд бэлэн файлаар.</p></article>
+    </div>
+  </section>
+
+  <section id="game">
+    <div class="head">
+      <div><div class="orn mini" aria-hidden="true"></div><h2 data-i18n="gm_h">Тоглоом турших</h2></div>
+      <p data-i18n="gm_p">Хууран мэхэлдэг урхитай платформер. Нэрээ бичээд тогло, онооны самбарт нэрээ гарга.</p>
+    </div>
+    <div class="gamecard">
+      <div>
+        <div class="mono" data-i18n="gm_tag">ТОГЛООМ ТУРШИХ · 9 ТҮВШИН</div>
+        <h3 data-i18n-html="gm_t">Урхины <em>Ертөнц</em></h3>
+        <p data-i18n="gm_d">Шал алга болно, ацан шүд нуугдаж байгаад гарч ирнэ, хаалга ч чамаас зугтана. Дэлхий даяар алдартай «rage bait» тоглоомын санаагаар миний хийсэн интерактив туршилт. Утас, компьютер аль алинд нь тоглогдоно.</p>
+        <p class="gcalm" data-i18n="gm_calm">Тоглоом санаатай хэцүү тул стресстүүлж магадгүй. Аль болох тайван, амьсгаагаа авч тогло.</p>
+        <div class="gcta">
+          <a class="btn gold" href="game/" data-i18n="gm_btn">Тоглож үзэх →</a>
+          <span class="mono" data-i18n="gm_meta">Нэр бичээд эхэлнэ · Онооны самбартай</span>
+        </div>
+      </div>
+      <div class="gcups" aria-hidden="true"><svg viewBox="0 0 64 70"><defs><linearGradient id="hc1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe08a"/><stop offset="1" stop-color="#b9860b"/></linearGradient></defs><path d="M15 14H5c0 12 5 20 14 22M49 14h10c0 12-5 20-14 22" fill="none" stroke="#b9860b" stroke-width="4" stroke-linecap="round"/><path d="M14 6h36v18c0 11-8 19-18 19S14 35 14 24z" fill="url(#hc1)"/><rect x="28" y="42" width="8" height="12" fill="#b9860b"/><rect x="19" y="54" width="26" height="7" rx="2" fill="url(#hc1)"/><rect x="15" y="61" width="34" height="6" rx="2" fill="#b9860b"/><text x="32" y="31" text-anchor="middle" font-family="Montserrat,Noto Sans,sans-serif" font-weight="800" font-size="21" fill="#1a1200">1</text></svg><svg viewBox="0 0 64 70"><defs><linearGradient id="hc2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#eef1f7"/><stop offset="1" stop-color="#8b95a8"/></linearGradient></defs><path d="M15 14H5c0 12 5 20 14 22M49 14h10c0 12-5 20-14 22" fill="none" stroke="#8b95a8" stroke-width="4" stroke-linecap="round"/><path d="M14 6h36v18c0 11-8 19-18 19S14 35 14 24z" fill="url(#hc2)"/><rect x="28" y="42" width="8" height="12" fill="#8b95a8"/><rect x="19" y="54" width="26" height="7" rx="2" fill="url(#hc2)"/><rect x="15" y="61" width="34" height="6" rx="2" fill="#8b95a8"/><text x="32" y="31" text-anchor="middle" font-family="Montserrat,Noto Sans,sans-serif" font-weight="800" font-size="21" fill="#1a1200">2</text></svg><svg viewBox="0 0 64 70"><defs><linearGradient id="hc3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f0b37e"/><stop offset="1" stop-color="#8a5226"/></linearGradient></defs><path d="M15 14H5c0 12 5 20 14 22M49 14h10c0 12-5 20-14 22" fill="none" stroke="#8a5226" stroke-width="4" stroke-linecap="round"/><path d="M14 6h36v18c0 11-8 19-18 19S14 35 14 24z" fill="url(#hc3)"/><rect x="28" y="42" width="8" height="12" fill="#8a5226"/><rect x="19" y="54" width="26" height="7" rx="2" fill="url(#hc3)"/><rect x="15" y="61" width="34" height="6" rx="2" fill="#8a5226"/><text x="32" y="31" text-anchor="middle" font-family="Montserrat,Noto Sans,sans-serif" font-weight="800" font-size="21" fill="#1a1200">3</text></svg></div>
     </div>
   </section>
 
@@ -2697,6 +2728,8 @@ Object.assign(T.en,{fl_btn:"👗 AI Fashion Lab",fl_sub:"AR try-on · free · ru
 applyLang();
 Object.assign(T.mn,{ab_nav:"Миний тухай",ab_btn:"👤 Миний тухай",ab_tag:"ГРАФИК ДИЗАЙН · МАРКЕТИНГ",ab_role:"График дизайнер · Маркетер · Мэдээллийн технологийн оюутан",ab_bio:"2021 оноос хойш график дизайн, маркетингийн салбарт ажиллаж байна. Брэндийг тод харагдуулж, харааны хувьд татагдахуйц шийдэл гаргахыг зорьдог. Лого, брэндбүүк, сошиал контент, видео, UI/UX дизайныг нэг гараас хийнэ.",ab_s1:"оноос хойш",ab_s2:"брэнд, төсөл",ab_s3:"хүний баг удирдсан",ab_tools:"Хэрэгсэл",ab_exp:"Туршлага",ab_now:"одоо",ab_e8:"Борлуулалт, маркетинг · Landmark Hotel, Bugat Lodge",ab_e7:"Маркетингийн менежер",ab_e6:"Хандивын гала: сошиал, тайзны видео, хэвлэл",ab_e5:"Брэндинг, 20 жилийн ойн маркетинг төлөвлөгөө",ab_e4:"График дизайнер",ab_e3:"Маркетинг ба дизайн, Эхлэл групп ReBrand",ab_e2:"Манка, SunSea, E-Monos, Smart Plus",ab_e1:"График дизайнер · ZesCoin",ab_e0:"Хувийн маркетингийн зөвлөх студи"});
 Object.assign(T.en,{ab_nav:"About me",ab_btn:"👤 About me",ab_tag:"GRAPHIC DESIGN · MARKETING",ab_role:"Graphic designer · Marketer · IT student",ab_bio:"Working in graphic design and marketing since 2021. I help brands stand out with visually engaging solutions: logos, brandbooks, social content, video and UI/UX design, all from one pair of hands.",ab_s1:"since",ab_s2:"brands & projects",ab_s3:"person team led",ab_tools:"Tools",ab_exp:"Experience",ab_now:"present",ab_e8:"Sales & marketing · Landmark Hotel, Bugat Lodge",ab_e7:"Marketing manager",ab_e6:"Charity gala: social, stage video, print",ab_e5:"Branding, 20th anniversary marketing plan",ab_e4:"Graphic designer",ab_e3:"Marketing & design, Ehlel Group ReBrand",ab_e2:"Manka, SunSea, E-Monos, Smart Plus",ab_e1:"Graphic designer · ZesCoin",ab_e0:"Private marketing consulting studio"});
+Object.assign(T.mn,{nav_game:"Тоглоом",gm_h:"Тоглоом турших",gm_p:"Хууран мэхэлдэг урхитай платформер. Нэрээ бичээд тогло, онооны самбарт нэрээ гарга.",gm_tag:"ТОГЛООМ ТУРШИХ · 9 ТҮВШИН",gm_t:"Урхины <em>Ертөнц</em>",gm_d:"Шал алга болно, ацан шүд нуугдаж байгаад гарч ирнэ, хаалга ч чамаас зугтана. Дэлхий даяар алдартай «rage bait» тоглоомын санаагаар миний хийсэн интерактив туршилт. Утас, компьютер аль алинд нь тоглогдоно.",gm_calm:"Тоглоом санаатай хэцүү тул стресстүүлж магадгүй. Аль болох тайван, амьсгаагаа авч тогло.",gm_btn:"Тоглож үзэх →",gm_meta:"Нэр бичээд эхэлнэ · Онооны самбартай"});
+Object.assign(T.en,{nav_game:"Game",gm_h:"Try the game",gm_p:"A platformer full of traps. Enter your name, play, and get on the leaderboard.",gm_tag:"GAME DEMO · 9 LEVELS",gm_t:"World of <em>Traps</em>",gm_d:"Floors vanish, spikes pop out of nowhere, and the door runs away from you. An interactive experiment I built, inspired by the worldwide \"rage bait\" genre. Plays on phones and computers.",gm_calm:"The game is hard on purpose and can be stressful. Stay as calm as you can and keep breathing.",gm_btn:"Play now →",gm_meta:"Enter a name to start · With a leaderboard"});
 applyLang();
 (function(){
   var m=$("#about"),op=null;
