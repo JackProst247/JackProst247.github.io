@@ -653,7 +653,7 @@ mn:{eyebrow:'ТОГЛООМ ТУРШИХ',h1:'Урхины <em>Ертөнц</em>
  calm_h:'Тайван байхын тулд',calm_p1:'Энэ тоглоом санаатай хэцүү тул таныг уурлуулж, стресстүүлж магадгүй. Үхэх нь алдаа биш, тоглоомын нэг хэсэг юм.',
  calm_p2:'Амьсгаагаа удаан аван, нэг үхэл бүрийг шинэ мэдээлэл гэж бод. Гар чинь чангарч, толгой чинь өвдөж эхэлбэл завсарлаад ус уугаад ир. Хэзээ ч дуусгаж болно.',
  f1h:'Зорилго',f1d:'Хаалга хүртэл яв. 9 түвшин.',f2h:'Амь',f2d:'Хязгааргүй. Зарцуулсан амь нь онооны самбарт харагдана.',f3h:'Оноо',f3d:'Хэдэн түвшинд хүрсэн нь чухал. Тэнцвэл цөөн амь зарцуулсан нь дээгүүр.',
- jump_name:'Нэрээ бичиж эхлэх ↓',nm_l:'Таны нэр',nm_ph:'Нэрээ бичнэ үү',start:'Тоглолт эхлэх →',nm_err:'Нэрээ 2-16 тэмдэгтээр бичнэ үү.',
+ jump_name:'Нэрээ бичиж эхлэх ↓',nm_l:'Таны нэр',nm_ph:'Нэрээ бичнэ үү',start:'Тоглолт эхлэх →',nm_err:'Нэрээ 2-16 тэмдэгтээр бичнэ үү.',nm_taken:'Энэ нэр бүтээгчийнх. Өөр нэр сонгоно уу.',creator:'★ Бүтээгч',
  b_h:'Онооны самбар',b_p:'Хамгийн өндөр түвшин, тэнцвэл цөөн амь зарцуулсан нь дээгүүр. Нэг нэр нэг мөр.',
  b_shared:'Бүх тоглогчдын самбар',b_local:'Энэ төхөөрөмж дээрх самбар. Бүх тоглогчдын самбар удахгүй холбогдоно.',b_empty:'Хоосон',
  level:'Түвшин',lives:'амь',done:'Бүгдийг давсан',hLvl:'Түвшин',hDeaths:'Зарцуулсан амь',fin:'Дуусгах',jump:'ҮСРЭХ',keys:'← → хөдлөх · Зай эсвэл ↑ үсрэх · R дахин',
@@ -672,7 +672,7 @@ en:{eyebrow:'GAME DEMO',h1:'World of <em>Traps</em>',back:'← Site',
  calm_h:'Staying calm',calm_p1:'This game is hard on purpose and may frustrate or stress you. Dying is not a mistake, it is part of the game.',
  calm_p2:'Breathe out slowly and treat every death as new information. If your hands tense up or your head starts to ache, take a break and drink some water. You can finish at any time.',
  f1h:'Goal',f1d:'Reach the door. 9 levels.',f2h:'Lives',f2d:'Unlimited. Lives used show on the leaderboard.',f3h:'Score',f3d:'The level you reach matters most. On a tie, fewer lives used ranks higher.',
- jump_name:'Enter your name ↓',nm_l:'Your name',nm_ph:'Type your name',start:'Start playing →',nm_err:'Enter a name of 2-16 characters.',
+ jump_name:'Enter your name ↓',nm_l:'Your name',nm_ph:'Type your name',start:'Start playing →',nm_err:'Enter a name of 2-16 characters.',nm_taken:'That name belongs to the creator. Pick another one.',creator:'★ Creator',
  b_h:'Leaderboard',b_p:'Highest level first; on a tie, fewer lives used ranks higher. One row per name.',
  b_shared:'All players',b_local:'Board for this device. The all-players board will be connected soon.',b_empty:'Empty',
  level:'Level',lives:'lives',done:'Cleared all',hLvl:'Level',hDeaths:'Lives used',fin:'Finish',jump:'JUMP',keys:'← → move · Space or ↑ jump · R retry',
@@ -713,6 +713,7 @@ $('theme').addEventListener('click',function(){
 function rankKey(e){return((e.done?100:0)+e.level)*1000000+(999999-Math.min(e.deaths,999999));}
 function cleanName(s){return String(s||'').replace(/[\u0000-\u001f<>]/g,'').replace(/\s+/g,' ').trim().slice(0,16);}
 function sortBoard(a){return a.slice().sort(function(x,y){return rankKey(y)-rankKey(x)||(x.t||0)-(y.t||0);});}
+var PIN={name:'JayBee',level:9,deaths:0,done:true,pin:true,t:0};
 var LSK='jb-game-board';
 function localBoard(){try{var a=JSON.parse(localStorage.getItem(LSK)||'[]');return Array.isArray(a)?a:[];}catch(e){return[];}}
 function mergeLocal(entry){
@@ -758,9 +759,9 @@ function cup(c1,c2,n){
 }
 var CUPS=[['#ffe08a','#b9860b'],['#eef1f7','#8b95a8'],['#f0b37e','#8a5226']];
 function stat(e){return e.done?tx('done'):tx('level')+' '+e.level+'/9';}
-function lifeTxt(e){return e.deaths+' '+tx('lives');}
+function lifeTxt(e){return e.pin?tx('creator'):e.deaths+' '+tx('lives');}
 function renderBoard(){
-  var L=board.list,me=player.toLowerCase(),tr=$('trophies'),ls=$('list'),i;
+  var L=[PIN].concat(board.list.filter(function(x){return x.name.toLowerCase()!==PIN.name.toLowerCase();})),me=player.toLowerCase(),tr=$('trophies'),ls=$('list'),i;
   tr.innerHTML='';ls.innerHTML='';
   for(i=0;i<3;i++){
     var e=L[i],d=document.createElement('div');
@@ -869,7 +870,7 @@ function fillResult(){
   var r=lastRes;if(!r)return;
   $('rBig').textContent=r.done?tx('r_win'):tx('r_end',{l:r.level});
   $('rTxt').textContent=r.done?tx('r_win_t',{d:r.deaths}):tx('r_end_t',{d:r.deaths});
-  $('rRank').textContent=r.pending?tx('r_wait'):(r.rank>=0&&r.rank<10?tx('r_rank',{n:r.rank+1}):tx('r_out'));
+  $('rRank').textContent=r.pending?tx('r_wait'):(r.rank>=0&&r.rank+2<=10?tx('r_rank',{n:r.rank+2}):tx('r_out'));
 }
 
 var last=0,acc=0;
@@ -925,6 +926,7 @@ $('nameForm').addEventListener('submit',function(e){
   e.preventDefault();
   var n=cleanName(nm.value);
   if(n.length<2){$('nmErr').textContent=tx('nm_err');nm.focus();return;}
+  if(n.toLowerCase()===PIN.name.toLowerCase()){$('nmErr').textContent=tx('nm_taken');nm.focus();return;}
   $('nmErr').textContent='';player=n;
   try{localStorage.setItem('jb-game-name',n);}catch(x){}
   startRun();
