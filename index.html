@@ -569,7 +569,7 @@ footer .script2{font-family:var(--script);writing-mode:vertical-lr;color:var(--g
 
 <button class="cbfab" id="cbfab" hidden type="button" aria-controls="cbwin" data-i18n="cb_open">Чатбот туршиж үзэх</button>
 <div class="cbwin" id="cbwin" hidden role="dialog" aria-label="Demo chatbot">
-  <div class="cbhead"><div><b>Demo бот</b><small data-i18n="cb_sub">ТУРШИЛТЫН ХУВИЛБАР</small></div><button type="button" id="cbx" aria-label="Close">✕</button></div>
+  <div class="cbhead"><div><b>Demo chatbot</b><small data-i18n="cb_sub">ТУРШИЛТЫН ХУВИЛБАР</small></div><button type="button" id="cbx" aria-label="Close">✕</button></div>
   <div class="cbnote" data-i18n="cb_note">Жишээ бизнес, зохиомол мэдээлэл</div>
   <div class="cblog" id="cblog" aria-live="polite"></div>
   <div class="cbq" id="cbq"></div>
@@ -579,7 +579,7 @@ footer .script2{font-family:var(--script);writing-mode:vertical-lr;color:var(--g
 <div class="modal" id="magic" hidden role="dialog" aria-modal="true" aria-labelledby="mgtitle">
   <div class="mgpanel">
     <div class="mghead">
-      <div><h3 id="mgtitle">Try the magic</h3><div class="mono" data-i18n="mg_sub">ХУРУУГААР АГААРТ ЗУР</div></div>
+      <div><h3 id="mgtitle">Try the Magic</h3><div class="mono" data-i18n="mg_sub">ХУРУУГААР АГААРТ ЗУР</div></div>
       <button class="chip mclose" id="mgclose" type="button" aria-label="Close">✕</button>
     </div>
     <div class="mgtabs" role="tablist" id="mgtabs">
@@ -708,6 +708,7 @@ footer .script2{font-family:var(--script);writing-mode:vertical-lr;color:var(--g
         <div class="labstat mono" id="labstat" hidden aria-live="polite"></div>
         <div class="labintro" id="labintro">
           <div class="labcard">
+            <p class="labnote" data-i18n="fl_desc">AR технологиор хувцасны загварыг өөрийн биед хэрхэн харагдахыг урьдчилан туршаарай.</p>
             <h4 data-i18n="fl_h">AR хувцас турших</h4>
             <ul>
               <li data-i18n="fl_i1">Камераар мөр, ууцаа харуулбал хувцас биед тань тааруулагдаж дагана</li>
@@ -843,7 +844,7 @@ footer .script2{font-family:var(--script);writing-mode:vertical-lr;color:var(--g
 var CONFIG={phone:"",email:"",telegram:"",facebook:"",instagram:"",endpoint:"https://jaybee.jakj8334.workers.dev"}; /* endpoint: Cloudflare Worker-ийн URL. Хоосон бол автомат илгээлт идэвхгүй. */
 
 var T={
-mn:{cb_open:"Чатбот туршиж үзэх",cb_sub:"ТУРШИЛТЫН ХУВИЛБАР",cb_note:"Жишээ бизнес, зохиомол мэдээлэл",cb_ph:"Асуултаа бичнэ үү…",cb_send:"Илгээх",cb_try:"Туршиж үзэх →",nav1:"Үйлчилгээ",nav2:"Ажлууд",nav3:"Явц",navcta:"Захиалах",eyebrow:"Брэнд · Веб · Дижитал шийдэл",
+mn:{cb_open:"Чатбот туршиж үзэх",cb_sub:"ТУРШИЛТЫН ХУВИЛБАР",cb_note:"Энэ бол жишээ бизнесийн мэдээлэлд суурилсан туршилтын чатбот юм. Өөрийн асуултаа бичиж, хэрхэн ажилладгийг нь үзээрэй.",cb_ph:"Оролдоод үзэх асуултаа бичнэ үү…",cb_send:"Илгээх",cb_try:"Туршиж үзэх →",nav1:"Үйлчилгээ",nav2:"Ажлууд",nav3:"Явц",navcta:"Захиалах",eyebrow:"Брэнд · Веб · Дижитал шийдэл",
 h1:"Санааг тань <em>брэнд болгож,</em> бизнесийг тань цахимд хөгжүүлье.",
 lead:"Бид лого, брэндийн өнгө төрхөөс эхлээд веб сайт, сошиал контент, AI чатбот хүртэл бизнесийн тань хэрэгцээнд нийцсэн дижитал шийдлийг нэг дор бүтээнэ.",
 cta1:"Төслөө эхлүүлэх →",cta2:"Бүтээсэн ажлууд",
@@ -1281,13 +1282,13 @@ en:{hi:"Hi! I'm the demo bot of “Demo Cafe”. How can I help?",
 })();
 
 /* ---------- Try the magic: зурах · ид шид · хувцас турших ---------- */
-Object.assign(T.mn,{mg_btn:"✦ Ид шидийг турших",mg_sub:"ХУРУУГААР ЗУР · ИД ШИД · ХУВЦАС ТУРШИХ",mg_h:"Хэрхэн тоглох вэ",
+Object.assign(T.mn,{mg_btn:"✦ Ид шидийг турших",mg_sub:"Хуруугаараа агаарт зурж, санаагаа амилуул!",mg_h:"Хэрхэн ашиглах вэ?",
  mg_t_draw:"✎ Зурах",mg_t_spell:"✦ Ид шид",mg_t_wear:"👕 Хувцас турших",
- mg_1:"Долоовор хуруугаа өргөж зур",mg_2:"Хоёр хуруу өргөвөл зөөнө, өнгө сонгоно",mg_3:"Алгаа 1 секунд барьвал цэвэрлэнэ",
- mg_s1:"Алгаа дэлгэвэл ид шидийн хүрээ гарна",mg_s2:"Долоовор хуруугаараа оч цацруулж зур",mg_s3:"Хоёр гараа хоёуланг нь ашиглаж болно",
- mg_w1:"Мөр, ууцаа харагдахаар зайдаа зогс",mg_w2:"Хувцасны төрөл, өнгө, хээгээ сонго",mg_w3:"Дуртай загвараа зургаар хадгал",
+ mg_1:"Долоовор хуруугаа өргөж, агаарт зураг зураарай.",mg_2:"Хоёр хуруугаа өргөж, зургаа зөөж эсвэл өнгийг нь сонгоорой.",mg_3:"Алгаа нэг секунд дэлгэж барихад зургийг цэвэрлэнэ.",
+ mg_s1:"Алгаа дэлгэж, ид шидийн горимыг идэвхжүүлээрэй.",mg_s2:"Долоовор хуруугаараа оч, гэрлийн эффект үүсгээрэй.",mg_s3:"Хоёр гараа зэрэг ашиглан бүтээлээ улам сонирхолтой болгоорой.",
+ mg_w1:"Камерт мөр болон бэлхүүс тань бүрэн харагдахаар зогсоорой.",mg_w2:"Хувцасны загвар, өнгө, хээгээ сонгоорой.",mg_w3:"Бүтээлээ зураг болгон хадгалаарай.",
  mg_g_tee:"Цамц",mg_g_hoodie:"Hoodie",mg_g_jacket:"Бомбер",mg_g_deel:"Дээл",mg_g_dress:"Даашинз",mg_p_cloud:"Үүлэн хээ",mg_p_knot:"Угалз",mg_p_plain:"Зөвхөн лого",mg_snap:"📷 Зураг авах",
- mg_priv:"Камерын дүрс таны төхөөрөмж дээр л боловсруулагдана, хаашаа ч илгээгдэхгүй.",
+ mg_priv:"Таны камерын дүрс зөвхөн өөрийн төхөөрөмж дээр боловсруулагдана. Сервер рүү илгээгдэхгүй.",
  mg_start:"Эхлэх",mg_nocam:"Камергүй туршах",mg_clear:"Арилгах",mg_cta:"Төслөө захиалах →",mg_cam_on:"Камер асаах",mg_cam_off:"Камер унтраах",
  mg_load_cam:"Камер асааж байна…",mg_load_model:"Таних загвар ачаалж байна…",mg_ready:"Бэлэн! Долоовор хуруугаа өргө ☝",mg_nohand:"Гараа камерт харуул",
  mg_draw:"Зурж байна",mg_t_fog:"🌫 Манан",mg_fg_ready:"Хуруугаа чимхээд арчиж зур 🤏",mg_fg_demo:"Хулгана эсвэл хуруугаараа арчаад үз",mg_fg_wipe:"Арчиж байна…",mg_f1:"Эрхий, долоовор хуруугаа чимхээд толин дээрх мананг арчиж зур",mg_f2:"Алгаа дэлгэж арчвал том хэсэг цэвэрхэн болно",mg_f3:"Манан аажим буцаж хучина",mg_t_effect:"🎞 Эффект",mg_ef1:"▦ Тор",mg_ef2:"🔥 Дулаан",mg_ef3:"⚡ Неон",mg_ef4:"❄ Мөс",mg_ef5:"▒ Глитч",mg_ef_ready:"Хоёр гараараа L хэлбэр үүсгэ ⌐ ¬",mg_ef_demo:"Жишээ: камер асаавал өөрийн дүрс дээр гарна",mg_ef_on:"Эффект идэвхтэй · хүрээгээ хумиад тэлбэл солигдоно",mg_ef_two:"Хоёр дахь гараа харуул",mg_e1:"Хоёр гараараа L хэлбэр үүсгэж, 4 хурууны үзүүрээр хүрээ хий",mg_e2:"Хүрээний дотор нь эффект гарна",mg_e3:"Хүрээгээ нарийсгаад дахин тэлбэл эффект солигдоно",mg_erase:"Баллуурдаж байна ◌",mg_grab:"Зураг зөөж байна ✊",mg_4:"Гурван хуруу өргөвөл баллуурдана",mg_5:"Эрхий хуруутай гурван хуруу өргөвөл зургаа зөөнө",mg_move:"Зөөж байна · өнгө сонго",mg_clearing:"Арилгаж байна…",
@@ -2348,10 +2349,10 @@ Object.assign(T.en,{ml_sfx:"🔔 Sound",ml_swap:"⇄ Swap hands",ml_3:"Each fing
 })();
 
 /* ---------- JayBee AI Fashion Lab: үнэгүй, нээлттэй, төхөөрөмж дээр ажиллана ---------- */
-Object.assign(T.mn,{fl_btn:"👗 AI Fashion Lab",fl_sub:"AR хувцас турших · үнэгүй · таны төхөөрөмж дээр",fl_h:"AR хувцас турших",
- fl_i1:"Камераар мөр, ууцаа харуулбал хувцас биед тань тааруулагдаж дагана",fl_i2:"Өөрийн хувцасны зургаа (тунгалаг PNG) оруулж болно",fl_i3:"Зураг авч, өмнө/дараа харьцуулна",
- fl_priv:"<b>Нууцлал:</b> камерын дүрс таны төхөөрөмж дээр л боловсруулагдана, хаашаа ч илгээгдэхгүй. Бүх зүйл үнэгүй, нээлттэй технологи.",
- fl_ar:"<b>Анхаар:</b> энэ бол AR урьдчилсан харагдац. AI-аар бүтээсэн бодит зураг биш.",
+Object.assign(T.mn,{fl_desc:"AR технологиор хувцасны загварыг өөрийн биед хэрхэн харагдахыг урьдчилан туршаарай.",fl_btn:"👗 AI Fashion Lab",fl_sub:"Өөрийн хэв маягийг турш. Загвараа амилуул.",fl_h:"Хэрхэн ажилладаг вэ?",
+ fl_i1:"Камераар биеийн байрлалыг таньж, хувцасны дүрслэлийг таны биед тааруулна.",fl_i2:"Өөр өөр загвар, өнгийг сонгон шууд харьцуулж үзнэ.",fl_i3:"Өөрийн төрхийг зураг болгон хадгалж, өмнөх хувилбартай харьцуулна.",
+ fl_priv:"<b>Нууцлал:</b> Камерын дүрс таны төхөөрөмж дээр боловсруулагдана. Гадагш илгээгдэхгүй.",
+ fl_ar:"<b>Тэмдэглэл:</b> Энэ нь AR технологид суурилсан урьдчилан харах хувилбар бөгөөд AI-аар бүтээсэн бодит зураг биш.",
  fl_start:"Камер асаах",fl_demo:"Камергүй туршиж үзэх",fl_cmp:"◀ Өмнө · Дараа ▶",fl_save:"Хадгалах",fl_saveb:"Өмнөхийг хадгалах",fl_close:"Хаах",
  fl_garm:"Хувцас",fl_color:"Өнгө",fl_orig:"Анхны өнгө",fl_tint:"Өнгө хүч",fl_size:"Хэмжээ",fl_up:"Дээш/доош",fl_op:"Тунгалаг",
  fl_edit:"✎ Хувцас засах",fl_k_up:"Дээд хувцас",fl_k_low:"Өмд",fl_sy:"Мөрний шугам",fl_hy:"Ууцны шугам",fl_sx:"Мөрний өргөн",fl_hx:"Ууцны өргөн",fl_fit:"Бие таарах",
@@ -2361,7 +2362,7 @@ Object.assign(T.mn,{fl_btn:"👗 AI Fashion Lab",fl_sub:"AR хувцас тур�
  fl_s_cam:"Камер асааж байна…",fl_s_model:"Биеийг таних загвар ачаалж байна…",fl_s_ready:"Бэлэн. Мөр, ууцаа бүтнээр харуул",fl_s_nobody:"Мөр, ууцаа камерт харуул",fl_s_demo:"Жишиг загвар дээр харуулж байна",
  fl_e_perm:"Камерын зөвшөөрөл өгөөгүй байна. Камергүй горимд үргэлжлүүлнэ.",fl_e_cam:"Камер олдсонгүй. Камергүй горимд үргэлжлүүлнэ.",fl_e_model:"Таних загвар ачаалагдсангүй (интернэт шалгана уу). Камергүй горимд үргэлжлүүлнэ.",
  fl_e_img:"Зургийг уншиж чадсангүй",fl_i_gl:"Дүрслэл: WebGL (GPU)",fl_i_2d:"Дүрслэл: Canvas 2D (WebGL байхгүй тул хөнгөн горим)",fl_i_low:"Хөнгөн горим идэвхтэй"});
-Object.assign(T.en,{fl_btn:"👗 AI Fashion Lab",fl_sub:"AR try-on · free · runs on your device",fl_h:"AR virtual fitting",
+Object.assign(T.en,{fl_desc:"Preview how garments look on your own body with AR technology.",fl_btn:"👗 AI Fashion Lab",fl_sub:"AR try-on · free · runs on your device",fl_h:"AR virtual fitting",
  fl_i1:"Show your shoulders and hips and the garment fits to your body and follows you",fl_i2:"Upload your own garment image (transparent PNG)",fl_i3:"Take a photo and compare before / after",
  fl_priv:"<b>Privacy:</b> camera video is processed on your device only and is never sent anywhere. Everything uses free, open technology.",
  fl_ar:"<b>Note:</b> this is an AR preview, not a photorealistic AI-generated image.",
